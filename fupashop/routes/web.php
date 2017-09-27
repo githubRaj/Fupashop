@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/data', function () {
+  $somedata = DB::select('SELECT * FROM tvs');
+  return $somedata;
+  //return view('/data')->with('somedata', $somedata);
 });
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');  // / -> home
