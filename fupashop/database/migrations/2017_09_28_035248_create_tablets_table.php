@@ -14,7 +14,7 @@ class CreateTabletsTable extends Migration
     public function up()
     {
         Schema::create('tablets', function (Blueprint $table) {
-            $table->string('modelNumber', 20);
+            $table->primary('modelNumber', 20);
             $table->string('processor', 20);
             $table->double('screensize', 3, 1);
             $table->string('dimensions', 40);

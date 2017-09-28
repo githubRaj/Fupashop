@@ -14,7 +14,7 @@ class CreateLaptopsTable extends Migration
     public function up()
     {
         Schema::create('laptops', function (Blueprint $table) {
-            $table->string('modelNumber', 20);
+            $table->primary('modelNumber', 20);
             $table->string('processor', 20);
             $table->double('displaySize', 3, 1);
             $table->string('ramSize', 20);

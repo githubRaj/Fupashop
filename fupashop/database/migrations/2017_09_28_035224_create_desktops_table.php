@@ -14,7 +14,7 @@ class CreateDesktopsTable extends Migration
     public function up()
     {
         Schema::create('desktops', function (Blueprint $table) {
-            $table->string('modelNumber', 20);
+            $table->primary('modelNumber', 20);
             $table->string('processor', 20);
             $table->string('dimensions', 21);
             $table->string('ramSize', 20);
