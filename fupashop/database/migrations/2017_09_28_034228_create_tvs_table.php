@@ -18,10 +18,11 @@ class CreateTvsTable extends Migration
             $table->string('dimensions', 50);
             $table->double('weight', 3, 2);
             $table->string('tvType', 20);
-            $table->primary('modelNumber', 20);
+            $table->string('modelNumber', 20);
             $table->double('price', 5, 2);
             $table->string('resolution', 20);
             $table->integer('screenSize');
+            $table->primary('modelNumber');
             
         });
     }

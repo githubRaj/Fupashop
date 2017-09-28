@@ -14,7 +14,7 @@ class CreateTabletsTable extends Migration
     public function up()
     {
         Schema::create('tablets', function (Blueprint $table) {
-            $table->primary('modelNumber', 20);
+            $table->string('modelNumber', 20);
             $table->string('processor', 20);
             $table->double('screensize', 3, 1);
             $table->string('dimensions', 40);
@@ -27,6 +27,7 @@ class CreateTabletsTable extends Migration
             $table->string('operatingSystem', 20);
             $table->string('cameraInformation', 40);
             $table->double('price', 5, 2);
+             $table->primary('modelNumber');
         });
     }
 

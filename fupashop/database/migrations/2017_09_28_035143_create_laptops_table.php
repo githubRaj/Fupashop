@@ -14,7 +14,7 @@ class CreateLaptopsTable extends Migration
     public function up()
     {
         Schema::create('laptops', function (Blueprint $table) {
-            $table->primary('modelNumber', 20);
+            $table->string('modelNumber', 20);
             $table->string('processor', 20);
             $table->double('displaySize', 3, 1);
             $table->string('ramSize', 20);
@@ -28,6 +28,7 @@ class CreateLaptopsTable extends Migration
             $table->boolean('touchFeature');
             $table->string('cameraInformation', 40);
             $table->decimal('price', 5, 2);
+            $table->primary('modelNumber');
         });
     }
 
