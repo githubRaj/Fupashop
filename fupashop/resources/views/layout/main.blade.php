@@ -26,6 +26,35 @@
                     </a>
                 </h4>
             </div>
+             <div class="top-bar-left">
+                <ol class="menu">
+                    <li>
+                        <a href="{{ url('tvs') }}">
+                            TVS
+                        </a>
+                    </li>
+                      <li>
+                        <a href="{{ url('monitors') }}">
+                            MONITORS
+                        </a>
+                    </li>
+                      <li>
+                        <a href="{{ url('desktops') }}">
+                            DESKTOPS
+                        </a>
+                    </li>
+                      <li>
+                        <a href="{{ url('laptops') }}">
+                            LAPTOPS
+                        </a>
+                    </li>
+                      <li>
+                        <a href="{{ url('tablets') }}">
+                            TABLETS
+                        </a>
+                    </li>
+                </ol>
+            </div>
             <div class="top-bar-right">
                 <ol class="menu">
                     <li>
