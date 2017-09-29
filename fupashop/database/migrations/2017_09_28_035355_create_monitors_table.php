@@ -15,10 +15,10 @@ class CreateMonitorsTable extends Migration
     {
         Schema::create('monitors', function (Blueprint $table) {
             $table->integer('size');
-            $table->double('weight', 3, 1);
+            $table->decimal('weight', 10, 1);
             $table->string('brand', 7);
             $table->string('model_number', 10);
-            $table->integer('price');
+            $table->decimal('price',10,2);
              $table->primary('model_number');
         });
     }

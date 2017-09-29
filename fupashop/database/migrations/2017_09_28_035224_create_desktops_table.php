@@ -18,11 +18,11 @@ class CreateDesktopsTable extends Migration
             $table->string('processor', 20);
             $table->string('dimensions', 21);
             $table->string('ramSize', 20);
-            $table->double('weight', 3, 2);
+            $table->decimal('weight', 10, 2);
             $table->string('cpuCores', 20);
             $table->string('hddSize', 5);
             $table->string('brandName', 20);
-            $table->double('price', 5, 2);
+            $table->decimal('price', 10, 2);
              $table->primary('modelNumber');
         });
     }

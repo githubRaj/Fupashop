@@ -16,10 +16,10 @@ class CreateTvsTable extends Migration
         Schema::create('tvs', function (Blueprint $table) {
             $table->string('brand');
             $table->string('dimensions', 50);
-            $table->double('weight', 3, 2);
+            $table->decimal('weight', 10, 2);
             $table->string('tvType', 20);
             $table->string('modelNumber', 20);
-            $table->double('price', 5, 2);
+            $table->decimal('price', 10, 2);
             $table->string('resolution', 20);
             $table->integer('screenSize');
             $table->primary('modelNumber');
