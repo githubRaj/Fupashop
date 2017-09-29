@@ -10,8 +10,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="{{ asset('dist/css/foundation.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}"/>
-      <!--  <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet"/> 
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" rel="stylesheet"/>
 
 
     </head>
@@ -25,6 +25,15 @@
                        FUPA TECHNOLOGY
                     </a>
                 </h4>
+            </div>
+            <div class="top-bar-left">
+                <ol class="menu">
+                    <li>
+                        <a class="btn btn-primary" href="{{ url('tvs') }}" role="button">
+                            TVS
+                        </a>
+                    </li>
+                </ol>
             </div>
             <div class="top-bar-right">
                 <ol class="menu">
@@ -91,7 +100,7 @@
 </footer>
 
     <script src="{{ asset('dist/js/vendor/jquery.js') }}"></script>
-    <script src="{{ asset('dist/js/app.js') }}"></script>
+   <!-- <script src="{{ asset('dist/js/app.js') }}"></script> -->
   <!--<script src="{{ asset('js/app.js') }}"></script> -->
 
     </body>
