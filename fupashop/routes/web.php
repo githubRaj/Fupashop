@@ -27,3 +27,7 @@ Route::get('/monitors', 'ProductsController@Monitorindex');
 Route::get('/desktops', 'ProductsController@Desktopindex');
 Route::get('/tablets', 'ProductsController@Tabletindex');
 Route::get('/laptops', 'ProductsController@Laptopindex');
+
+Route::get('/adminpanel', function(){
+  return view('admin/sidebar/layouts');
+});
