@@ -31,3 +31,4 @@ Route::get('/monitors', 'ProductsController@Monitorindex');
 Route::get('/desktops', 'ProductsController@Desktopindex');
 Route::get('/tablets', 'ProductsController@Tabletindex');
 Route::get('/laptops', 'ProductsController@Laptopindex');
+Route::get('/test', 'ProductsController@test');
