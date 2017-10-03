@@ -26,41 +26,12 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">PC Part Picker</a>
-          <div class="nav-collapse collapse">
-	    
-            <ul class="nav">
-              <li><a href="/home">Home</a></li>
-	      <li><a href="/build">Current Build</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+   
 
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Parts</li>
-              <li class="active"><a href="/cpu">CPUs</a></li>
-              <li><a href="/mobo">Motherboards</a></li>
-              <li><a href="/ram">RAM</a></li>
-              <li><a href="/hdd">Hard Drives</a></li>
-              <li><a href="/ssd">Solid State Drives</a></li>
-              <li><a href="/gpu">Graphics Cards</a></li>
-              <li><a href="/psu">Power Supplies</a></li>
-              <li><a href="/case">Cases</a></li>
-            </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manafacuter</li>
 	      <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="Intel" id="id0001"/><font size="3">&nbsp;Intel</font></li>
