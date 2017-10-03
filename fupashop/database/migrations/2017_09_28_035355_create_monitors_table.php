@@ -17,9 +17,9 @@ class CreateMonitorsTable extends Migration
             $table->integer('size');
             $table->decimal('weight', 10, 1);
             $table->string('brand', 7);
-            $table->string('model_number', 10);
+            $table->string('modelNumber', 10);
             $table->decimal('price',10,2);
-             $table->primary('model_number');
+             $table->primary('modelNumber');
         });
     }
 
