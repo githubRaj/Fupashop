@@ -24,3 +24,10 @@ Route::prefix('admin')->group(function(){
 	Route::get('/', 'AdminController@index')->name('admin.dashboard');
 });
 Route::get('/', 'HomeController@index');  // / -> home
+
+
+Route::get('/tvs', 'ProductsController@Tvindex');
+Route::get('/monitors', 'ProductsController@Monitorindex');
+Route::get('/desktops', 'ProductsController@Desktopindex');
+Route::get('/tablets', 'ProductsController@Tabletindex');
+Route::get('/laptops', 'ProductsController@Laptopindex');
