@@ -44,4 +44,11 @@ class ProductsController extends Controller
 
     	return view ('tablets.index', compact('tablets'));
     }
+
+    public function test()
+    {
+        $results = Tablet::all();
+
+        return view ('test', compact('results'));
+    }
 }
