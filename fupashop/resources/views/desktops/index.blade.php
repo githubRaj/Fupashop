@@ -2,65 +2,59 @@
 
 
 @section('content')
-<!-- 
-<body>
-	@foreach ($desktops as $desktop)
-		<li>{{ $desktop }}</li>
-	@endforeach
-</body>
-</html>
--->
 
+    <!-- Le styles 
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
+    </style>
+    <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
+    <script type="text/javascript" src={{ asset('/static/js/jquery.js') }}></script>
+    <script type="text/javascript" src={{ asset('/static/js/tablesorter.js') }}></script>
+    <script type="text/javascript">
+      $(document).ready(function() 
+      { 
+      
+      $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
+      } 
+      ); 
+    </script>
 
-
-
-
-<head>
-	 <link href="{{ asset('/static/css/bootstrap.css') }}" rel="stylesheet">    
-      <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
-  	  <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
-      <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-      <script type="text/javascript">
-        $(document).ready(function()
-        {
-
-        $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-        }
-        );
-      </script>
+   
+  
   </head>
 
   <body>
-		<input type="checkbox" name="brands[]" value="Antec"/><font size="3">&nbsp;Antec</font>
-	      </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="COOLER MASTER"/><font size="3">&nbsp;Cooler Master</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="Corsair"/><font size="3">&nbsp;Corsair</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="COUGAR"/><font size="3">&nbsp;Cougar</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-		<input type="checkbox" name="brands[]" value="Fractal Design"/><font size="3">&nbsp;Fractal Design</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="GIGABYTE"/><font size="3">&nbsp;Gigabyte</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="MSI"/><font size="3">&nbsp;MSI</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="NZXT"/><font size="3">&nbsp;NZXT</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="Rosewill"/><font size="3">&nbsp;Rosewill</font>
-              </li>
-	      <li>&nbsp;&nbsp;
-                <input type="checkbox" name="brands[]" value="Thermaltake"/><font size="3">&nbsp;Thermaltake</font>
-              </li>
 
+   
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Parts</li>
+              <li class="active"><a href="/cpu">CPUs</a></li>
+              <li><a href="/mobo">Motherboards</a></li>
+              <li><a href="/ram">RAM</a></li>
+              <li><a href="/hdd">Hard Drives</a></li>
+              <li><a href="/ssd">Solid State Drives</a></li>
+              <li><a href="/gpu">Graphics Cards</a></li>
+              <li><a href="/psu">Power Supplies</a></li>
+              <li><a href="/case">Cases</a></li>
+            </ul>
+	    <ul id="filters" class="nav nav-list">
+              <li class="nav-header">Manafacuter</li>
+             @php
+             	$id=1 
+             @endphp
+             
+              @foreach ($brands as $b) 
+	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b->brandName }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brandName }}</font></li>
+	      			@php
+	      				$id = $id + 1 
+	      			@endphp
+	      	  @endforeach
 	    </ul>
 	    <ul class="nav nav-list">
 	      <li class="nav-header">Price Range</li>
@@ -71,34 +65,33 @@
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-	  <table class="table table-hover tablesorter" id="myTable">
+	  <table id="myTable" class="tablesorter table table-hover">
 	    <thead>
-        <tr>
-      		<th>Model</th>
-      		<th>Brand</th>
-      		<th>Processor</th>
-          <th>Cores</th>
-          <th>Ram</th>
-          <th>HDD</th>
-      		<th>Price</th>
-	      </tr>
-      </thead>
-    <tbody>
+            <tr>
+				<th>Model</th>
+		      	<th>Brand</th>
+		        <th>Processor</th>
+		        <th>Cores</th>
+		        <th>Ram</th>
+		        <th>HDD</th>
+		      	<th>Price</th>
+	      	</tr>
+         </thead>
 
-	    @foreach ($desktops as $desktop)
-	     	 <tr class="{{ $desktop['brandName'] }}">
-		      <tr>
-        		<td>{{ $desktop['modelNumber'] }}</td>
-        		<td class="brand">{{ $desktop['brandName'] }}</td>
-        		<td>{{ $desktop['processor'] }}</td>
-            <td>{{ $desktop['cpuCores'] }}</td>
-        		<td>{{ $desktop['ramSize'] }}</td>
-        		<td>{{ $desktop['hddSize'] }}</td>
-        		<td class="price">{{ $desktop["price"] }}</td>
-        		<td><a href="" class="btn btn-default btn-xs" role="button">Buy</a></td>
+          <tbody>
+	    	@foreach ($desktops as $desktop) 
+	        <tr class="{{ $desktop->brandName }}">
+              <tr>
+		<td><a href="">{{ $desktop->modelNumber }}</a></td>
+		<td class="brand">{{ $desktop->brandName }}</td>
+		<td>{{ $desktop->processor }}</td>
+		<td>{{ $desktop->cpuCores }}</td>
+		<td>{{ $desktop->ramSize }}</td>
+		<td>{{ $desktop->hddSize }}</td>
+		<td class="price">{{ $desktop->price }}</td>
+		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>
-    @endforeach
-
+	      @endforeach
 
             </tbody>
 	  </table>
@@ -113,23 +106,10 @@
 
     </div><!--/.fluid-container-->
     
+
   </body>
+  
   <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
+  
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @endsection

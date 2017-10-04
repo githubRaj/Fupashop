@@ -20,7 +20,7 @@
       ); 
     </script>
 
-    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+   
   
   </head>
 
@@ -32,6 +32,17 @@
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Parts</li>
+              <li class="active"><a href="/cpu">CPUs</a></li>
+              <li><a href="/mobo">Motherboards</a></li>
+              <li><a href="/ram">RAM</a></li>
+              <li><a href="/hdd">Hard Drives</a></li>
+              <li><a href="/ssd">Solid State Drives</a></li>
+              <li><a href="/gpu">Graphics Cards</a></li>
+              <li><a href="/psu">Power Supplies</a></li>
+              <li><a href="/case">Cases</a></li>
+            </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manafacuter</li>
 	      <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="Intel" id="id0001"/><font size="3">&nbsp;Intel</font></li>
@@ -90,7 +101,7 @@
 
   </body>
   
-  <script type="text/javascript" src="/static/js/filter.js"></script>
+  <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
   
 </html>
 @endsection

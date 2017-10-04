@@ -21,8 +21,11 @@ class ProductsController extends Controller
      public function Desktopindex()
     {
     	$desktops = Desktop::all();
+        $brands = Desktop::all(['brandName'])->unique('brandName');
 
-    	return view ('desktops.index', compact('desktops'));
+              
+
+    	return view ('desktops.index', compact('desktops','brands'));
     }
 
      public function Laptopindex()
