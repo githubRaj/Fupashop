@@ -23,12 +23,40 @@ Route::prefix('admin')->group(function(){
 	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	Route::get('/', 'AdminController@index')->name('admin.dashboard');
 });
+
 Route::get('/', 'HomeController@index');  // / -> home
 
+Route::prefix('tvs')->group(function(){
+	Route::get('/', 'ProductsController@Tvindex');
+	Route::get('/{id}', 'ProductsController@getTv');
+});
 
-Route::get('/tvs', 'ProductsController@Tvindex');
-Route::get('/monitors', 'ProductsController@Monitorindex');
-Route::get('/desktops', 'ProductsController@Desktopindex');
-Route::get('/tablets', 'ProductsController@Tabletindex');
-Route::get('/laptops', 'ProductsController@Laptopindex');
-Route::get('/test', 'ProductsController@test');
+Route::prefix('monitors')->group(function(){
+	Route::get('/', 'ProductsController@Monitorindex');
+	Route::get('/{id}', 'ProductsController@getMonitor');
+});
+
+Route::prefix('desktops')->group(function(){
+	Route::get('/', 'ProductsController@Desktopindex');
+	Route::get('/{id}', 'ProductsController@getDesktop');
+});
+
+Route::prefix('tablets')->group(function(){
+	Route::get('/', 'ProductsController@Tabletindex');
+	Route::get('/{id}', 'ProductsController@getTablet');
+});
+
+Route::prefix('laptops')->group(function(){
+	Route::get('/', 'ProductsController@Laptopindex');
+	Route::get('/{id}', 'ProductsController@getLaptop');
+});
+
+Route::prefix('test')->group(function(){
+	Route::get('/', 'ProductsController@test');
+});
+
+
+
+
+
+

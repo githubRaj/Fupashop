@@ -11,12 +11,22 @@ use App\Tablet;
 
 class ProductsController extends Controller
 {
+
+    /*--------------------------------
+          TVS        */
     public function Tvindex()
     {
     	$tvs = Tv::all();
 
     	return view ('tvs.index', compact('tvs'));
     }
+    public function getTv($id)
+    {
+        $tv = Tv::where('modelNumber',  $id)->get();
+        return view ('tvs.info', compact('tv'));
+    }
+    /*--------------------------------
+          DESKTOPS        */
 
      public function Desktopindex()
     {
@@ -27,6 +37,14 @@ class ProductsController extends Controller
 
     	return view ('desktops.index', compact('desktops','brands'));
     }
+    public function getDesktop($id)
+    {
+        $desktop = Desktop::where('modelNumber',  $id)->get();
+        return view ('desktops.info', compact('desktop'));
+    }
+
+    /*--------------------------------
+          LAPTOPS        */
 
      public function Laptopindex()
     {
@@ -34,6 +52,14 @@ class ProductsController extends Controller
 
     	return view ('laptops.index', compact('laptops'));
     }
+    public function getLaptop($id)
+    {
+        $laptop = Laptop::where('modelNumber',  $id)->get();
+        return view ('laptops.info', compact('laptop'));
+    }
+
+    /*--------------------------------
+          MONITORS        */
 
     public function Monitorindex()
     {
@@ -41,12 +67,29 @@ class ProductsController extends Controller
 
     	return view ('monitors.index', compact('monitors'));
     }
+    public function getMonitor($id)
+    {
+        $monitor = Monitor::where('modelNumber',  $id)->get();
+        return view ('monitors.info', compact('monitor'));
+    }
+    /*--------------------------------
+              TABLETS        
+    */
+
     public function Tabletindex()
     {
     	$tablets = Tablet::all();
 
     	return view ('tablets.index', compact('tablets'));
     }
+    public function getTablet($id)
+    {
+        $tablet = Tablet::where('modelNumber',  $id)->get();
+        return view ('tablets.info', compact('tablet'));
+    }
+
+    /*--------------------------------
+          TESTING        */
 
     public function test()
     {
