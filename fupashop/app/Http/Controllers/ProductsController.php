@@ -33,7 +33,7 @@ class ProductsController extends Controller
     	$desktops = Desktop::all();
         $brands = Desktop::all(['brandName'])->unique('brandName');
 
-              
+
 
     	return view ('desktops.index', compact('desktops','brands'));
     }
@@ -73,7 +73,7 @@ class ProductsController extends Controller
         return view ('monitors.info', compact('monitor'));
     }
     /*--------------------------------
-              TABLETS        
+              TABLETS
     */
 
     public function Tabletindex()
@@ -97,4 +97,26 @@ class ProductsController extends Controller
 
         return view ('test', compact('results'));
     }
+
+    public function Create()
+    {
+      return view('Product/create');
+    }
+
+    public function store(Request $request)
+    {
+      $desktop = new Desktop;
+      $desktop->modelNumber = $request->input('modelNumber');
+      $desktop->processor = $request->input('processor');
+      $desktop->dimensions = $request->input('dimensions');
+      $desktop->ramSize = $request->input('ramSize');
+      $desktop->weight = $request->input('weight');
+      $desktop->cpuCores = $request->input('cpuCores');
+      $desktop->hddSize = $request->input('hddSize');
+      $desktop->brandName = $request->input('brandName');
+      $desktop->price = $request->input('price');
+      $desktop->save();
+      return redirect('/adminpanel')->with('success', 'Product Added!');
+    }
+
 }

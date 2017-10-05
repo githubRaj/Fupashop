@@ -16,7 +16,7 @@
                     <span class="menu-arrow arrow_carrot-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="" href="create_link">Create</a></li>
+                    <li><a class="" href="/Product/create">Create</a></li>
                     <li><a class="" href="edit_link">Edit</a></li>
                     <li><a class="" href="delete_link">Delete</a></li>
                 </ul>

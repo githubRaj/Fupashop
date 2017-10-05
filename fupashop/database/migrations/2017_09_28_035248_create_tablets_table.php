@@ -28,6 +28,7 @@ class CreateTabletsTable extends Migration
             $table->string('cameraInformation', 40);
             $table->decimal('price', 10, 2);
              $table->primary('modelNumber');
+             $table->timestamps();
         });
     }
 
