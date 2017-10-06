@@ -23,7 +23,7 @@ class CreateTvsTable extends Migration
             $table->string('resolution', 20);
             $table->integer('screenSize');
             $table->primary('modelNumber');
-            $table->timestamps();
+            
         });
     }
 

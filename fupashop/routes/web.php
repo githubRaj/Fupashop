@@ -55,9 +55,8 @@ Route::prefix('test')->group(function(){
 	Route::get('/', 'ProductsController@test');
 });
 
-Route::get('/Product/create', 'ProductsController@Create');
-Route::post('/store', 'ProductsController@store');
 
-Route::get('/adminpanel', function(){
-  return view('admin/sidebar/layouts');
-});
+
+
+
+

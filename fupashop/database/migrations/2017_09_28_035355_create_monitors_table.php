@@ -20,7 +20,6 @@ class CreateMonitorsTable extends Migration
             $table->string('modelNumber', 10);
             $table->decimal('price',10,2);
              $table->primary('modelNumber');
-             $table->timestamps();
         });
     }
 
