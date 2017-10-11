@@ -26,6 +26,8 @@ Route::prefix('admin')->group(function(){
 
 Route::get('/', 'HomeController@index');  // / -> home
 
+Route::get('/myAccount', ['as' => 'myAccount' , 'uses'=> 'HomeController@myAccount']);
+
 Route::prefix('tvs')->group(function(){
 	Route::get('/', 'ProductsController@Tvindex');
 	Route::get('/{id}', 'ProductsController@getTv');
@@ -43,7 +45,7 @@ Route::prefix('desktops')->group(function(){
 
 Route::prefix('tablets')->group(function(){
 
-	
+
 	Route::get('/', 'ProductsController@Tabletindex');
 	Route::get('/{id}', 'ProductsController@getTablet');
 });
