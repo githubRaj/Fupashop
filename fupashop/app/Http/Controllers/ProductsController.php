@@ -120,13 +120,13 @@ class ProductsController extends Controller
       foreach( $laptops as $item ){
         $flag = false;
         foreach( $brands as $brand ){
-          $flag = true;
+           if($brand == $item->brandName)
+              $flag = true;
         }
         if( $flag != true ){
           $brands[] = $item->brandName;
         }
       }
-
 
       return view ('laptops.index', compact('laptops', 'brands'));
     }
@@ -178,7 +178,8 @@ class ProductsController extends Controller
       foreach( $tablets as $item ){
         $flag = false;
         foreach( $brands as $brand ){
-          $flag = true;
+          if($brand == $item->brandName)
+              $flag = true;
         }
         if( $flag != true ){
           $brands[] = $item->brandName;
