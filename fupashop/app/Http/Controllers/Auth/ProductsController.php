@@ -49,18 +49,8 @@ class ProductsController extends Controller
 
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
-      $brands = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($brands as $brand){
-          if ($brands == $item->brand)
-            $flag =true;
-        }
-        if ($flag != true){
-          $brands[] = $item->brand;
-        }
-      }
-      return view ('tvs.index', compact('tvs','brand'));
+      
+      return view ('tvs.index', compact('tvs'));
     }
     public function getTv($id)
     {
@@ -126,20 +116,7 @@ class ProductsController extends Controller
 
       $this->laptops =  $this->mapper->getLaptops();
       $laptops = $this->laptops; // cant send using compact without this
-
-      $brands = array();
-      foreach( $laptops as $item ){
-        $flag = false;
-        foreach( $brands as $brand ){
-           if($brand == $item->brandName)
-              $flag = true;
-        }
-        if( $flag != true ){
-          $brands[] = $item->brandName;
-        }
-      }
-
-      return view ('laptops.index', compact('laptops', 'brands'));
+      return view ('laptops.index', compact('laptops'));
     }
 
     public function getLaptop($id)
@@ -189,8 +166,7 @@ class ProductsController extends Controller
       foreach( $tablets as $item ){
         $flag = false;
         foreach( $brands as $brand ){
-          if($brand == $item->brandName)
-              $flag = true;
+          $flag = true;
         }
         if( $flag != true ){
           $brands[] = $item->brandName;

@@ -59,55 +59,7 @@
 	      	  		@endforeach 
 
 	
-	</ul>
-	<ul id="filters" class="nav nav-list">
-					<li class="nav-header">Tv Type</li>
-				 @php
-					$id=1
-				 @endphp
-
-
-					@foreach ($tvType as $t) 
-	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="tvType[]" value="{{ $t->tvType }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $t->tvType }}</font></li>
-	      			@php
-	      				$id = $id + 1 
-	      			@endphp
-	      	  @endforeach 
-
 	
-	</ul>
-
-
-	<ul id="filters" class="nav nav-list">
-					<li class="nav-header">Resolution</li>
-				 @php
-					$id=1
-				 @endphp
-
-
-					@foreach ($resolution as $r) 
-	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="resolution[]" value="{{ $r->resolution }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $r->resolution }}</font></li>
-	      			@php
-	      				$id = $id + 1 
-	      			@endphp
-	      	  @endforeach
-	</ul>
-
-
-	<ul id="filters" class="nav nav-list">
-					<li class="nav-header">Screen Size</li>
-				 @php
-					$id=1
-				 @endphp
-
-
-					@foreach ($screenSize as $s) 
-	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="screenSize[]" value="{{ $s-> screenSize }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $s-> screenSize }}</font></li>
-	      			@php
-	      				$id = $id + 1 
-	      			@endphp
-	      	  @endforeach
-	</ul>
 
 	<ul class="nav nav-list">
 		<li class="nav-header">Price Range</li>
