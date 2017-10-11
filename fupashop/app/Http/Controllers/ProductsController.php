@@ -3,44 +3,102 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tv;
-use App\Desktop;
-use App\Laptop;
-use App\Monitor;
-use App\Tablet;
+use App\Items\Tv;
+use App\Items\Desktop;
+use App\Items\Laptop;
+use App\Items\Monitor;
+use App\Items\Tablet;
+use App\Mapper\Mapper;
 
 class ProductsController extends Controller
 {
+    private $mapper;
+
+    //all items will be within Identity Map. This is temporary
+    private $tablets;
+    private $desktops;
+    private $tvs;
+    private $monitors;
+    private $laptops;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->mapper = new Mapper();
+        
+        //all items will be within Identity Map. This is temporary
+        $this->tablets = new Tablet(); 
+        $this->desktop = new Desktop();
+        $this->tvs = new Tv();
+        $this->monitors = new Monitor();
+        $this->laptops = new Laptop();
+
+    }
+
 
     /*--------------------------------
           TVS        */
     public function Tvindex()
     {
-    	$tvs = Tv::all();
 
-    	return view ('tvs.index', compact('tvs'));
+      $this->tvs =  $this->mapper->getTvs();
+      $tvs = $this->tvs; // cant send using compact without this
+      return view ('tvs.index', compact('tvs'));
     }
     public function getTv($id)
     {
-        $tv = Tv::where('modelNumber',  $id)->get();
-        return view ('tvs.info', compact('tv'));
+        $this->tvs =  $this->mapper->getTvs();
+        foreach($this->tvs as $item){
+          if($item->modelNumber == $id)
+          {
+            $tv = $item;
+            return view ('tvs.info', compact('tv'));
+            
+          }
+        }
     }
     /*--------------------------------
           DESKTOPS        */
 
      public function Desktopindex()
     {
-    	$desktops = Desktop::all();
-        $brands = Desktop::all(['brandName'])->unique('brandName');
+    	//$desktops = Desktop::all();
+      //$brands = Desktop::all(['brandName'])->unique('brandName');
 
 
 
-    	return view ('desktops.index', compact('desktops','brands'));
+    	//return view ('desktops.index', compact('desktops','brands'));
+
+      $this->desktops =  $this->mapper->getDesktops();
+      $desktops = $this->desktops; // cant send using compact without this
+
+      $brands = array();
+      foreach($desktops as $item){
+        $flag = false;
+        foreach($brands as $brand){
+          if($brand == $item->brandName)
+            $flag = true;
+        }
+        if($flag != true){
+          $brands[] = $item->brandName;
+        }
+      }
+
+      return view ('desktops.index', compact('desktops','brands'));
+
+
     }
     public function getDesktop($id)
     {
-        $desktop = Desktop::where('modelNumber',  $id)->get();
-        return view ('desktops.info', compact('desktop'));
+        $this->desktops =  $this->mapper->getDesktops();
+        foreach($this->desktops as $item){
+          if($item->modelNumber == $id)
+          {
+            $desktop = $item;
+            return view ('desktops.info', compact('desktop'));
+            
+          }
+        }
     }
 
     /*--------------------------------
@@ -48,14 +106,23 @@ class ProductsController extends Controller
 
      public function Laptopindex()
     {
-    	$laptops = Laptop::all();
 
-    	return view ('laptops.index', compact('laptops'));
+      $this->laptops =  $this->mapper->getLaptops();
+      $laptops = $this->laptops; // cant send using compact without this
+      return view ('laptops.index', compact('laptops'));
     }
+
     public function getLaptop($id)
     {
-        $laptop = Laptop::where('modelNumber',  $id)->get();
-        return view ('laptops.info', compact('laptop'));
+      $this->laptops =  $this->mapper->getLaptops();
+        foreach($this->laptops as $item){
+          if($item->modelNumber == $id)
+          {
+            $laptop = $item;
+            return view ('laptops.info', compact('laptop'));
+            
+          }
+        }
     }
 
     /*--------------------------------
@@ -63,14 +130,21 @@ class ProductsController extends Controller
 
     public function Monitorindex()
     {
-    	$monitors = Monitor::all();
-
-    	return view ('monitors.index', compact('monitors'));
+    	$this->monitors =  $this->mapper->getMonitors();
+      $monitors = $this->monitors; // cant send using compact without this
+      return view ('monitors.index', compact('monitors'));
     }
     public function getMonitor($id)
     {
-        $monitor = Monitor::where('modelNumber',  $id)->get();
-        return view ('monitors.info', compact('monitor'));
+      $this->monitors =  $this->mapper->getMonitors();
+        foreach($this->monitors as $item){
+          if($item->modelNumber == $id)
+          {
+            $monitor = $item;
+            return view ('monitors.info', compact('monitor'));
+            
+          }
+        }
     }
     /*--------------------------------
               TABLETS
@@ -78,14 +152,21 @@ class ProductsController extends Controller
 
     public function Tabletindex()
     {
-    	$tablets = Tablet::all();
-
+      $this->tablets =  $this->mapper->getTablets();
+      $tablets = $this->tablets; // cant send using compact without this
     	return view ('tablets.index', compact('tablets'));
     }
     public function getTablet($id)
     {
-        $tablet = Tablet::where('modelNumber',  $id)->get();
-        return view ('tablets.info', compact('tablet'));
+        $this->tablets =  $this->mapper->getTablets();
+        foreach($this->tablets as $item){
+          if($item->modelNumber == $id)
+          {
+            $tablet = $item;
+            return view ('tablets.info', compact('tablet'));
+            
+          }
+        }        
     }
 
     /*--------------------------------

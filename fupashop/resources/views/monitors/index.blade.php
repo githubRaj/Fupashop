@@ -5,7 +5,7 @@
 
 <body>
 	@foreach ($monitors as $monitor)
-		<li>{{ $monitor }}</li>
+		<li>{{ $monitor->modelNumber }}</li>
 	@endforeach
 </body>
 </html>

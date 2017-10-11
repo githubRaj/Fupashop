@@ -5,7 +5,7 @@
 
 <body>
 	@foreach ($tvs as $tv)
-		<li>{{ $tv }}</li>
+		<li>{{ $tv->modelNumber }}</li>
 	@endforeach
 </body>
 </html>

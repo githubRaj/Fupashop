@@ -42,9 +42,12 @@ Route::prefix('desktops')->group(function(){
 });
 
 Route::prefix('tablets')->group(function(){
+
+	
 	Route::get('/', 'ProductsController@Tabletindex');
 	Route::get('/{id}', 'ProductsController@getTablet');
 });
+//Route::get('/{itemType}', 'MapperController@tabletMapper');
 
 Route::prefix('laptops')->group(function(){
 	Route::get('/', 'ProductsController@Laptopindex');
