@@ -52,11 +52,11 @@
 
 
 					@foreach ($brand as $b) 
-	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brand[]" value="{{ $b->brand }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brand }}</font></li>
-	      			@php
-	      				$id = $id + 1 
-	      			@endphp
-	      	  @endforeach 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brand[]" value="{{ $b->brand }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brand }}</font></li>
+	      					@php
+	      						$id = $id + 1 
+	      					@endphp
+	      	  		@endforeach 
 
 	
 	</ul>

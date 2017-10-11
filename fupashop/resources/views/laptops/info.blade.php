@@ -4,8 +4,8 @@
 @section('content')
 
 <body>
-	@foreach ($laptop as $laptop)
-		<li>{{ $laptop }}</li>
+	@foreach ($laptops as $laptop)
+		<li>{{ $laptop->modelNumber }}</li>
 	@endforeach
 </body>
 </html>

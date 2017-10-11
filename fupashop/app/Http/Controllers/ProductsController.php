@@ -115,7 +115,20 @@ class ProductsController extends Controller
 
       $this->laptops =  $this->mapper->getLaptops();
       $laptops = $this->laptops; // cant send using compact without this
-      return view ('laptops.index', compact('laptops'));
+
+      $brands = array();
+      foreach( $laptops as $item ){
+        $flag = false;
+        foreach( $brands as $brand ){
+          $flag = true;
+        }
+        if( $flag != true ){
+          $brands[] = $item->brandName;
+        }
+      }
+
+
+      return view ('laptops.index', compact('laptops', 'brands'));
     }
 
     public function getLaptop($id)

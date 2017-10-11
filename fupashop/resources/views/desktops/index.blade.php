@@ -44,7 +44,7 @@
               <li><a href="/case">Cases</a></li>
             </ul>
 	    <ul id="filters" class="nav nav-list">
-              <li class="nav-header">Manafacuter</li>
+              <li class="nav-header">Manufacturer</li>
              @php
              	$id=1 
              @endphp
