@@ -64,3 +64,10 @@ Route::post('/store', 'ProductsController@store');
 Route::get('/adminpanel', function(){
   return view('admin/sidebar/layouts');
 });
+
+
+//Create shopping cart
+Route::get('/add-to-cart/{id}', [
+ 	'uses' => 'ProductsController@getAddToCart',
+	'as' => 'product@addToCart',
+]);
