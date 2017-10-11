@@ -8,6 +8,9 @@ use App\Desktop;
 use App\Laptop;
 use App\Monitor;
 use App\Tablet;
+//gotta check this
+use Session;
+use App\Cart;
 
 class ProductsController extends Controller
 {
@@ -118,5 +121,20 @@ class ProductsController extends Controller
       $desktop->save();
       return redirect('/adminpanel')->with('success', 'Product Added!');
     }
+
+    // Add product to cart
+    public function getAddToCart(Request $request, $id){
+        $product = Product::find($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add($product, $product->id);
+
+        $request->session()->put('cart', $cart);
+        //test line
+        dd($request->session()->get('cart'));
+        return redirect()->route('product.index');
+    }
+
+
 
 }

@@ -17,6 +17,12 @@ Route::get('/data', function () {
   //return view('/data')->with('somedata', $somedata);
 });
 
+//Create shopping cart
+Route::get('/add-to-cart/{id}', [
+	'uses' => 'ProductsController@getAddToCart',
+	'as' => 'product@addToCart',
+]);
+
 Auth::routes();
 Route::prefix('admin')->group(function(){
 	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
