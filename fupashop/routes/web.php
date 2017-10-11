@@ -26,6 +26,8 @@ Route::prefix('admin')->group(function(){
 
 Route::get('/', 'HomeController@index');  // / -> home
 
+Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
+
 Route::prefix('tvs')->group(function(){
 	Route::get('/', 'ProductsController@Tvindex');
 	Route::get('/{id}', 'ProductsController@getTv');
@@ -42,9 +44,12 @@ Route::prefix('desktops')->group(function(){
 });
 
 Route::prefix('tablets')->group(function(){
+
+
 	Route::get('/', 'ProductsController@Tabletindex');
 	Route::get('/{id}', 'ProductsController@getTablet');
 });
+//Route::get('/{itemType}', 'MapperController@tabletMapper');
 
 Route::prefix('laptops')->group(function(){
 	Route::get('/', 'ProductsController@Laptopindex');
@@ -55,8 +60,16 @@ Route::prefix('test')->group(function(){
 	Route::get('/', 'ProductsController@test');
 });
 
+Route::get('/Product/create', 'ProductsController@Create');
+Route::post('/store', 'ProductsController@store');
+
+Route::get('/adminpanel', function(){
+  return view('admin/sidebar/layouts');
+});
 
 
-
-
-
+//Create shopping cart
+Route::get('/add-to-cart/{id}', [
+ 	'uses' => 'ProductsController@getAddToCart',
+	'as' => 'product@addToCart',
+]);

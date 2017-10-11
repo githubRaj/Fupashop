@@ -14,7 +14,7 @@ class CreateTvsTable extends Migration
     public function up()
     {
         Schema::create('tvs', function (Blueprint $table) {
-            $table->string('brand');
+            $table->string('brandName');
             $table->string('dimensions', 50);
             $table->decimal('weight', 10, 2);
             $table->string('tvType', 20);
@@ -23,7 +23,7 @@ class CreateTvsTable extends Migration
             $table->string('resolution', 20);
             $table->integer('screenSize');
             $table->primary('modelNumber');
-            
+            $table->timestamps();
         });
     }
 

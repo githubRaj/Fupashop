@@ -23,7 +23,8 @@ class CreateDesktopsTable extends Migration
             $table->string('hddSize', 5);
             $table->string('brandName', 20);
             $table->decimal('price', 10, 2);
-             $table->primary('modelNumber');
+            $table->primary('modelNumber');
+            $table->timestamps();
         });
     }
 

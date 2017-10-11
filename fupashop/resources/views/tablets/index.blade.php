@@ -50,7 +50,7 @@
 				 @endphp
 
 					@foreach ($brands as $b)
-					<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b->brandName }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brandName }}</font></li>
+					<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 					@php
 						$id = $id + 1
 					@endphp
@@ -85,7 +85,7 @@
 <td><a href="">{{ $tablet->modelNumber }}</a></td>
 <td class="brand">{{ $tablet->brandName }}</td>
 <td>{{ $tablet->processor }}</td>
-<td>{{ $tablet->cpuCores }}</td>
+<td>{{ $tablet->cpucores }}</td>
 <td>{{ $tablet->ramSize }}</td>
 <td>{{ $tablet->hddSize }}</td>
 <td class="price">{{ $tablet->price }}</td>
