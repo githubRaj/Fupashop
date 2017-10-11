@@ -51,15 +51,50 @@
 				 @endphp
 
 
-					@foreach ($brand as $b) 
-	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brand[]" value="{{ $b->brand }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brand }}</font></li>
+					@foreach ($brands as $b) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 	      					@php
 	      						$id = $id + 1 
 	      					@endphp
 	      	  		@endforeach 
 
 	
+	</ul>
+
+	<ul id="filters" class="nav nav-list">
+					<li class="nav-header">Resolution</li>
+				 @php
+					$id=1
+				 @endphp
+
+
+					@foreach ($resolutions as $r) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="resolutions[]" value="{{ $r }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $r }}</font></li>
+	      					@php
+	      						$id = $id + 1 
+	      					@endphp
+	      	  		@endforeach 
+
 	
+	</ul>
+
+<ul id="filters" class="nav nav-list">
+					<li class="nav-header">Screen Size</li>
+				 @php
+					$id=1
+				 @endphp
+
+
+					@foreach ($screenSizes as $s) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="screenSizes[]" value="{{ $s }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $s }}</font></li>
+	      					@php
+	      						$id = $id + 1 
+	      					@endphp
+	      	  		@endforeach 
+
+	
+	</ul>
+
 
 	<ul class="nav nav-list">
 		<li class="nav-header">Price Range</li>
@@ -88,11 +123,11 @@
 			<tr class="{{ $tv->resolution }}">
 					<tr>
 <td><a href="">{{ $tv->modelNumber }}</a></td>
-<td class="brand">{{ $tv->brand }}</td>
+<td class="brand">{{ $tv->brandName }}</td>
 <td>{{ $tv->tvType }}</td>
 <td>{{ $tv->resolution }}</td>
 <td>{{ $tv->screenSize }}</td>
-<td>{{ $tv->hddSize }}</td>
+
 <td class="price">{{ $tv->price }}</td>
 <td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 		</tr>
