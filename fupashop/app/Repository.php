@@ -32,12 +32,15 @@ class Repository
 	}
 
 	public function addTabletToRepo($tablet){
-			$this->tablet[] = $tablet;
+			$this->tablets[] = $tablet;
 	}
 
 	public function getSingleTablets($id){
 		
-		return $this->tablets;
+		foreach($this->tablets as $item){
+			if($item->modelNumber == $id)
+				return $item;
+		}
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){
@@ -51,7 +54,10 @@ class Repository
 
 	public function getSingleDesktop($id){
 		
-		return $this->tablets;
+		foreach($this->desktops as $item){
+			if($item->modelNumber == $id)
+				return $item;
+		}
 	}
 /*-------------------MONITORS---------------------------*/
 	public function getAllMonitors(){
@@ -65,7 +71,10 @@ class Repository
 
 	public function getSingleMonitor($id){
 		
-		return $this->tablets;
+		foreach($this->monitors as $item){
+			if($item->modelNumber == $id)
+				return $item;
+		}
 	}
 /*-------------------TVS---------------------------*/
 	public function getAllTvs(){
@@ -78,7 +87,10 @@ class Repository
 	}
 	public function getSingleTv($id){
 		
-		return $this->tablets;
+		foreach($this->tvs as $item){
+			if($item->modelNumber == $id)
+				return $item;
+		}
 	}
 /*-------------------LAPTOPS---------------------------*/
 	public function getAllLaptops(){
@@ -91,7 +103,7 @@ class Repository
 	}
 	public function getSingleLaptop($id){
 		
-		foreach($this->laptops as item){
+		foreach($this->laptops as $item){
 			if($item->modelNumber == $id)
 				return $item;
 		}
@@ -151,7 +163,7 @@ class Repository
 				break;
 		}
 
-		foreach($object as item){
+		foreach($object as $item){
 			if($item->modelNumber == $id)
 				return true;
 		}

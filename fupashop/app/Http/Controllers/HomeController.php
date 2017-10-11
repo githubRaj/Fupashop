@@ -21,7 +21,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getItem(Request $request)
+    public function index(Request $request)
     {
         return view('home');
     }
