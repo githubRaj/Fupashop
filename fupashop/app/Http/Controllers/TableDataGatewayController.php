@@ -9,6 +9,7 @@ use App\Items\Tablet;
 class TableDataGatewayController extends Controller
 {
     /**
+                    FOR TESTING PURPOSES ONLY. IS NOT USED IN OVERALL PROJECT
      * Create a new controller instance.
      *
      * @return void

@@ -8,6 +8,7 @@ use App\Items\Tablet;
 class MapperController extends Controller
 {
     /**
+            dont need this controller. will use ProductsController instead. Used for Testing only
      * Create a new controller instance.
      *
      * @return void
@@ -24,7 +25,7 @@ class MapperController extends Controller
      */
     public function tabletMapper()
     {
-         //dont need this controller. will use ProductsController instead. Used for Testing only
+         
         $mapper = new Mapper();
         $tablets = new Tablet();
         $tablets =  $mapper->getTablets();

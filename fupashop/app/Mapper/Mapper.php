@@ -5,37 +5,33 @@ use App\TDG\TableDataGateway;
 class Mapper
 {
 	//protected $tablets;
-
-	public function assignTablets(){
-
-		
-	}
+	private $tdg;
 
 	public function __construct(){
-		
+		$this->tdg = new TableDataGateway();	
 	}
 
 	public function getTablets(){
-		$tdg = new TableDataGateway();
-		return $tdg->tabletGateway();
+		
+		return $this->tdg->tabletGateway();
 	}
 
 	public function getDesktops(){
-		$tdg = new TableDataGateway();
-		return $tdg->desktopGateway();
+		
+		return $this->tdg->desktopGateway();
 	}
 	public function getMonitors(){
-		$tdg = new TableDataGateway();
-		return $tdg->monitorGateway();
+		
+		return $this->tdg->monitorGateway();
 	}
 
 	public function getTvs(){
-		$tdg = new TableDataGateway();
-		return $tdg->tvGateway();
+		
+		return $this->tdg->tvGateway();
 	}
 
 	public function getLaptops(){
-		$tdg = new TableDataGateway();
-		return $tdg->laptopGateway();
+		
+		return $this->tdg->laptopGateway();
 	}
 }
