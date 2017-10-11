@@ -9,7 +9,7 @@ use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
-
+use App\Repository;
 //gotta check this
  use Session;
  use App\Cart;
@@ -24,7 +24,8 @@ class ProductsController extends Controller
     private $tvs;
     private $monitors;
     private $laptops;
-
+	private $repo;
+	
     public function __construct()
     {
         $this->middleware('auth');
@@ -36,6 +37,7 @@ class ProductsController extends Controller
         $this->tvs = new Tv();
         $this->monitors = new Monitor();
         $this->laptops = new Laptop();
+        $this->repo = new Repository(); // <----- Identity Map
 
     }
 
