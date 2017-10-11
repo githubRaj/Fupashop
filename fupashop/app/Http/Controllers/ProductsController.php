@@ -46,13 +46,7 @@ class ProductsController extends Controller
           TVS        */
     public function Tvindex()
     {
-      //$desktops = Desktop::all();
-      //$brands = Desktop::all(['brandName'])->unique('brandName');
-
-
-
-      //return view ('desktops.index', compact('desktops','brands'));
-
+      
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
 
@@ -68,7 +62,33 @@ class ProductsController extends Controller
         }
       }
 
-      return view ('tvs.index', compact('tvs','brands'));
+
+      $resolutions = array();
+      foreach($tvs as $item){
+        $flag = false;
+        foreach($resolutions as $resolution){
+          if($resolution == $item->resolution)
+            $flag = true;
+        }
+        if($flag != true){
+          $resolutions[] = $item->resolution;
+        }
+      }
+
+    $screenSizes = array();
+      foreach($tvs as $item){
+        $flag = false;
+        foreach($screenSizes as $screenSize){
+          if($screenSize == $item->screenSize)
+            $flag = true;
+        }
+        if($flag != true){
+          $screenSizes[] = $item->screenSize;
+        }
+      }
+
+
+      return view ('tvs.index', compact('tvs','brands','resolutions','screenSizes'));
 
 
     }

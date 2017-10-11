@@ -59,7 +59,42 @@
 	      	  		@endforeach 
 
 	
+	</ul>
+
+	<ul id="filters" class="nav nav-list">
+					<li class="nav-header">Resolution</li>
+				 @php
+					$id=1
+				 @endphp
+
+
+					@foreach ($resolutions as $r) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="resolutions[]" value="{{ $r }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $r }}</font></li>
+	      					@php
+	      						$id = $id + 1 
+	      					@endphp
+	      	  		@endforeach 
+
 	
+	</ul>
+
+<ul id="filters" class="nav nav-list">
+					<li class="nav-header">Screen Size</li>
+				 @php
+					$id=1
+				 @endphp
+
+
+					@foreach ($screenSizes as $s) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="screenSizes[]" value="{{ $s }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $s }}</font></li>
+	      					@php
+	      						$id = $id + 1 
+	      					@endphp
+	      	  		@endforeach 
+
+	
+	</ul>
+
 
 	<ul class="nav nav-list">
 		<li class="nav-header">Price Range</li>
