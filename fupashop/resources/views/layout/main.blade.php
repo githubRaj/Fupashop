@@ -69,7 +69,7 @@
                         </a>
                     </li>
                      <li class="dropdown">
-                                <a href="{{ route('myAccount') }}" role="button" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->firstName }} <span class="caret"></span>
                                 </a>
 
@@ -113,7 +113,7 @@
       <i class="fi-html5"></i>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit impedit consequuntur at! Amet sed itaque nostrum, distinctio eveniet odio, id ipsam fuga quam minima cumque nobis veniam voluptates deserunt!</p>
     </div>
-
+    
     <div class="small-6 medium-4 large-4 columns">
       <h4>Follow Us</h4>
       <ul class="footer-links">
