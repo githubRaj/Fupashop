@@ -4,8 +4,8 @@
 @section('content')
 
 <body>
-	@foreach ($monitor as $monitor)
-		<li>{{ $monitor }}</li>
+	@foreach ($monitors as $monitor)
+		<li>{{ $monitor->modelNumber }}</li>
 	@endforeach
 </body>
 </html>

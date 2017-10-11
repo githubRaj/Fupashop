@@ -162,7 +162,20 @@ class ProductsController extends Controller
     {
     	$this->monitors =  $this->mapper->getMonitors();
       $monitors = $this->monitors; // cant send using compact without this
-      return view ('monitors.index', compact('monitors'));
+
+      $brands = array();
+      foreach( $monitors as $item ){
+        $flag = false;
+        foreach( $brands as $brand ){
+          if($brand == $item->brand){
+            $flag = true;
+          }
+        } 
+        if( $flag != true ){
+          $brands[] = $item->brand;
+        }
+      }
+      return view ('monitors.index', compact('monitors', 'brands'));
     }
     public function getMonitor($id)
     {
