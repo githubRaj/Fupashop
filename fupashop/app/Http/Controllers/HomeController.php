@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use App\User;
 
 class HomeController extends Controller
 {
@@ -27,13 +25,4 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    /*--------------------------------
-    Users  */
-
-    public function myAccount(){
-      $user = User::all();
-      return view('users.info', compact('user'));
-    }
-
 }
