@@ -73,13 +73,8 @@
 		        <th>Processor</th>
 		        <th>Display</th>
 		        <th>Ram</th>
-		        <th>Weight</th>
 		        <th>Cores</th>
 		        <th>HDD</th>
-		        <th>Battery Type</th>
-		        <th>Battery Information</th>
-		        <th>Touch Feature</th>
-		        <th>Camera</th>
 		      	<th>Price</th>
 	      	</tr>
          </thead>
@@ -93,13 +88,8 @@
 		<td>{{ $laptop->processor }}</td>
 		<td>{{ $laptop->displaySize }}</td>
 		<td>{{ $laptop->ramSize }}</td>
-		<td>{{ $laptop->weight }}</td>
 		<td>{{ $laptop->cpuCores }}</td>
 		<td>{{ $laptop->hddSize }}</td>
-		<td>{{ $laptop->batteryType }}</td>
-		<td>{{ $laptop->batteryInformation }}</td>
-		<td>{{ $laptop->touchFeature }}</td>
-		<td>{{ $laptop->cameraInformation }}</td>
 		<td class="price">{{ $laptop->price }}</td>
 		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>
