@@ -54,11 +54,11 @@ class ProductsController extends Controller
       foreach($tvs as $item){
         $flag = false;
         foreach($brands as $brand){
-          if($brand == $item->brand)
+          if($brand == $item->brandName)
             $flag = true;
         }
         if($flag != true){
-          $brands[] = $item->brand;
+          $brands[] = $item->brandName;
         }
       }
 

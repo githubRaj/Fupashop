@@ -123,7 +123,7 @@
 			<tr class="{{ $tv->resolution }}">
 					<tr>
 <td><a href="">{{ $tv->modelNumber }}</a></td>
-<td class="brand">{{ $tv->brand }}</td>
+<td class="brand">{{ $tv->brandName }}</td>
 <td>{{ $tv->tvType }}</td>
 <td>{{ $tv->resolution }}</td>
 <td>{{ $tv->screenSize }}</td>
