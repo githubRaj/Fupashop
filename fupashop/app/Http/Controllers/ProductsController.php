@@ -46,21 +46,31 @@ class ProductsController extends Controller
           TVS        */
     public function Tvindex()
     {
+      //$desktops = Desktop::all();
+      //$brands = Desktop::all(['brandName'])->unique('brandName');
+
+
+
+      //return view ('desktops.index', compact('desktops','brands'));
 
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
+
       $brands = array();
       foreach($tvs as $item){
         $flag = false;
         foreach($brands as $brand){
-          if ($brands == $item->brand)
-            $flag =true;
+          if($brand == $item->brand)
+            $flag = true;
         }
-        if ($flag != true){
+        if($flag != true){
           $brands[] = $item->brand;
         }
       }
-      return view ('tvs.index', compact('tvs','brand'));
+
+      return view ('tvs.index', compact('tvs','brands'));
+
+
     }
     public function getTv($id)
     {
@@ -68,7 +78,7 @@ class ProductsController extends Controller
         foreach($this->tvs as $item){
           if($item->modelNumber == $id)
           {
-            $tv = $item;
+            $desktop = $item;
             return view ('tvs.info', compact('tv'));
 
           }

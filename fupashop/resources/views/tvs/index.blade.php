@@ -51,8 +51,8 @@
 				 @endphp
 
 
-					@foreach ($brand as $b) 
-	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brand[]" value="{{ $b->brand }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b->brand }}</font></li>
+					@foreach ($brands as $b) 
+	      				<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 	      					@php
 	      						$id = $id + 1 
 	      					@endphp
@@ -92,7 +92,7 @@
 <td>{{ $tv->tvType }}</td>
 <td>{{ $tv->resolution }}</td>
 <td>{{ $tv->screenSize }}</td>
-<td>{{ $tv->hddSize }}</td>
+
 <td class="price">{{ $tv->price }}</td>
 <td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 		</tr>
