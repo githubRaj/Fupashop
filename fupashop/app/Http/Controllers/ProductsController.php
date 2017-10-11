@@ -25,14 +25,14 @@ class ProductsController extends Controller
     private $monitors;
     private $laptops;
 	private $repo;
-	
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->mapper = new Mapper();
-        
+
         //all items will be within Identity Map. This is temporary
-        $this->tablets = new Tablet(); 
+        $this->tablets = new Tablet();
         $this->desktop = new Desktop();
         $this->tvs = new Tv();
         $this->monitors = new Monitor();
@@ -59,7 +59,7 @@ class ProductsController extends Controller
           {
             $tv = $item;
             return view ('tvs.info', compact('tv'));
-            
+
           }
         }
     }
@@ -102,7 +102,7 @@ class ProductsController extends Controller
           {
             $desktop = $item;
             return view ('desktops.info', compact('desktop'));
-            
+
           }
         }
     }
@@ -126,7 +126,7 @@ class ProductsController extends Controller
           {
             $laptop = $item;
             return view ('laptops.info', compact('laptop'));
-            
+
           }
         }
     }
@@ -148,7 +148,7 @@ class ProductsController extends Controller
           {
             $monitor = $item;
             return view ('monitors.info', compact('monitor'));
-            
+
           }
         }
     }
@@ -160,8 +160,24 @@ class ProductsController extends Controller
     {
       $this->tablets =  $this->mapper->getTablets();
       $tablets = $this->tablets; // cant send using compact without this
-    	return view ('tablets.index', compact('tablets'));
+
+      $brands = array();
+      foreach( $tablets as $item ){
+        $flag = false;
+        foreach( $brands as $brand ){
+          $flag = true;
+        }
+        if( $flag != true ){
+          $brands[] = $item->brandName;
+        }
+      }
+
+      return view ('tablets.index', compact('tablets', 'brands'));
     }
+
+
+
+
     public function getTablet($id)
     {
         $this->tablets =  $this->mapper->getTablets();
@@ -170,9 +186,9 @@ class ProductsController extends Controller
           {
             $tablet = $item;
             return view ('tablets.info', compact('tablet'));
-            
+
           }
-        }        
+        }
     }
 
     /*--------------------------------
@@ -214,7 +230,7 @@ class ProductsController extends Controller
          $oldCart = Session::has('cart') ? Session::get('cart') : null;
          $cart = new Cart($oldCart);
         $cart->add($product, $product->id);
- 
+
          $request->session()->put('cart', $cart);
          //test line
          dd($request->session()->get('cart'));
