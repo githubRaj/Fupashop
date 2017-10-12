@@ -36,7 +36,7 @@
                 <!-- main dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="top-label label label-danger">3</span><i class="fa fa-envelope fa-3x"></i>
+                        <span class="top-label label label-danger">3</span><i ></i> FupaIcon
                     </a>
                     <!-- dropdown-messages -->
                     <ul class="dropdown-menu dropdown-messages">
@@ -287,7 +287,7 @@
                         <a href="/adminpanel"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Products<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Modify Products<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="Product/create">Add Product</a>
@@ -301,20 +301,23 @@
                         </ul>
                         <!-- second-level-items -->
                     </li>
-                     <li>
-                        <a href="timeline.html"><i class="fa fa-flask fa-fw"></i>filler1</a>
-                    </li>
                     <li>
-                        <a href=""><i class="fa fa-table fa-fw"></i>Filler</a>
-                    </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i>filler2</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i>UI Elements<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-table fa-fw"></i>View Products<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="html">stuff</a>
+                                <a href="{{ url('desktops') }}">Desktops</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('laptops') }}">Laptops</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('tvs') }}">Tvs</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('tablets') }}">Tablets</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('monitors') }}">Monitors</a>
                             </li>
                         </ul>
                         <!-- second-level-items -->
@@ -410,7 +413,7 @@
                     <!--Fupa table example -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i>Random Fupa  Table Example
+                            <i class="fa fa-bar-chart-o fa-fw"></i>Latest Products Added
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -425,7 +428,7 @@
                                         <li><a href="#">Something else here</a>
                                         </li>
                                         <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
+                                        <li><a href="#">Separate link</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -439,45 +442,16 @@
                                         <table class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Date</th>
-                                                    <th>Time</th>
-                                                    <th>Amount</th>
+                                                    <th>Product</th>
+                                                    <th>Date Entered</th>
+                                                    <th>Model Number</th>
+                                                    <th>Brand</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>3326</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:29 PM</td>
-                                                    <td>$321.33</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3325</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:20 PM</td>
-                                                    <td>$234.34</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3324</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:03 PM</td>
-                                                    <td>$724.17</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3323</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>3:00 PM</td>
-                                                    <td>$23.71</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3322</td>
-                                                    <td>10/21/2013</td>
-                                                    <td>2:49 PM</td>
-                                                    <td>$8345.23</td>
-                                                </tr>
 
-
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
