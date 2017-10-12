@@ -71,8 +71,6 @@
 				<th>Model</th>
 				<th>Brand</th>
 				<th>Processor</th>
-				<th>Cores</th>
-				<th>Ram</th>
 				<th>HDD</th>
 				<th>Price</th>
 			</tr>
@@ -85,8 +83,6 @@
 <td><a href="">{{ $tablet->modelNumber }}</a></td>
 <td class="brand">{{ $tablet->brandName }}</td>
 <td>{{ $tablet->processor }}</td>
-<td>{{ $tablet->cpucores }}</td>
-<td>{{ $tablet->ramSize }}</td>
 <td>{{ $tablet->hddSize }}</td>
 <td class="price">{{ $tablet->price }}</td>
 <td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>

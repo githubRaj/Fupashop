@@ -49,7 +49,18 @@ class ProductsController extends Controller
 
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
-      return view ('tvs.index', compact('tvs'));
+       $brands = array();
+      foreach($tvs as $item){
+        $flag = false;
+        foreach($brands as $brand){
+          if($brand == $item->brandName)
+            $flag = true;
+        }
+        if($flag != true){
+          $brands[] = $item->brandName;
+        }
+      }
+      return view ('tvs.index', compact('tvs','brands'));
     }
     public function getTv($id)
     {

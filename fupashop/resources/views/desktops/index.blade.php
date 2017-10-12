@@ -72,8 +72,6 @@
 		      	<th>Brand</th>
 		        <th>Processor</th>
 		        <th>Cores</th>
-		        <th>Ram</th>
-		        <th>HDD</th>
 		      	<th>Price</th>
 	      	</tr>
          </thead>
@@ -86,8 +84,6 @@
 		<td class="brand">{{ $desktop->brandName }}</td>
 		<td>{{ $desktop->processor }}</td>
 		<td>{{ $desktop->cpuCores }}</td>
-		<td>{{ $desktop->ramSize }}</td>
-		<td>{{ $desktop->hddSize }}</td>
 		<td class="price">{{ $desktop->price }}</td>
 		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>

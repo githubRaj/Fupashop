@@ -20,6 +20,7 @@ Since certain files are omitted by default from version control (for good reason
 
 * Adding the required and usually provided .env file: `cp .env.example .env`
 * Generating your own key: `php artisan key:generate`
+* RUN composer require "laravelcollective/html":"^5.3.0" for the Admin Panel
 * Deploying: `php artisan serve`
 * Testing: Check out [your local server](http://localhost:8000)
 
