@@ -46,51 +46,10 @@ class ProductsController extends Controller
           TVS        */
     public function Tvindex()
     {
-      
+
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
-
-      $brands = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($brands as $brand){
-          if($brand == $item->brandName)
-            $flag = true;
-        }
-        if($flag != true){
-          $brands[] = $item->brandName;
-        }
-      }
-
-
-      $resolutions = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($resolutions as $resolution){
-          if($resolution == $item->resolution)
-            $flag = true;
-        }
-        if($flag != true){
-          $resolutions[] = $item->resolution;
-        }
-      }
-
-    $screenSizes = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($screenSizes as $screenSize){
-          if($screenSize == $item->screenSize)
-            $flag = true;
-        }
-        if($flag != true){
-          $screenSizes[] = $item->screenSize;
-        }
-      }
-
-
-      return view ('tvs.index', compact('tvs','brands','resolutions','screenSizes'));
-
-
+      return view ('tvs.index', compact('tvs'));
     }
     public function getTv($id)
     {
@@ -98,7 +57,7 @@ class ProductsController extends Controller
         foreach($this->tvs as $item){
           if($item->modelNumber == $id)
           {
-            $desktop = $item;
+            $tv = $item;
             return view ('tvs.info', compact('tv'));
 
           }
@@ -197,12 +156,12 @@ class ProductsController extends Controller
       foreach( $monitors as $item ){
         $flag = false;
         foreach( $brands as $brand ){
-          if($brand == $item->brand){
+          if($brand == $item->brandName){
             $flag = true;
           }
         } 
         if( $flag != true ){
-          $brands[] = $item->brand;
+          $brands[] = $item->brandName;
         }
       }
       return view ('monitors.index', compact('monitors', 'brands'));
