@@ -2,7 +2,7 @@
 
 namespace App\Items;
 
-class Laptop
+class Laptop extends Item
 {
     //protected $table = 'laptops';
 }

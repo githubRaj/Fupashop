@@ -2,7 +2,7 @@
 
 namespace App\Items;
 
-class Monitor
+class Monitor extends Item
 {
     //protected $table = 'monitors';
 }
