@@ -209,6 +209,7 @@ class ProductsController extends Controller
 
     public function getTablet($id)
     {
+
         /*$this->tablets =  $this->mapper->getTablets();
         foreach($this->tablets as $item){
           if($item->modelNumber == $id)
@@ -218,23 +219,18 @@ class ProductsController extends Controller
 
           }
         }*/
-        $tablets =  $this->mapper->getTablets();
-        return;
-        foreach($tablets as $item){
-          echo $item->getModelNumber();
-          return;
-          if($item->getModelNumber() == $id)
-          {
-            $tablet = $item;
-            $this->repo->addTabletToRepo($tablet);
 
-          }
-        }
+
+        $tablet =  $this->mapper->getTabletById($id);
         
-        $tablet = $this->repo->getSingleTablets($id);
-        //return $tablet;
+
+        //$this->repo->addTabletToRepo($tablet);
+
+        //$tablet = $this->repo->getSingleTablets($id);
+
+
         $this->uow->registerDeleted($tablet);
-         $this->repo->removeFromRepo('tablets', $id);
+        $this->repo->removeFromRepo('tablets', $id);
 
       
 

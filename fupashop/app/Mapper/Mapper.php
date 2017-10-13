@@ -19,14 +19,22 @@ class Mapper
 	public function getTablets()
 	{
 		
-		$item = $this->tdg->getAllTablets();
-		echo var_dump($item);
-		//return;
+		return $this->tdg->getAllTablets();
+
 		//$tablet = new Tablet($item->modelNumber, $item->brandName, $item->price, $item->weight, $item->displaySize, $item->dimensions, $item->screenSize, $item->ramSize, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->operatingSystem, $item->cameraInformation);
 
 		//return $tablet;
 
 
+	}
+
+	public function getTabletById($id)
+	{
+		$item = $this->tdg->getTabletById($id);
+
+		$tablet = $item[0];
+
+		return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
 	}
 
 	public function getDesktops(){
@@ -99,25 +107,22 @@ class Mapper
 	}
 
 	public function saveDeletedItem($item)
-	{
-		echo $item->getItemType();
-		return;
-		
+	{		
 		switch (get_class($item))
 		{
-			case 'Tablet':
+			case Tablet::class:
 				$this->tdg->deleteTablet($item);
 				break;
-			case 'Desktop':
+			case Desktop::class:
 				$this->tdg->deleteDesktop($item);
 				break;
-			case 'Monitor':
+			case Monitor::class:
 				$this->tdg->deleteMonitor($item);
 				break;
-			case 'Tv':
+			case Tv::class:
 				$this->tdg->deleteTv($item);
 				break;
-			case 'Laptop':
+			case Laptop::class:
 				$this->tdg->deleteLaptop($item);
 				break;
 			default:

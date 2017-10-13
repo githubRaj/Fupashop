@@ -18,6 +18,11 @@ class TableDataGateway
 		return DB::table('tablets')->get();
 	}
 
+	public function getTabletById($modelNumber)
+	{
+		return DB::table('tablets')->where('modelNumber', $modelNumber)->get();
+	}
+
 	public function insertTablet($tablet)
 	{
 		DB::table('tablets')->insert($tablet->getAttributes());
@@ -30,7 +35,7 @@ class TableDataGateway
 
 	public function deleteTablet($tablet)
 	{
-		DB::table('tablets')->where('modelNumber', $tablet->modelNumber)->delete();
+		DB::table('tablets')->where('modelNumber', $tablet->getModelNumber())->delete();
 	}
 
 	// TODO : Return confirmation to mapper

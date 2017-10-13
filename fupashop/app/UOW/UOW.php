@@ -40,9 +40,7 @@ class UOW
   {
     //if (UOW::isNotRegistered($item))
     
-    //echo $item->modelNumber;
-      array_push($this->deletedItems, $item);
-      //echo var_dump($this->deletedItems);
+    array_push($this->deletedItems, $item);
     // else
       // TODO: Error message about already being in deletedItems so you can't do whatever you want to do
   }
@@ -73,9 +71,8 @@ class UOW
 
     // Send command to pass deleted items to be updated to TDG
     foreach ($this->deletedItems as $item) 
-    {
       $this->mapper->saveDeletedItem($item);
-    }
+
 
     // Reset arrays
     //UOW::resetArrays();
