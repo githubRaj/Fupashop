@@ -68,7 +68,7 @@
 	@foreach ($monitors as $monitor)
 	<tr class="{{ $monitor->brandName }}">
               <tr>
-		<td><a href="monitors/{{ $monitor->modelNumber }}">{{ $monitor->modelNumber }}</a></td>
+		<td><a href="">{{ $monitor->modelNumber }}</a></td>
 		<td class="brand">{{ $monitor->brandName }}</td>
 		<td>{{ $monitor->size }}</td>
 		<td class="price">{{ $monitor->price }}</td>

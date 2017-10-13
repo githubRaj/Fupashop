@@ -30,30 +30,30 @@ Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccou
 
 Route::prefix('tvs')->group(function(){
 	Route::get('/', 'ProductsController@Tvindex');
-	Route::get('/{modelNumber}', 'ProductsController@getTv');
+	Route::get('/{id}', 'ProductsController@getTv');
 });
 
 Route::prefix('monitors')->group(function(){
 	Route::get('/', 'ProductsController@Monitorindex');
-	Route::get('/{modelNumber}', 'ProductsController@getMonitor');
+	Route::get('/{id}', 'ProductsController@getMonitor');
 });
 
 Route::prefix('desktops')->group(function(){
 	Route::get('/', 'ProductsController@Desktopindex');
-	Route::get('/{modelNumber}', 'ProductsController@getDesktop');
+	Route::get('/{id}', 'ProductsController@getDesktop');
 });
 
 Route::prefix('tablets')->group(function(){
 
 
 	Route::get('/', 'ProductsController@Tabletindex');
-	Route::get('/{modelNumber}', 'ProductsController@getTablet');
+	Route::get('/{id}', 'ProductsController@getTablet');
 });
 //Route::get('/{itemType}', 'MapperController@tabletMapper');
 
 Route::prefix('laptops')->group(function(){
 	Route::get('/', 'ProductsController@Laptopindex');
-	Route::get('/{modelNumber}', 'ProductsController@getLaptop');
+	Route::get('/{id}', 'ProductsController@getLaptop');
 });
 
 Route::prefix('test')->group(function(){
