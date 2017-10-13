@@ -35,7 +35,8 @@ class Repository
 	}
 
 	public function addTabletToRepo($tablet){
-		if (!itemExists($tablet))
+		//if (!itemExists($tablet))
+			$tablet->setItemType('Tablet');
 			$this->tablets[] = $tablet;
 	}
 
@@ -177,6 +178,7 @@ class Repository
 		public function removeFromRepo($type, $id){
 		switch ($type) {
 			case 'tablets':
+
 				$object = $this->tablets;
 				break;
 			case 'desktops':
@@ -199,13 +201,12 @@ class Repository
 		/*if(($key = array_search($id, $object)) !== false) {
     		unset($object[$key]);
 		}*/
-
 		foreach ($object as $key => $item) {
-		    if($object[$key] == $id) {
+		    if($object[$key]->modelNumber == $id) {
+
 		        unset($object[$key]);
 		    }
 		}
-
 		switch ($type) {
 			case 'tablets':
 				$this->tablets = $object;

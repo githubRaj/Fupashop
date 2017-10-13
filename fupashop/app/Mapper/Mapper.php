@@ -2,6 +2,8 @@
 
 namespace App\Mapper;
 use App\TDG\TableDataGateway;
+use App\Items\Item;
+use App\Items\Tablet;
 
 class Mapper
 {
@@ -16,7 +18,15 @@ class Mapper
 	// changed tablets to illustrate my understanding of the implementation
 	public function getTablets()
 	{
-		return $this->tdg->getAllTablets();
+		
+		$item = $this->tdg->getAllTablets();
+		echo var_dump($item);
+		//return;
+		//$tablet = new Tablet($item->modelNumber, $item->brandName, $item->price, $item->weight, $item->displaySize, $item->dimensions, $item->screenSize, $item->ramSize, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->operatingSystem, $item->cameraInformation);
+
+		//return $tablet;
+
+
 	}
 
 	public function getDesktops(){
@@ -90,7 +100,9 @@ class Mapper
 
 	public function saveDeletedItem($item)
 	{
-		// try this
+		echo $item->getItemType();
+		return;
+		
 		switch (get_class($item))
 		{
 			case 'Tablet':

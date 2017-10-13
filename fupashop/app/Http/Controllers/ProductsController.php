@@ -35,10 +35,11 @@ class ProductsController extends Controller
 
         //all items will be within Identity Map. This is temporary
         //$this->tablets = new Tablet();
+        /*
         $this->desktop = new Desktop();
         $this->tvs = new Tv();
         $this->monitors = new Monitor();
-        $this->laptops = new Laptop();
+        $this->laptops = new Laptop();*/
         $this->repo = new Repository(); // <----- Identity Map
         $this->uow = new UOW($this->mapper); // Unit of Work
     }
@@ -135,6 +136,8 @@ class ProductsController extends Controller
 
     public function getLaptop($id)
     {
+
+
       $this->laptops =  $this->mapper->getLaptops();
         foreach($this->laptops as $item){
           if($item->modelNumber == $id)
@@ -206,7 +209,7 @@ class ProductsController extends Controller
 
     public function getTablet($id)
     {
-        $this->tablets =  $this->mapper->getTablets();
+        /*$this->tablets =  $this->mapper->getTablets();
         foreach($this->tablets as $item){
           if($item->modelNumber == $id)
           {
@@ -214,7 +217,28 @@ class ProductsController extends Controller
             return view ('tablets.info', compact('tablet'));
 
           }
+        }*/
+        $tablets =  $this->mapper->getTablets();
+        return;
+        foreach($tablets as $item){
+          echo $item->getModelNumber();
+          return;
+          if($item->getModelNumber() == $id)
+          {
+            $tablet = $item;
+            $this->repo->addTabletToRepo($tablet);
+
+          }
         }
+        
+        $tablet = $this->repo->getSingleTablets($id);
+        //return $tablet;
+        $this->uow->registerDeleted($tablet);
+         $this->repo->removeFromRepo('tablets', $id);
+
+      
+
+      $this->uow->commit();
     }
 
     public function makeNewTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)

@@ -9,7 +9,7 @@ class Tv extends Item
     protected $resolution;
     protected $screenSize;
 
-    public function __construct($brandName, $dimensions, $weight, $tvType, $modelNumber, $price, $resolution, $screenSize, );
+    public function __construct($brandName, $dimensions, $weight, $tvType, $modelNumber, $price, $resolution, $screenSize, )
     {
         $this->brandName = $brandName;
         $this->dimensions = $dimensions;

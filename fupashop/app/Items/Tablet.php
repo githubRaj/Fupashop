@@ -2,7 +2,7 @@
 
 namespace App\Items;
 
-//use Item;
+use App\Items\Item;
 
 class Tablet extends Item
 {
@@ -21,6 +21,11 @@ class Tablet extends Item
 	protected $batteryInformation;
 	protected $operatingSystem;
 	protected $cameraInformation;
+	protected $modelNumber;
+	protected $brandName;
+	protected $price;
+	protected $weight;
+	protected $type;
 
     public function __construct($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
 	{
@@ -48,6 +53,18 @@ class Tablet extends Item
 	public function getBatteryInformation() { return $this->batteryInformation; }
 	public function getOperatingSystem() { return $this->operatingSystem; }
 	public function getCameraInformation() { return $this->cameraInformation; }
+	public function getModelNumber() { return $this->modelNumber; }
+	public function getBrandName() { return $this->brandName; }
+	public function getPrice() { return $this->price; }
+	public function getWeight() { return $this->weight; }
+	public function setItemType() { return $this->type; }
+	
+	// Setters
+	public function setModelNumber($modelNumber) { $this->modelNumber = $modelNumber; }
+	public function setBrandName($brandName) { $this->brandName = $brandName; }
+	public function setPrice($price) { $this->price = $price; }
+	public function setWeight($weight) { $this->weight = $weight; }
+	public function getItemType($type) {  $this->type = $type; }
 
 	public function setDisplaySize($displaySize) { $this->displaySize = $displaySize; }
 	public function setDimensions($dimensions) { $this->dimensions = $dimensions; }

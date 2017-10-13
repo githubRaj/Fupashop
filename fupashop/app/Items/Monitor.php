@@ -6,7 +6,7 @@ class Monitor extends Item
 {
     protected $size;
 
-    public function __construct($modelNumber, $size, $weight, $brandName, $price);
+    public function __construct($modelNumber, $size, $weight, $brandName, $price)
     {
         $this->modelNumber = $modelNumber;
         $this->size = $size;
@@ -15,9 +15,9 @@ class Monitor extends Item
         $this->price = $price;
     }
 
-    public function getWeight() { return $this->$weight; }
+    public function getSize() { return $this->$size; }
 
-    public function setWeight($weight) { $this->weight = $weight; }
+    public function setSize($size) { $this->size = $size; }
 
     public function getAttributes()
     {

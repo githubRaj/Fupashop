@@ -10,7 +10,7 @@ class Desktop extends Item
 	protected $cpuCores;
 	protected $hddSize;
 
-	public function __construct($modelNumber, $processor, $dimensions, $ramSize, $weight, $cpuCores, $hddSize, $brandName, $price);
+	public function __construct($modelNumber, $processor, $dimensions, $ramSize, $weight, $cpuCores, $hddSize, $brandName, $price)
 	{
 		$this->modelNumber = $modelNumber;
 		$this->processor = $processor;
