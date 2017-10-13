@@ -49,7 +49,13 @@ class UOW
   {
     $registeredItems = array_merge($newItems, $dirtyItems, $deltedItems);
     
-    return (!in_array($item, $registeredItems));
+    foreach ($registeredItems as $registeredItem)
+    {
+      if ($registeredItem->modelNumer == $item->modelNumer)
+        return false;
+    }
+
+    return true;
   }
 
   public function commit()

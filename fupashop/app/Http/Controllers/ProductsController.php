@@ -224,8 +224,32 @@ class ProductsController extends Controller
       $this->repo->addTabletToRepo($tablet);
 
       $this->uow->registerNew($tablet);
+
+      $this->uow->commit();
     }
 
+    public function setTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
+    {
+      $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
+    
+      // $type should either be generic of strongly typed
+      $this->repo->removeFromRepo('tablet', $modelNumber);
+      $this->repo->addTabletToRepo($tablet);
+
+      $this->uow->registerDirty($tablet);
+
+      $this->uow->commit();
+    }
+
+    public function deleteTablet($modelNumber)
+    {
+      // $type should either be generic of strongly typed
+      $this->repo->removeFromRepo('tablet', $modelNumber);
+
+      $this->uow->registerDeleted($tablet);
+
+      $this->uow->commit();
+    }
 
     /*--------------------------------
           TESTING        */

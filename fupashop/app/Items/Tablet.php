@@ -11,6 +11,17 @@ class Tablet extends Item
         'modelNumber', 'brandName', 'price', 'weight','displaySize', 'dimensions', 'screenSize','ramSize','cpucores','hddSize','batteryInformation','operatingSystem','cameraInformation',
     ];
 
+    // Attributes that apply to all items are in superclass Item
+	protected $displaySize;
+	protected $dimensions;
+	protected $screenSize;
+	protected $ramSize;
+	protected $cpucores;
+	protected $hddSize;
+	protected $batteryInformation;
+	protected $operatingSystem;
+	protected $cameraInformation;
+
     public function __construct($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
 	{
 		$this->modelNumber = $modelNumber;
@@ -27,18 +38,6 @@ class Tablet extends Item
 		$this->operatingSystem = $operatingSystem;
 		$this->cameraInformation = $cameraInformation;
 	}
-
-
-    // Attributes that apply to all items are in superclass Item
-	protected $displaySize;
-	protected $dimensions;
-	protected $screenSize;
-	protected $ramSize;
-	protected $cpucores;
-	protected $hddSize;
-	protected $batteryInformation;
-	protected $operatingSystem;
-	protected $cameraInformation;
 
 	public function getDisplaySize() { return $this->displaySize; }
 	public function getDimensions() { return $this->dimensions; }
