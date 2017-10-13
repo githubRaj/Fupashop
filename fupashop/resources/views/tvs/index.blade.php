@@ -83,7 +83,7 @@
 		@foreach ($tvs as $tv)
 			<tr class="{{ $tv->resolution }}">
 					<tr>
-<td><a href="">{{ $tv->modelNumber }}</a></td>
+<td><a href="tvs/{{ $tv->modelNumber }}">{{ $tv->modelNumber }}</a></td>
 <td class="brand">{{ $tv->brandName }}</td>
 <td>{{ $tv->tvType }}</td>
 <td class="price">{{ $tv->price }}</td>
