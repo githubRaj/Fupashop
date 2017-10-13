@@ -60,7 +60,7 @@ class Tablet extends Item
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
 
-	public getAttributes()
+	public function getAttributes()
 	{
 		return 
 		[
