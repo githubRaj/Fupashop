@@ -80,7 +80,7 @@
 	    	@foreach ($laptops as $laptop) 
 	        <tr class="{{ $laptop->brandName }}">
               <tr>
-		<td><a href="laptops/{{ $laptop->modelNumber }}">{{ $laptop->modelNumber }}</a></td>
+		<td><a href="">{{ $laptop->modelNumber }}</a></td>
 		<td class="brand">{{ $laptop->brandName }}</td>
 		<td>{{ $laptop->processor }}</td>
 		<td>{{ $laptop->displaySize }}</td>
