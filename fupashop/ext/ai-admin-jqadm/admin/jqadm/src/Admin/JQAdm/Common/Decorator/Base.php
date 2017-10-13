@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -89,6 +89,17 @@ abstract class Base
 
 
 	/**
+	 * Exports a resource
+	 *
+	 * @return string Admin output to display
+	 */
+	public function export()
+	{
+		return $this->client->export();
+	}
+
+
+	/**
 	 * Returns a single resource
 	 *
 	 * @return string|null admin output to display or null for redirecting to the list
@@ -96,6 +107,17 @@ abstract class Base
 	public function get()
 	{
 		return $this->client->get();
+	}
+
+
+	/**
+	 * Imports a resource
+	 *
+	 * @return string Admin output to display
+	 */
+	public function import()
+	{
+		return $this->client->import();
 	}
 
 
@@ -154,8 +176,8 @@ abstract class Base
 	public function setView( \Aimeos\MW\View\Iface $view )
 	{
 		parent::setView( $view );
-		$this->client->setView( $view );
 
+		$this->client->setView( $view );
 		return $this;
 	}
 
@@ -167,7 +189,7 @@ abstract class Base
 	 */
 	public function getAimeos()
 	{
-		return parent::getAimeos();
+		return $this->client->getAimeos();
 	}
 
 
@@ -179,8 +201,9 @@ abstract class Base
 	 */
 	public function setAimeos( \Aimeos\Bootstrap $aimeos )
 	{
-		$this->client->setAimeos( $aimeos );
 		parent::setAimeos( $aimeos );
+
+		$this->client->setAimeos( $aimeos );
 		return $this;
 	}
 

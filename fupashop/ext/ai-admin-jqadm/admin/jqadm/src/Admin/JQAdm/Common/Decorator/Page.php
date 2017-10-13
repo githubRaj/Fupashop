@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -31,9 +31,6 @@ class Page extends Base
 
 		// set first to be able to show errors occuring afterwards
 		$view->pageParams = $this->getClientParams();
-
-		$ext = dirname( dirname( dirname( dirname( dirname( dirname( dirname( __DIR__ ) ) ) ) ) ) );
-		$aimeos = new \Aimeos\Bootstrap( array( $ext ) );
 		$context = $this->getContext();
 
 		$siteManager = \Aimeos\MShop\Factory::createManager( $context, 'locale/site' );
@@ -48,16 +45,17 @@ class Page extends Base
 			$siteid = $siteItem->getSiteId();
 		}
 
-		if( $view->access( 'admin' ) ) {
+		if( $view->access( ['admin', 'super'] ) ) {
 			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_TREE;
 		} else {
 			$level = \Aimeos\MW\Tree\Manager\Base::LEVEL_ONE;
 		}
 
-		$view->pageLanguages = $langManager->searchItems( $langManager->createSearch( true ) );
+		$view->pageI18nList = $this->getAimeos()->getI18nList( 'admin' );
+		$view->pageLangItems = $langManager->searchItems( $langManager->createSearch( true ) );
+		$view->pageSiteTree = $siteManager->getTree( $siteid, [], $level );
 		$view->pageSitePath = $siteManager->getPath( $siteItem->getId() );
-		$view->pageSite = $siteManager->getTree( $siteid, [], $level );
-		$view->pageLangList = $aimeos->getI18nList( 'admin' );
+		$view->pageSiteItem = $siteItem;
 
 		$this->getClient()->setView( $view );
 		return $this;

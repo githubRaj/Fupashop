@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -97,6 +97,20 @@ class Standard
 		}
 
 		return $this->render( $view );
+	}
+
+
+	/**
+	 * Deletes a resource
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$item = $this->getView()->item;
+
+		if( $item->getType() === 'select' ) {
+			$this->cleanupItems( $item->getListItems( 'product', 'default' ), [] );
+		}
 	}
 
 
@@ -262,15 +276,15 @@ class Standard
 		$rmListIds = array_diff( array_keys( $listItems ), $listIds );
 
 		foreach( $rmListIds as $rmListId ) {
-			$rmIds[] = $listItems[$rmListId]->getRefId();
+			$rmIds[ $listItems[$rmListId]->getRefId() ] = null;
 		}
 
 		$search = $listManager->createSearch();
 		$expr = array(
-			$search->compare( '==', 'product.lists.refid', $rmIds ),
 			$search->compare( '==', 'product.lists.domain', 'product' ),
 			$search->compare( '==', 'product.lists.type.code', 'default' ),
 			$search->compare( '==', 'product.lists.type.domain', 'product' ),
+			$search->compare( '==', 'product.lists.refid', array_keys( $rmIds ) ),
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
 		$search->setSlice( 0, 0x7fffffff );
@@ -283,7 +297,7 @@ class Standard
 		}
 
 		$listManager->deleteItems( $rmListIds  );
-		$manager->deleteItems( $rmIds  );
+		$manager->deleteItems( array_keys( $rmIds )  );
 	}
 
 
@@ -435,11 +449,9 @@ class Standard
 
 			if( !isset( $listItems[$listid] ) )
 			{
-				$litem = $listItem;
-				$litem->setId( null );
-
-				$item = $prodItem;
-				$item->setId( null );
+				$litem = clone $listItem;
+				$item = clone $prodItem;
+				$item->setId( $this->getValue( $list, 'product.id' ) );
 			}
 			else
 			{
@@ -447,8 +459,8 @@ class Standard
 				$item = $litem->getRefItem();
 			}
 
-			$item->setCode( $code );
 			$item->setLabel( $this->getValue( $list, 'product.label', '' ) );
+			$item->setCode( $code );
 
 			$item = $manager->saveItem( $item );
 

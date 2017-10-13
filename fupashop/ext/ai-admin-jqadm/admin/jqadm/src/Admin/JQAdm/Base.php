@@ -2,13 +2,15 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
 
 
 namespace Aimeos\Admin\JQAdm;
+
+sprintf( 'type' ); // for translation
 
 
 /**
@@ -111,12 +113,93 @@ abstract class Base
 
 
 	/**
+	 * Copies a resource
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function copy()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->copy();
+		}
+	}
+
+
+	/**
+	 * Creates a new resource
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function create()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->create();
+		}
+	}
+
+
+	/**
 	 * Deletes a resource
 	 *
 	 * @return string|null admin output to display or null for redirecting to the list
 	 */
 	public function delete()
 	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->delete();
+		}
+	}
+
+
+	/**
+	 * Exports a resource
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function export()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->export();
+		}
+	}
+
+
+	/**
+	 * Returns a resource
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function get()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->get();
+		}
+	}
+
+
+	/**
+	 * Imports a resource
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function import()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->import();
+		}
+	}
+
+
+	/**
+	 * Saves the data
+	 *
+	 * @return string|null admin output to display or null for redirecting to the list
+	 */
+	public function save()
+	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->save();
+		}
 	}
 
 
@@ -127,6 +210,9 @@ abstract class Base
 	 */
 	public function search()
 	{
+		foreach( $this->getSubClients() as $client ) {
+			$client->search();
+		}
 	}
 
 
@@ -246,6 +332,7 @@ abstract class Base
 		}
 
 		$object = $this->addClientDecorators( $object, $this->templatePaths, $path );
+		$object->setAimeos( $this->aimeos );
 		$object->setView( $this->view );
 
 		return $object;
@@ -281,7 +368,7 @@ abstract class Base
 	 * @param array $names List of parameter names
 	 * @return array Associative list of parameters names as key and their values
 	 */
-	protected function getClientParams( $names = array( 'id', 'resource', 'site', 'lang', 'fields', 'filter', 'page', 'sort' ) )
+	protected function getClientParams( $names = array( 'id', 'resource', 'site', 'lang' ) )
 	{
 		$list = [];
 
@@ -347,6 +434,59 @@ abstract class Base
 
 
 	/**
+	 * Returns the array of criteria conditions based on the given parameters
+	 *
+	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return array Multi-dimensional associative list of criteria conditions
+	 */
+	protected function getCriteriaConditions( array $params )
+	{
+		$expr = [];
+
+		if( isset( $params['key'] ) )
+		{
+			foreach( (array) $params['key'] as $idx => $key )
+			{
+				if( $key != '' && isset( $params['op'][$idx] ) && $params['op'][$idx] != ''
+					&& isset( $params['val'][$idx] ) && $params['val'][$idx] != ''
+				) {
+					$expr[] = [$params['op'][$idx] => [$key => $params['val'][$idx]]];
+				}
+			}
+
+			if( !empty( $expr ) ) {
+				$expr = ['&&' => $expr];
+			}
+		}
+
+		return $expr;
+	}
+
+
+	/**
+	 * Returns the array of criteria sortations based on the given parameters
+	 *
+	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return array Associative list of criteria sortations
+	 */
+	protected function getCriteriaSortations( array $params )
+	{
+		$sortation = [];
+
+		foreach( $params as $sort )
+		{
+			if( $sort[0] === '-' ) {
+				$sortation[substr( $sort, 1 )] = '-';
+			} else {
+				$sortation[$sort] = '+';
+			}
+		}
+
+		return $sortation;
+	}
+
+
+	/**
 	 * Returns the configured sub-clients or the ones named in the default parameter if none are configured.
 	 *
 	 * @return array List of sub-clients implementing \Aimeos\Admin\JQAdm\Iface ordered in the same way as the names
@@ -386,11 +526,20 @@ abstract class Base
 	 */
 	protected function initCriteria( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		$this->initCriteriaConditions( $criteria, $params );
-		$this->initCriteriaSortations( $criteria, $params );
-		$this->initCriteriaSlice( $criteria, $params );
+		if( isset( $params['filter'] ) ) {
+			$criteria = $this->initCriteriaConditions( $criteria, (array) $params['filter'] );
+		}
 
-		return $criteria;
+		if( isset( $params['sort'] ) ) {
+			$criteria = $this->initCriteriaSortations( $criteria, (array) $params['sort'] );
+		}
+
+		$page = [];
+		if( isset( $params['page'] ) ) {
+			$page = (array) $params['page'];
+		}
+
+		return $this->initCriteriaSlice( $criteria, $page );
 	}
 
 
@@ -447,30 +596,57 @@ abstract class Base
 
 
 	/**
+	 * Stores and returns the parameters used for searching items
+	 *
+	 * @param array $params GET/POST parameter set
+	 * @param string $name Name of the panel/subpanel
+	 * @return array Associative list of parameters for searching items
+	 */
+	protected function storeSearchParams( array $params, $name )
+	{
+		$key = 'aimeos/admin/jqadm/' . $name;
+		$session = $this->getContext()->getSession();
+
+		if( isset( $params['filter'] ) ) {
+			$session->set( $key . '/filter', $params['filter'] );
+		}
+
+		if( isset( $params['sort'] ) ) {
+			$session->set( $key . '/sort', $params['sort'] );
+		}
+
+		if( isset( $params['page'] ) ) {
+			$session->set( $key . '/page', $params['page'] );
+		}
+
+		if( isset( $params['fields'] ) ) {
+			$session->set( $key . '/fields', $params['fields'] );
+		}
+
+		return [
+			'fields' => $session->get( $key . '/fields' ),
+			'filter' => $session->get( $key . '/filter' ),
+			'page' => $session->get( $key . '/page' ),
+			'sort' => $session->get( $key . '/sort' ),
+		];
+	}
+
+
+	/**
 	 * Initializes the criteria object with conditions based on the given parameter
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	private function initCriteriaConditions( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		if( isset( $params['filter'] ) && isset( $params['filter']['key'] ) )
-		{
-			$expr = [];
-			$existing = $criteria->getConditions();
+		$expr = [
+			$criteria->toConditions( $this->getCriteriaConditions( $params ) ),
+			$criteria->getConditions(),
+		];
 
-			foreach( (array) $params['filter']['key'] as $idx => $key )
-			{
-				if( $key != '' && isset( $params['filter']['op'][$idx] ) && $params['filter']['op'][$idx] != ''
-					&& isset( $params['filter']['val'][$idx] ) && $params['filter']['val'][$idx] != ''
-				) {
-					$expr[] = $criteria->compare( $params['filter']['op'][$idx], $key, $params['filter']['val'][$idx] );
-				}
-			}
-
-			$expr[] = $existing;
-			$criteria->setConditions( $criteria->combine( '&&', $expr ) );
-		}
+		return $criteria->setConditions( $criteria->combine( '&&', $expr ) );
 	}
 
 
@@ -479,13 +655,14 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	private function initCriteriaSlice( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		$start = ( isset( $params['page']['offset'] ) ? $params['page']['offset'] : 0 );
-		$size = ( isset( $params['page']['limit'] ) ? $params['page']['limit'] : 100 );
+		$start = ( isset( $params['offset'] ) ? $params['offset'] : 0 );
+		$size = ( isset( $params['limit'] ) ? $params['limit'] : 25 );
 
-		$criteria->setSlice( $start, $size );
+		return $criteria->setSlice( $start, $size );
 	}
 
 
@@ -494,24 +671,10 @@ abstract class Base
 	 *
 	 * @param \Aimeos\MW\Criteria\Iface $criteria Criteria object
 	 * @param array $params List of criteria data with condition, sorting and paging
+	 * @return \Aimeos\MW\Criteria\Iface Initialized criteria object
 	 */
 	private function initCriteriaSortations( \Aimeos\MW\Criteria\Iface $criteria, array $params )
 	{
-		if( !isset( $params['sort'] ) ) {
-			return;
-		}
-
-		$sortation = [];
-
-		foreach( (array) $params['sort'] as $sort )
-		{
-			if( $sort[0] === '-' ) {
-				$sortation[] = $criteria->sort( '-', substr( $sort, 1 ) );
-			} else {
-				$sortation[] = $criteria->sort( '+', $sort ); break;
-			}
-		}
-
-		$criteria->setSortations( $sortation );
+		return $criteria->setSortations( $criteria->toSortations( $this->getCriteriaSortations( $params ) ) );
 	}
 }

@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  */
 
 
@@ -27,6 +27,8 @@ class IndexTest extends \PHPUnit\Framework\TestCase
 			->getMock();
 
 		$this->object = new \Aimeos\Admin\JQAdm\Common\Decorator\Index( $this->mock, $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
+		$this->object->setView( \TestHelperJqadm::getView() );
 	}
 
 

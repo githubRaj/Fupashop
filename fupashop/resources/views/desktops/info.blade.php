@@ -53,49 +53,18 @@
 			
 		<article class="product " data-id="10022">
 
-			<div class="catalog-detail-image">
-	
-			<div class="image-thumbs thumbs-vertical" data-slick="{&quot;slidesToShow&quot;: 4, &quot;slidesToScroll&quot;: 4, &quot;vertical&quot;: true, &quot;verticalSwiping&quot;: true}">
-			<button type="button" class="slick-prev slick-arrow slick-hidden" aria-disabled="true" tabindex="-1">Previous</button>
-			<div class="thumbs slick-initialized slick-slider slick-vertical">
-
-									
-					<div aria-live="polite" class="slick-list draggable" style="height: 420px;"><div class="slick-track" style="opacity: 1; height: 420px; transform: translate3d(0px, 0px, 0px);" role="listbox"><a class="item selected slick-slide slick-current slick-active" style="background-image: url(&quot;https://demo.aimeos.org/media/2.jpg&quot;); background-size: contain; width: 80px;" href="/default/en/EUR/detail/10022/Demo_selection_article/1#image-40205" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide00"></a><a class="item slick-slide slick-active" style="background-image: url(&quot;https://demo.aimeos.org/media/3.jpg&quot;); background-size: contain; width: 80px;" href="/default/en/EUR/detail/10022/Demo_selection_article/1#image-40206" data-slick-index="1" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide01"></a><a class="item slick-slide slick-active" style="background-image: url(&quot;https://demo.aimeos.org/media/4.jpg&quot;); background-size: contain; width: 80px;" href="/default/en/EUR/detail/10022/Demo_selection_article/1#image-40207" data-slick-index="2" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide02"></a><a class="item slick-slide slick-active" style="background-image: url(&quot;https://demo.aimeos.org/media/1.jpg&quot;); background-size: contain; width: 80px;" href="/default/en/EUR/detail/10022/Demo_selection_article/1#image-40204" data-slick-index="3" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide03"></a></div></div>					
-					
-
-									
-			</div>
-			<button type="button" class="slick-next slick-arrow slick-hidden" aria-disabled="true" tabindex="-1">Next</button>
-		</div><!--
+			<div class="catalog-detail-image"><!--
 	--><!--
 
 	--><div class="image-single" data-pswp="{bgOpacity: 0.75, shareButtons: false}">
 
-								
+
 			<figure id="image-40205" class="item" style="background-image: url(&quot;https://demo.aimeos.org/media/2-big.jpg&quot;); background-size: contain;" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject" data-image="https://demo.aimeos.org/media/2.jpg">
 				<a href="https://demo.aimeos.org/media/2-big.jpg" itemprop="contentUrl"></a>
 				<figcaption itemprop="caption description">Demo: Selection article 2.jpg</figcaption>
 			</figure>
 
-								
-			<figure id="image-40206" class="item" style="background-image: url(&quot;https://demo.aimeos.org/media/3-big.jpg&quot;); background-size: contain;" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject" data-image="https://demo.aimeos.org/media/3.jpg">
-				<a href="https://demo.aimeos.org/media/3-big.jpg" itemprop="contentUrl"></a>
-				<figcaption itemprop="caption description">Demo: Selection article 3.jpg</figcaption>
-			</figure>
 
-								
-			<figure id="image-40207" class="item" style="background-image: url(&quot;https://demo.aimeos.org/media/4-big.jpg&quot;); background-size: contain;" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject" data-image="https://demo.aimeos.org/media/4.jpg">
-				<a href="https://demo.aimeos.org/media/4-big.jpg" itemprop="contentUrl"></a>
-				<figcaption itemprop="caption description">Demo: Selection article 4.jpg</figcaption>
-			</figure>
-
-								
-			<figure id="image-40204" class="item" style="background-image: url(&quot;https://demo.aimeos.org/media/1-big.jpg&quot;); background-size: contain;" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject" data-image="https://demo.aimeos.org/media/1.jpg">
-				<a href="https://demo.aimeos.org/media/1-big.jpg" itemprop="contentUrl"></a>
-				<figcaption itemprop="caption description">Demo: Selection article 1.jpg</figcaption>
-			</figure>
-
-		
 	</div>
 
 
@@ -191,155 +160,7 @@
 				<form method="POST" action="/default/en/EUR/basket">
 					<input class="csrf-token" type="hidden" name="_token" value="i7nAcGznnox5WTRXe62bc3pkyBG5yh3EKloajaQa">
 
-											<div class="catalog-detail-basket-selection">
-								
-	
-	
-	
-
-
-<ul class="selection" data-proddeps="{&quot;10020&quot;:[178,179,180],&quot;10021&quot;:[181,182,183]}" data-attrdeps="{&quot;178&quot;:[10020],&quot;179&quot;:[10020],&quot;180&quot;:[10020],&quot;181&quot;:[10021],&quot;182&quot;:[10021],&quot;183&quot;:[10021]}">
-
-					
-		<li class="select-item radio color">
-			<div class="select-name">Color</div>
-
-						
-			<div class="select-value">
-
-				
-					<ul class="select-list" data-index="0" data-type="color">
-													
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-181" name="b_prod[0][attrvarid][color]" value="181">
-									<label class="select-label" for="option-181"><!--
-
-																																	-->
-		<div class="media-item"><!--
-			--><img src="data:image/gif;base64,R0lGODdhAQABAIAAAPX13AAAACwAAAAAAQABAAACAkQBADs=" title="Demo: beige.gif"><!--
-				--></div>
-
-	<!--																					
-										--><span>Beige</span><!--
-									--></label>
-								</li>
-
-																				
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-178" name="b_prod[0][attrvarid][color]" value="178">
-									<label class="select-label" for="option-178"><!--
-
-																																	-->
-		<div class="media-item"><!--
-			--><img src="data:image/gif;base64,R0lGODdhAQABAIAAAAAA/wAAACwAAAAAAQABAAACAkQBADs=" title="Demo: blue.gif"><!--
-				--></div>
-
-	<!--																					
-										--><span>Blue</span><!--
-									--></label>
-								</li>
-
-																		</ul>
-
-							</div>
-		</li>
-					
-		<li class="select-item radio length">
-			<div class="select-name">Length</div>
-
-						
-			<div class="select-value">
-
-				
-					<ul class="select-list" data-index="1" data-type="length">
-													
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-180" name="b_prod[0][attrvarid][length]" value="180">
-									<label class="select-label" for="option-180"><!--
-
-										
-										--><span>34</span><!--
-									--></label>
-								</li>
-
-																				
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-183" name="b_prod[0][attrvarid][length]" value="183">
-									<label class="select-label" for="option-183"><!--
-
-										
-										--><span>36</span><!--
-									--></label>
-								</li>
-
-																		</ul>
-
-							</div>
-		</li>
-					
-		<li class="select-item radio width">
-			<div class="select-name">Width</div>
-
-						
-			<div class="select-value">
-
-				
-					<ul class="select-list" data-index="2" data-type="width">
-													
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-179" name="b_prod[0][attrvarid][width]" value="179">
-									<label class="select-label" for="option-179"><!--
-
-										
-										--><span>32</span><!--
-									--></label>
-								</li>
-
-																				
-								<li class="select-entry">
-									<input class="select-option" type="radio" id="option-182" name="b_prod[0][attrvarid][width]" value="182">
-									<label class="select-label" for="option-182"><!--
-
-										
-										--><span>33</span><!--
-									--></label>
-								</li>
-
-																		</ul>
-
-							</div>
-		</li>
-	</ul>
-						</div>
-					
-					<div class="catalog-detail-basket-attribute">
-						<ul class="selection">
-					
-		<li class="select-item select option">
-			<div class="select-name">Option</div>
-
-						
-			<div class="select-value">
-
-				<select class="select-list" name="b_prod[0][attrconfid][option]">
-											<option class="select-option" value="">none</option>
-																<option class="select-option" value="184">
-
-																														Small sticker ( +2.50€ )							
-						</option>
-											<option class="select-option" value="185">
-
-																														Large sticker ( +5.00€ )							
-						</option>
-									</select>
-
-			</div>
-		</li>
-
-	</ul>
-
-					</div>
-
+					<br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 					<div class="addbasket">
 						<div class="group">
@@ -383,14 +204,14 @@
             <div class="catalog-detail-additional">
 
 									<div class="additional-box">
-						<h2 class="header description toggle-js">Description</h2>
+						<h2 class="header description">Description</h2>
 						<div class="content description" style="display: block;">
 															<div class="long item">Add a detailed description of the selection demo article that may be a little bit longer.</div>
 													</div>
 					</div>
 				
 									<div class="additional-box">
-						<h2 class="header attributes toggle-js">Characteristics</h2>
+						<h2 class="header attributes">Characteristics</h2>
 						<div class="content attributes" style="display: block;">
 						</div>
 					</div>

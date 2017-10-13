@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  */
 
 
@@ -22,6 +22,8 @@ class PageTest extends \PHPUnit\Framework\TestCase
 
 		$client = new \Aimeos\Admin\JQAdm\Product\Standard( $this->context, $templatePaths );
 		$this->object = new \Aimeos\Admin\JQAdm\Common\Decorator\Page( $client, $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
+		$this->object->setView( \TestHelperJqadm::getView() );
 	}
 
 
@@ -39,7 +41,9 @@ class PageTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertNull( $view->get( 'pageUser' ) );
 		$this->assertInternalType( 'array', $view->pageParams );
-		$this->assertInternalType( 'array', $view->pageLangList );
-		$this->assertInstanceOf( '\Aimeos\MShop\Locale\Item\Site\Iface', $view->pageSite );
+		$this->assertInternalType( 'array', $view->pageI18nList );
+		$this->assertInternalType( 'array', $view->pageLangItems );
+		$this->assertInstanceOf( '\Aimeos\MShop\Locale\Item\Site\Iface', $view->pageSiteTree );
+		$this->assertInstanceOf( '\Aimeos\MShop\Locale\Item\Site\Iface', $view->pageSiteItem );
 	}
 }

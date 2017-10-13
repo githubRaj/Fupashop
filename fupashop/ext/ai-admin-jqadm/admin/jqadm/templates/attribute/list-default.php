@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 $enc = $this->encoder();
@@ -52,11 +52,11 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @since 2017.07
  * @category Developer
  */
-$default = $this->config( 'admin/jqadm/attribute/fields', ['attribute.status', 'attribute.typeid', 'attribute.code', 'attribute.label'] );
-$fields = $this->param( 'fields/a', $default );
+$default = ['attribute.status', 'attribute.typeid', 'attribute.code', 'attribute.label'];
+$default = $this->config( 'admin/jqadm/attribute/fields', $default );
+$fields = $this->session( 'aimeos/admin/jqadm/attribute/fields', $default );
 
 $params = $this->get( 'pageParams', [] );
-$pageParams = ['total' => $this->get( 'total', 0 ), 'pageParams' => $params];
 $sortcode = $this->param( 'sort' );
 
 $typeList = [];
@@ -89,16 +89,21 @@ $columnList = [
 
 	<?= $this->partial(
 		$this->config( 'admin/jqadm/partial/navsearch', 'common/partials/navsearch-default.php' ), [
+			'filter' => $this->session( 'aimeos/admin/jqadm/attribute/filter', [] ),
 			'filterAttributes' => $this->get( 'filterAttributes', [] ),
 			'filterOperators' => $this->get( 'filterOperators', [] ),
-			'filterData' => $this->param( 'filter', [] ),
 			'params' => $params,
 		]
 	); ?>
 </nav>
 
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'top'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/attribute/page', [] )]
+	);
+?>
 
 <form class="list-attribute" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $params, [], $config ) ); ?>">
 	<?= $this->csrf()->formfield(); ?>
@@ -108,20 +113,20 @@ $columnList = [
 			<tr>
 				<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ),
-						['fields' => $fields, 'params' => $params, 'tabindex' => 1, 'data' => $columnList]
+						['fields' => $fields, 'params' => $params, 'data' => $columnList, 'sort' => $this->session( 'aimeos/admin/jqadm/attribute/sort' )]
 					);
 				?>
 
 				<th class="actions">
 					<a class="btn fa act-add" tabindex="1"
 						href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
+						title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>"
 						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
 					</a>
 
 					<?= $this->partial(
 							$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ),
-							['fields' => $fields, 'group' => 'a', 'tabindex' => 1, 'data' => $columnList]
+							['fields' => $fields, 'data' => $columnList]
 						);
 					?>
 				</th>
@@ -131,7 +136,7 @@ $columnList = [
 
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'tabindex' => 1,
+					'fields' => $fields, 'filter' => $this->session( 'aimeos/admin/jqadm/attribute/filter', [] ),
 					'data' => [
 						'attribute.id' => ['op' => '=='],
 						'attribute.domain' => ['op' => '==', 'type' => 'select', 'val' => [
@@ -209,11 +214,16 @@ $columnList = [
 	</table>
 
 	<?php if( $this->get( 'items', [] ) === [] ) : ?>
-		<?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?>
+		<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?></div>
 	<?php endif; ?>
 </form>
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'bottom'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/attribute/page', [] )]
+	);
+?>
 
 <?php $this->block()->stop(); ?>
 

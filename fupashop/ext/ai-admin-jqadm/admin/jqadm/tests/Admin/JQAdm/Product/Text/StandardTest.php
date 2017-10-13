@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 
@@ -28,13 +28,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$this->view->item = \Aimeos\MShop\Factory::createManager( $this->context, 'product' )->createItem();
 
 		$this->object = new \Aimeos\Admin\JQAdm\Product\Text\Standard( $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
 		$this->object->setView( $this->view );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -64,6 +65,9 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testDelete()
 	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'product' );
+
+		$this->view->item = $manager->createItem();
 		$result = $this->object->delete();
 
 		$this->assertNull( $this->view->get( 'errors' ) );

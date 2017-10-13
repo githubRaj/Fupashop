@@ -93,7 +93,12 @@ class Standard
 
 		try
 		{
-			$view->codeData = $this->toArray( $view->item );
+			$total = 0;
+			$params = $this->storeSearchParams( $view->param( 'vc', [] ), 'couponcode' );
+			$codeItems = $this->getCodeItems( $view->item, $params, $total );
+
+			$view->codeData = $this->toArray( $codeItems );
+			$view->codeTotal = $total;
 			$view->codeBody = '';
 
 			foreach( $this->getSubClients() as $client ) {
@@ -128,6 +133,8 @@ class Standard
 
 		try
 		{
+			$this->storeSearchParams( $view->param( 'vc', [] ), 'couponcode' );
+			$this->storeFile( $view->item, (array) $view->request()->getUploadedFiles() );
 			$this->fromArray( $view->item, $view->param( 'code', [] ) );
 			$view->couponBody = '';
 
@@ -152,16 +159,6 @@ class Standard
 		$manager->rollback();
 
 		throw new \Aimeos\Admin\JQAdm\Exception();
-	}
-
-
-	/**
-	 * Returns a list of resource according to the conditions
-	 *
-	 * @return string admin output to display
-	 */
-	public function search()
-	{
 	}
 
 
@@ -252,6 +249,64 @@ class Standard
 
 
 	/**
+	 * Checks if an error during upload occured
+	 *
+	 * @param \Psr\Http\Message\UploadedFileInterface $file Uploaded file
+	 * @throws \Aimeos\Admin\JQAdm\Exception If an error occured during upload
+	 */
+	protected function checkFileUpload( \Psr\Http\Message\UploadedFileInterface $file )
+	{
+		if( $file->getError() !== UPLOAD_ERR_OK )
+		{
+			switch( $file->getError() )
+			{
+				case UPLOAD_ERR_INI_SIZE:
+				case UPLOAD_ERR_FORM_SIZE:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'The uploaded file exceeds the max. allowed filesize' );
+				case UPLOAD_ERR_PARTIAL:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'The uploaded file was only partially uploaded' );
+				case UPLOAD_ERR_NO_FILE:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'No file was uploaded' );
+				case UPLOAD_ERR_NO_TMP_DIR:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'Temporary folder is missing' );
+				case UPLOAD_ERR_CANT_WRITE:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'Failed to write file to disk' );
+				case UPLOAD_ERR_EXTENSION:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'File upload stopped by extension' );
+				default:
+					throw new \Aimeos\Admin\JQAdm\Exception( 'Unknown upload error' );
+			}
+		}
+	}
+
+
+	/**
+	 * Returns the coupon code items associated by the coupon item
+	 *
+	 * @param \Aimeos\MShop\Coupon\Item\Iface $item Coupon item object
+	 * @param array $params Associative list of GET/POST parameters
+	 * @param integer $total Value/result parameter that will contain the item total afterwards
+	 * @return \Aimeos\MShop\Coupon\Item\Code\Iface[] Coupon code items associated to the coupon item
+	 */
+	protected function getCodeItems( \Aimeos\MShop\Coupon\Item\Iface $item, array $params = [], &$total )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon/code' );
+
+		$search = $manager->createSearch();
+		$search->setSortations( [$search->sort( '+', 'coupon.code.code' )] );
+
+		$search = $this->initCriteria( $search, $params );
+		$expr = [
+			$search->compare( '==', 'coupon.code.parentid', $item->getId() ),
+			$search->getConditions(),
+		];
+		$search->setConditions( $search->combine( '&&', $expr ) );
+
+		return $manager->searchItems( $search, [], $total );
+	}
+
+
+	/**
 	 * Returns the list of sub-client names configured for the client.
 	 *
 	 * @return array List of JQAdm client names
@@ -289,28 +344,46 @@ class Standard
 
 
 	/**
-	 * Constructs the data array for the view from the given item
+	 * Stores the uploaded CSV file containing the coupon codes
 	 *
 	 * @param \Aimeos\MShop\Coupon\Item\Iface $item Coupon item object
-	 * @param boolean $copy True if items should be copied, false if not
+	 * @param array $files File upload array including the PSR-7 file upload objects
+	 */
+	protected function storeFile( \Aimeos\MShop\Coupon\Item\Iface $item, array $files )
+	{
+		$file = $this->getValue( $files, 'code/file' );
+
+		if( $file == null || $file->getError() === UPLOAD_ERR_NO_FILE ) {
+			return;
+		}
+
+		$this->checkFileUpload( $file );
+
+		$context = $this->getContext();
+		$fs = $context->getFilesystemManager()->get( 'fs-import' );
+		$dir = 'couponcode/' . $context->getLocale()->getSite()->getCode();
+
+		if( $fs->isdir( $dir ) === false ) {
+			$fs->mkdir( $dir );
+		}
+
+		$fs->writes( $dir . '/' . $item->getId() . '.csv', $file->getStream()->detach() );
+	}
+
+
+	/**
+	 * Constructs the data array for the view from the given item
+	 *
+	 * @param \Aimeos\MShop\Coupon\Item\Code\Iface[] $items Coupon code items
 	 * @return string[] Multi-dimensional associative list of item data
 	 */
-	protected function toArray( \Aimeos\MShop\Coupon\Item\Iface $item, $copy = false )
+	protected function toArray( array $items )
 	{
 		$data = [];
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon/code' );
 
-		$search = $this->initCriteria( $manager->createSearch(), $this->getView()->param() );
-		$expr = [
-			$search->compare( '==', 'coupon.code.parentid', $item->getId() ),
-			$search->getConditions(),
-		];
-		$search->setConditions( $search->combine( '&&', $expr ) );
-
-
-		foreach( $manager->searchItems( $search ) as $citem )
+		foreach( $items as $item )
 		{
-			foreach( $citem->toArray( true ) as $key => $value ) {
+			foreach( $item->toArray( true ) as $key => $value ) {
 				$data[$key][] = $value;
 			}
 		}

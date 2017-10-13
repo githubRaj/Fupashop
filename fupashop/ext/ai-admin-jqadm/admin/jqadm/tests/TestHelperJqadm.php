@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 class TestHelperJqadm
 {
@@ -35,8 +35,7 @@ class TestHelperJqadm
 
 		$view = new \Aimeos\MW\View\Standard( self::getTemplatePaths() );
 
-		$param = ['site' => 'unittest'];
-		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $view, $param );
+		$helper = new \Aimeos\MW\View\Helper\Param\Standard( $view, ['site' => 'unittest'] );
 		$view->addHelper( 'param', $helper );
 
 		$trans = new \Aimeos\MW\Translation\None( 'de_DE' );
@@ -55,6 +54,9 @@ class TestHelperJqadm
 		$config = new \Aimeos\MW\Config\Decorator\Protect( $config, array( 'admin', 'client/html', 'controller/jsonadm' ) );
 		$helper = new \Aimeos\MW\View\Helper\Config\Standard( $view, $config );
 		$view->addHelper( 'config', $helper );
+
+		$helper = new \Aimeos\MW\View\Helper\Session\Standard( $view, new \Aimeos\MW\Session\None() );
+		$view->addHelper( 'session', $helper );
 
 		$helper = new \Aimeos\MW\View\Helper\Request\Standard( $view, new \Zend\Diactoros\ServerRequest() );
 		$view->addHelper( 'request', $helper );
@@ -122,6 +124,10 @@ class TestHelperJqadm
 
 		$fs = new \Aimeos\MW\Filesystem\Manager\Standard( $conf );
 		$ctx->setFilesystemManager( $fs );
+
+
+		$mq = new \Aimeos\MW\MQueue\Manager\Standard( $conf );
+		$ctx->setMessageQueueManager( $mq );
 
 
 		$logger = new \Aimeos\MW\Logger\File( $site . '.log', \Aimeos\MW\Logger\Base::DEBUG );

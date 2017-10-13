@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -88,8 +88,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'download', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->downloadData = $view->param( 'download', [] );
+		foreach( $view->value( $data, 'product.lists.id', [] ) as $idx => $value ) {
+			$data['product.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->downloadData = $data;
 		$view->downloadBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -105,6 +111,8 @@ class Standard
 	 */
 	public function delete()
 	{
+		parent::delete();
+
 		$view = $this->getView();
 		$listManager = \Aimeos\MShop\Factory::createManager( $context = $this->getContext(), 'product/lists' );
 		$search = $listManager->createSearch();

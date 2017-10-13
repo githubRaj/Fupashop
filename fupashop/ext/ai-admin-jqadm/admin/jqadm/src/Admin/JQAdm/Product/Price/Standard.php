@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -88,8 +88,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->addViewData( $this->getView() );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
+		$data = $view->param( 'price', [] );
 
-		$view->priceData = $view->param( 'price', [] );
+		foreach( $view->value( $data, 'product.lists.id', [] ) as $idx => $value ) {
+			$data['product.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->priceData = $data;
 		$view->priceBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -97,6 +103,18 @@ class Standard
 		}
 
 		return $this->render( $view );
+	}
+
+
+	/**
+	 * Deletes a resource
+	 */
+	public function delete()
+	{
+		parent::delete();
+
+		$refIds = array_keys( $this->getView()->item->getRefItems( 'price' ) );
+		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'price' )->deleteItems( $refIds );
 	}
 
 

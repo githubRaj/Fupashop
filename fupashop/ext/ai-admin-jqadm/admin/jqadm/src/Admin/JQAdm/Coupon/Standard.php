@@ -94,6 +94,7 @@ class Standard
 			$view->itemSubparts = $this->getSubClientNames();
 			$view->itemProviders = $this->getProviderNames();
 			$view->itemDecorators = $this->getDecoratorNames();
+			$view->itemAttributes = $this->getConfigAttributes( $view->item );
 			$view->itemBody = '';
 
 			foreach( $this->getSubClients() as $idx => $client )
@@ -129,7 +130,7 @@ class Standard
 
 		try
 		{
-			$data = $view->param( 'item' );
+			$data = $view->param( 'item', [] );
 
 			if( !isset( $view->item ) ) {
 				$view->item = \Aimeos\MShop\Factory::createManager( $context, 'coupon' )->createItem();
@@ -137,7 +138,6 @@ class Standard
 				$data = $this->toArray( $view->item );
 			}
 
-			$data['coupon.id'] = $view->item->getId();
 			$data['coupon.siteid'] = $view->item->getSiteId();
 
 			$view->itemSubparts = $this->getSubClientNames();
@@ -238,6 +238,7 @@ class Standard
 			$view->itemSubparts = $this->getSubClientNames();
 			$view->itemDecorators = $this->getDecoratorNames();
 			$view->itemProviders = $this->getProviderNames();
+			$view->itemAttributes = $this->getConfigAttributes( $view->item );
 			$view->itemBody = '';
 
 			foreach( $this->getSubClients() as $idx => $client )
@@ -322,8 +323,9 @@ class Standard
 		try
 		{
 			$total = 0;
+			$params = $this->storeSearchParams( $view->param(), 'coupon' );
 			$manager = \Aimeos\MShop\Factory::createManager( $context, 'coupon' );
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->createSearch(), $params );
 
 			$view->items = $manager->searchItems( $search, [], $total );
 			$view->filterAttributes = $manager->getSearchAttributes( true );
@@ -459,6 +461,24 @@ class Standard
 
 
 	/**
+	 * Returns the backend configuration attributes of the provider and decorators
+	 *
+	 * @param \Aimeos\MShop\Coupon\Item\Iface $item Coupon item incl. provider/decorator property
+	 * @return \Aimeos\MW\Common\Critera\Attribute\Iface[] List of configuration attributes
+	 */
+	public function getConfigAttributes( \Aimeos\MShop\Coupon\Item\Iface $item )
+	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'coupon' );
+
+		try {
+			return $manager->getProvider( $item, '' )->getConfigBE();
+		} catch( \Aimeos\MShop\Exception $e ) {
+			return [];
+		}
+	}
+
+
+	/**
 	 * Returns the list of sub-client names configured for the client.
 	 *
 	 * @return array List of JQAdm client names
@@ -536,6 +556,7 @@ class Standard
 	 */
 	protected function toArray( \Aimeos\MShop\Coupon\Item\Iface $item, $copy = false )
 	{
+		$config = $item->getConfig();
 		$data = $item->toArray( true );
 		$data['config'] = [];
 
@@ -545,7 +566,9 @@ class Standard
 			$data['coupon.id'] = '';
 		}
 
-		foreach( $item->getConfig() as $key => $value )
+		ksort( $config );
+
+		foreach( $config as $key => $value )
 		{
 			$data['config']['key'][] = $key;
 			$data['config']['val'][] = $value;
@@ -558,6 +581,7 @@ class Standard
 	/**
 	 * Returns the rendered template including the view data
 	 *
+	 * @param \Aimeos\MW\View\Iface $view View object with data assigned
 	 * @return string HTML output
 	 */
 	protected function render( \Aimeos\MW\View\Iface $view )

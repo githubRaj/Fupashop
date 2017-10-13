@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -87,9 +87,15 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'characteristic/property', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->propertyData = $view->param( 'characteristic/property', [] );
+		foreach( $view->value( $data, 'product.lists.id', [] ) as $idx => $value ) {
+			$data['product.lists.siteid'][$idx] = $siteid;
+		}
+
 		$view->propertyTypes = $this->getPropertyTypes();
+		$view->propertyData = $data;
 		$view->propertyBody = '';
 
 		foreach( $this->getSubClients() as $client ) {

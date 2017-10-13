@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 
@@ -27,48 +27,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$templatePaths = \TestHelperJqadm::getTemplatePaths();
 
 		$this->object = new \Aimeos\Admin\JQAdm\Dashboard\Standard( $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
 		$this->object->setView( $this->view );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
-	}
-
-
-	public function testCreate()
-	{
-		$this->setExpectedException( '\Aimeos\Admin\JQAdm\Exception' );
-		$this->object->create();
-	}
-
-
-	public function testCopy()
-	{
-		$this->setExpectedException( '\Aimeos\Admin\JQAdm\Exception' );
-		$this->object->copy();
-	}
-
-
-	public function testDelete()
-	{
-		$this->setExpectedException( '\Aimeos\Admin\JQAdm\Exception' );
-		$this->object->delete();
-	}
-
-
-	public function testGet()
-	{
-		$this->setExpectedException( '\Aimeos\Admin\JQAdm\Exception' );
-		$this->object->get();
-	}
-
-
-	public function testSave()
-	{
-		$this->setExpectedException( '\Aimeos\Admin\JQAdm\Exception' );
-		$this->object->save();
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -82,15 +48,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Admin\JQAdm\Dashboard\Standard' )
-			->setConstructorArgs( array( $this->context, \TestHelperJqadm::getTemplatePaths() ) )
-			->setMethods( array( 'getSubClients' ) )
-			->getMock();
+		$object = $this->getClientMock( 'getSubClients' );
 
 		$object->expects( $this->once() )->method( 'getSubClients' )
 			->will( $this->throwException( new \RuntimeException() ) );
-
-		$object->setView( $this->getViewNoRender() );
 
 		$object->search();
 	}
@@ -98,15 +59,10 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 
 	public function testSearchMShopException()
 	{
-		$object = $this->getMockBuilder( '\Aimeos\Admin\JQAdm\Dashboard\Standard' )
-			->setConstructorArgs( array( $this->context, \TestHelperJqadm::getTemplatePaths() ) )
-			->setMethods( array( 'getSubClients' ) )
-			->getMock();
+		$object = $this->getClientMock( 'getSubClients' );
 
 		$object->expects( $this->once() )->method( 'getSubClients' )
 			->will( $this->throwException( new \Aimeos\MShop\Exception() ) );
-
-		$object->setView( $this->getViewNoRender() );
 
 		$object->search();
 	}
@@ -116,6 +72,20 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$result = $this->object->getSubClient( 'order' );
 		$this->assertInstanceOf( '\Aimeos\Admin\JQAdm\Iface', $result );
+	}
+
+
+	public function getClientMock( $method )
+	{
+		$object = $this->getMockBuilder( '\Aimeos\Admin\JQAdm\Dashboard\Standard' )
+			->setConstructorArgs( array( $this->context, \TestHelperJqadm::getTemplatePaths() ) )
+			->setMethods( [$method] )
+			->getMock();
+
+		$object->setAimeos( \TestHelperJqadm::getAimeos() );
+		$object->setView( $this->getViewNoRender() );
+
+		return $object;
 	}
 
 

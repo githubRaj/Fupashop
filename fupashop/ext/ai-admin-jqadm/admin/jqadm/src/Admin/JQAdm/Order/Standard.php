@@ -57,6 +57,17 @@ class Standard
 	 * @category Developer
 	 */
 	private $subPartPath = 'admin/jqadm/order/standard/subparts';
+
+	/** admin/jqadm/order/invoice/name
+	 * Name of the invoice subpart used by the JQAdm order implementation
+	 *
+	 * Use "Myname" if your class is named "\Aimeos\Admin\Jqadm\Order\Invoice\Myname".
+	 * The name is case-sensitive and you should avoid camel case names like "MyName".
+	 *
+	 * @param string Last part of the JQAdm class name
+	 * @since 2017.07
+	 * @category Developer
+	 */
 	private $subPartNames = ['invoice'];
 
 
@@ -116,7 +127,7 @@ class Standard
 
 		try
 		{
-			$data = $view->param( 'item' );
+			$data = $view->param( 'item', [] );
 
 			if( !isset( $view->item ) ) {
 				$view->item = \Aimeos\MShop\Factory::createManager( $context, 'order/base' )->createItem();
@@ -124,7 +135,6 @@ class Standard
 				$data = $this->toArray( $view->item );
 			}
 
-			$data['order.id'] = $view->item->getId();
 			$data['order.siteid'] = $view->item->getSiteId();
 
 			$view->itemSubparts = $this->getSubClientNames();
@@ -153,12 +163,46 @@ class Standard
 
 
 	/**
-	 * Deletes a resource
+	 * Exports a resource
 	 *
-	 * @return string|null HTML output
+	 * @return string Admin output to display
 	 */
-	public function delete()
+	public function export()
 	{
+		$view = $this->getView();
+		$context = $this->getContext();
+
+		try
+		{
+			$params = $this->storeSearchParams( $view->param(), 'order' );
+			$msg = ['sitecode' => $context->getLocale()->getSite()->getCode()];
+
+			if( isset( $params['filter'] ) ) {
+				$msg['filter'] = $this->getCriteriaConditions( $params['filter'] );
+			}
+
+			if( isset( $params['sort'] ) ) {
+				$msg['sort'] = $this->getCriteriaSortations( $params['sort'] );
+			}
+
+			$mq = $context->getMessageQueueManager()->get( 'mq-admin' )->getQueue( 'order-export' );
+			$mq->add( json_encode( $msg ) );
+
+			$msg = $context->getI18n()->dt( 'admin', 'Your export will be available in a few minutes for download' );
+			$view->info = $view->get( 'info', [] ) + ['order-item' => $msg];
+		}
+		catch( \Aimeos\MShop\Exception $e )
+		{
+			$error = array( 'order-item' => $context->getI18n()->dt( 'mshop', $e->getMessage() ) );
+			$view->errors = $view->get( 'errors', [] ) + $error;
+		}
+		catch( \Exception $e )
+		{
+			$error = array( 'order-item' => $e->getMessage() . ', ' . $e->getFile() . ':' . $e->getLine() );
+			$view->errors = $view->get( 'errors', [] ) + $error;
+		}
+
+		return $this->search();
 	}
 
 
@@ -267,8 +311,12 @@ class Standard
 		try
 		{
 			$total = 0;
+			$params = $this->storeSearchParams( $view->param(), 'order' );
 			$manager = \Aimeos\MShop\Factory::createManager( $context, 'order' );
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+
+			$search = $manager->createSearch();
+			$search->setSortations( [$search->sort( '-', 'order.id' )] );
+			$search = $this->initCriteria( $search, $params );
 
 			$view->items = $manager->searchItems( $search, [], $total );
 			$view->baseItems = $this->getOrderBaseItems( $view->items );

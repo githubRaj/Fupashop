@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -90,8 +90,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->addViewData( $this->getView() );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
+		$data = $view->param( 'text', [] );
 
-		$view->textData = $view->param( 'text', [] );
+		foreach( $view->value( $data, 'langid', [] ) as $idx => $value ) {
+			$data['siteid'][$idx] = $siteid;
+		}
+
+		$view->textData = $data;
 		$view->textBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -99,6 +105,18 @@ class Standard
 		}
 
 		return $this->render( $view );
+	}
+
+
+	/**
+	 * Deletes a resource
+	 */
+	public function delete()
+	{
+		parent::delete();
+
+		$refIds = array_keys( $this->getView()->item->getRefItems( 'text' ) );
+		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'text' )->deleteItems( $refIds );
 	}
 
 
@@ -261,10 +279,6 @@ class Standard
 	 */
 	protected function addViewData( \Aimeos\MW\View\Iface $view )
 	{
-		if( $view->get( 'pageLanguages', [] ) === [] ) {
-			throw new \Aimeos\Admin\JQAdm\Exception( 'No languages available. Please enable at least one language' );
-		}
-
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'text/type' );
 		$view->textTypes = $manager->searchItems( $manager->createSearch() );
 
@@ -414,7 +428,7 @@ class Standard
 
 		foreach( $listItems as $id => $listItem )
 		{
-			if( in_array( $listItem->getRefItem()->getType(), $this->getTypes() ) ) {
+			if( $listItem->getRefItem() && in_array( $listItem->getRefItem()->getType(), $this->getTypes() ) ) {
 				$allListIds[] = $id;
 			}
 		}

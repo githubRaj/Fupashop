@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  */
 
 
@@ -31,14 +31,15 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 			->setMethods( array( 'storeFile' ) )
 			->getMock();
 
-		$this->view->pageSite = $this->context->getLocale()->getSite();
+		$this->view->pageSiteItem = $this->context->getLocale()->getSite();
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
 		$this->object->setView( $this->view );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 

@@ -23,13 +23,14 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 		$templatePaths = \TestHelperJqadm::getTemplatePaths();
 
 		$this->object = new \Aimeos\Admin\JQAdm\Catalog\Image\Standard( $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
 		$this->object->setView( $this->view );
 	}
 
 
 	protected function tearDown()
 	{
-		unset( $this->object );
+		unset( $this->object, $this->view, $this->context );
 	}
 
 
@@ -49,16 +50,19 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' );
 
-		$this->view->item = $manager->findItem( 'new', array( 'media' ) );
+		$this->view->item = $manager->findItem( 'misc', array( 'media' ) );
 		$result = $this->object->copy();
 
 		$this->assertNull( $this->view->get( 'errors' ) );
-		$this->assertContains( 'src="/path/to/folder/example2.jpg"', $result );
+		$this->assertContains( 'src="/path/to/folder/example1.jpg"', $result );
 	}
 
 
 	public function testDelete()
 	{
+		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' );
+
+		$this->view->item = $manager->createItem();
 		$result = $this->object->delete();
 
 		$this->assertNull( $this->view->get( 'errors' ) );
@@ -70,11 +74,11 @@ class StandardTest extends \PHPUnit\Framework\TestCase
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->context, 'catalog' );
 
-		$this->view->item = $manager->findItem( 'new', array( 'media' ) );
+		$this->view->item = $manager->findItem( 'misc', array( 'media' ) );
 		$result = $this->object->get();
 
 		$this->assertNull( $this->view->get( 'errors' ) );
-		$this->assertContains( 'src="/path/to/folder/example2.jpg"', $result );
+		$this->assertContains( 'src="/path/to/folder/example1.jpg"', $result );
 	}
 
 

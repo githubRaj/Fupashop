@@ -5,67 +5,174 @@
 
 
 
+Aimeos.Address = {
+
+	init : function() {
+
+		this.addBlock();
+		this.copyBlock();
+		this.removeBlock();
+		this.setupComponents();
+		this.updateHeader();
+	},
+
+
+	addBlock : function() {
+
+		$(".item-address").on("click", ".card-tools-more .act-add", function(ev) {
+			ev.stopPropagation();
+
+			var number = Math.floor((Math.random() * 1000));
+			var node = $(".group-item.prototype", ev.delegateTarget);
+			var clone = Aimeos.addClone(node, Aimeos.getCountries, Aimeos.Address.select);
+
+			$(".card-block", clone).attr("id", "item-address-group-data-" + number);
+			$(".card-header", clone).attr("id", "item-address-group-item-" + number);
+			$(".card-header", clone).attr("data-target", "#item-address-group-data-" + number);
+			$(".card-header", clone).attr("aria-controls", "item-address-group-data-" + number);
+		});
+	},
+
+
+	copyBlock : function() {
+
+		$(".item-address").on("click", ".header .act-copy", function(ev) {
+			ev.stopPropagation();
+
+			var number = Math.floor((Math.random() * 1000));
+			var block = $(this).closest(".group-item");
+			var clone = Aimeos.addClone(block, Aimeos.getCountries, Aimeos.Address.select);
+
+			$(".card-block", clone).attr("id", "item-address-group-data-" + number);
+			$(".card-header", clone).attr("id", "item-address-group-item-" + number);
+			$(".card-header", clone).attr("data-target", "#item-address-group-data-" + number);
+			$(".card-header", clone).attr("aria-controls", "item-address-group-data-" + number);
+
+			$("input.item-id", clone).val('');
+			$(".card-header .header-label", clone).empty();
+		});
+	},
+
+
+	removeBlock : function() {
+
+		$(".item-address").on("click", ".header .act-delete", function() {
+			Aimeos.focusBefore($(this).closest(".group-item")).remove();
+		});
+	},
+
+
+	select: function(ev, ui) {
+
+		var node = $(ev.delegateTarget);
+		node.closest("card-block").find("input.item-countryid").val(node.val());
+	},
+
+
+	setupComponents : function() {
+
+		$(".item-address .item-countryid.combobox").combobox({
+			getfcn: Aimeos.getCountries,
+			select: Aimeos.Address.select
+		});
+	},
+
+	updateHeader : function() {
+
+		$(".item-address").on("blur", "input.item-firstname,input.item-lastname,input.item-postal,input.item-city", function() {
+			var item = $(this).closest(".group-item");
+			var value = $("input.item-firstname", item).val() + ' ' + $("input.item-lastname", item).val()
+				+ ' - ' + $("input.item-postal", item).val() + ' ' + $("input.item-city", item).val();
+
+			$(".header .item-label", item).html(value);
+		});
+	}
+
+};
+
+
+
 Aimeos.Image = {
 
 	init : function() {
 
-		this.addFocus();
-		this.addLines();
-		this.removeLine();
+		this.addBlock();
+		this.removeBlock();
+		this.selectImage();
+		this.update();
 	},
 
 
-	addFocus : function() {
+	addBlock : function() {
 
-		$(".item-image .btn").on("focus", ".fileupload", function(ev) {
-			$(ev.delegateTarget).addClass("focus");
-		});
+		$(".item-image").on("click", ".card-tools-more .act-add", function(ev) {
+			ev.stopPropagation();
 
-		$(".item-image .btn").on("blur", ".fileupload", function(ev) {
-			$(ev.delegateTarget).removeClass("focus");
+			var number = Math.floor((Math.random() * 1000));
+			var clone = Aimeos.addClone($(".prototype", ev.delegateTarget), Aimeos.getOptionsLanguages);
+
+			$(".card-block", clone).attr("id", "item-image-group-data-" + number);
+			$(".card-header", clone).attr("id", "item-image-group-item-" + number);
+			$(".card-header", clone).attr("data-target", "#item-image-group-data-" + number);
+			$(".card-header", clone).attr("aria-controls", "item-image-group-data-" + number);
+
+			return false;
 		});
 	},
 
 
-	addLines : function() {
+	removeBlock : function() {
+
+		$(".item-image").on("click", ".header .act-delete", function() {
+			$(this).closest(".group-item").remove();
+		});
+	},
+
+
+	selectImage : function() {
 
 		$(".item-image").on("change", ".fileupload", function(ev) {
 
-			$(".upload .item-listid", ev.delegateTarget).each( function(idx, el) {
-				if($(this).val() == '') {
-					$(this).closest(".upload").remove();
-				}
-			});
+			if(this.files.length > 0) {
 
-			$(this).each( function(idx, el) {
-				var line = $(".prototype", ev.delegateTarget);
+				var item = $(this).closest(".group-item");
+				var file = this.files[0];
+				var img = new Image();
 
-				for(i=0; i<el.files.length; i++) {
+				img.src = file;
 
-					var img = new Image();
-					var file = el.files[i];
-					var clone = Aimeos.addClone(line, Aimeos.getOptionsLanguages);
+				$(".image-preview img", item).remove();
+				$(".image-preview", item).append(img);
 
-					clone.addClass("upload");
-					$("input.item-label", clone).val(el.files[i].name);
+				$("input.item-label", item).val(this.files[0].name);
+				Aimeos.Image.updateHeader(item);
 
-					img.src = file;
-					$(".image-preview", clone).append(img);
-
-					var reader = new FileReader();
-					reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-					reader.readAsDataURL(file);
-				}
-			});
+				var reader = new FileReader();
+				reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+				reader.readAsDataURL(file);
+			}
 		});
 	},
 
 
-	removeLine : function() {
+	update : function() {
 
-		$(".item-image").on("click", ".act-delete", function(ev) {
-			Aimeos.focusBefore($(this).parents("tr")).remove();
+		$(".item-image").on("blur", "input.item-label", function() {
+			Aimeos.Image.updateHeader($(this).closest(".group-item"));
 		});
+
+		$(".item-image").on("change", ".item-languageid", function() {
+			Aimeos.Image.updateHeader($(this).closest(".group-item"));
+		});
+	},
+
+
+	updateHeader : function(item) {
+
+		var label = $(".card-block .item-label", item).val();
+		var lang = $(".card-block .item-languageid", item).val();
+
+		$(".header .item-label", item).html(lang ? lang + ': ' + label : label);
 	}
 };
 
@@ -77,7 +184,7 @@ Aimeos.Price = {
 
 		this.addBlock();
 		this.removeBlock();
-		this.updateHeader();
+		this.update();
 	},
 
 
@@ -102,19 +209,46 @@ Aimeos.Price = {
 	removeBlock : function() {
 
 		$(".item-price").on("click", ".header .act-delete", function() {
-			$(this).parents(".group-item").remove();
+			$(this).closest(".group-item").remove();
 		});
 	},
 
 
-	updateHeader : function() {
+	update : function() {
 
-		$(".item-price").on("blur", "input.item-label", function() {
-			var item = $(this).parents(".group-item");
-			var value = $(this).val();
-
-			$(".header .item-label", item).html(value);
+		$(".item-price").on("blur", ".item-value", function() {
+			Aimeos.Price.updateHeader($(this).closest(".group-item"));
 		});
+
+		$(".item-price").on("blur", ".item-costs", function() {
+			Aimeos.Price.updateHeader($(this).closest(".group-item"));
+		});
+
+		$(".item-price").on("change", ".item-currencyid", function() {
+			Aimeos.Price.updateHeader($(this).closest(".group-item"));
+		});
+	},
+
+
+	updateHeader : function(item) {
+
+		var label = $(".card-block .item-value", item).val();
+		var costs = $(".card-block .item-costs", item).val();
+		var currency = $(".card-block .item-currencyid", item).val();
+
+		if(typeof label == 'undefined') {
+			label = '';
+		}
+
+		if(currency) {
+			label = currency + ': ' + label;
+		}
+
+		if(costs) {
+			label += ' + ' + costs;
+		}
+
+		$(".header .item-label", item).html(label);
 	}
 };
 
@@ -158,8 +292,6 @@ Aimeos.Text = {
 			$(".card-header", clone).attr("aria-controls", "#item-text-group-data-" + number);
 
 			$(".htmleditor-prototype", clone).ckeditor({toolbar: Aimeos.Text.editorcfg});
-
-			return false;
 		});
 	},
 
@@ -167,7 +299,7 @@ Aimeos.Text = {
 	removeBlock : function() {
 
 		$(".item-text").on("click", ".header .act-delete", function() {
-			$(this).parents(".group-item").remove();
+			$(this).closest(".group-item").remove();
 		});
 	},
 
@@ -181,9 +313,9 @@ Aimeos.Text = {
 
 	updateHeader : function() {
 
-		$(".item-text").on("blur", "input.item-name-content", function() {
-			var item = $(this).parents(".group-item");
-			var value = $(this).val();
+		$(".item-text").on("blur change", "input.item-name-content,.text-langid", function() {
+			var item = $(this).closest(".group-item");
+			var value = $(".text-langid", item).val() + ': ' + $("input.item-name-content", item).val();
 
 			$(".header .item-name-content", item).html(value);
 		});
@@ -195,6 +327,7 @@ Aimeos.Text = {
 
 $(function() {
 
+	Aimeos.Address.init();
 	Aimeos.Image.init();
 	Aimeos.Price.init();
 	Aimeos.Text.init();

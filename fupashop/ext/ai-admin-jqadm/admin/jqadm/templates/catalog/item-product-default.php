@@ -11,7 +11,7 @@ $selected = function( $key, $code ) {
 
 
 $enc = $this->encoder();
-$searchParam = $params = $this->get( 'pageParams', [] );
+$params = $this->get( 'pageParams', [] );
 
 $getTarget = $this->config( 'admin/jqadm/url/get/target' );
 $getCntl = $this->config( 'admin/jqadm/url/get/controller', 'Jqadm' );
@@ -30,21 +30,22 @@ $delConfig = $this->config( 'admin/jsonadm/url/config', [] );
 
 
 /** admin/jqadm/catalog/product/fields
- * List of list and product columns that should be displayed in the catalog product view
+ * List of catalog list and product columns that should be displayed in the catalogproduct view
  *
- * Changes the list of list and product columns shown by default in the catalog product view.
- * The columns can be changed by the editor as required within the administraiton
- * interface.
+ * Changes the list of catalog list and product columns shown by default in the
+ * catalog product view. The columns can be changed by the editor as required
+ * within the administraiton interface.
  *
  * The names of the colums are in fact the search keys defined by the managers,
  * e.g. "catalog.lists.status" for the status value.
  *
  * @param array List of field names, i.e. search keys
- * @since 2017.07
+ * @since 2017.10
  * @category Developer
  */
 $default = ['catalog.lists.status', 'catalog.lists.typeid', 'catalog.lists.position', 'catalog.lists.refid'];
-$fields = $this->param( 'fields/up', $this->config( 'admin/jqadm/catalog/product/fields', $default ) );
+$default = $this->config( 'admin/jqadm/catalog/product/fields', $default );
+$fields = $this->session( 'aimeos/admin/jqadm/catalogproduct/fields', $default );
 
 $listItems = $this->get( 'productListItems', [] );
 $refItems = $this->get( 'productItems', [] );
@@ -52,12 +53,23 @@ $refItems = $this->get( 'productItems', [] );
 
 ?>
 <div id="product" class="item-product content-block tab-pane fade" role="tabpanel" aria-labelledby="product">
+
+	<?= $this->partial(
+			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+			['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'productTotal' ),
+			'group' => 'cp', 'action' => ( $this->param( 'id') ? 'get' : 'search' ), 'fragment' => 'product',
+			'page' => $this->session( 'aimeos/admin/jqadm/catalogproduct/page', [] )]
+		);
+	?>
+
 	<table class="list-items table table-striped table-hover">
 		<thead class="list-header">
 			<tr>
 				<?= $this->partial(
 					$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ), [
 						'fields' => $fields, 'params' => $params, 'tabindex' => $this->get( 'tabindex' ),
+						'group' => 'cp', 'action' => ( $this->param( 'id' ) ? 'get' : 'search' ), 'fragment' => 'product',
+						'sort' => $this->session( 'aimeos/admin/jqadm/catalogproduct/sort' ),
 						'data' => [
 							'catalog.lists.position' => $this->translate( 'admin', 'Position' ),
 							'catalog.lists.status' => $this->translate( 'admin', 'Status' ),
@@ -72,13 +84,13 @@ $refItems = $this->get( 'productItems', [] );
 
 				<th class="actions">
 					<a class="btn fa act-add" href="#" tabindex="<?= $this->get( 'tabindex' ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
+						title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>"
 						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
 					</a>
 
 					<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ), [
-							'fields' => $fields, 'group' => 'up', 'tabindex' => $this->get( 'tabindex' ),
+							'fields' => $fields, 'group' => 'cp', 'tabindex' => $this->get( 'tabindex' ),
 							'data' => [
 								'catalog.lists.position' => $this->translate( 'admin', 'Position' ),
 								'catalog.lists.status' => $this->translate( 'admin', 'Status' ),
@@ -96,7 +108,8 @@ $refItems = $this->get( 'productItems', [] );
 		<tbody>
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'tabindex' => $this->get( 'tabindex' ),
+					'fields' => $fields, 'group' => 'cp', 'tabindex' => $this->get( 'tabindex' ),
+					'filter' => $this->session( 'aimeos/admin/jqadm/catalogproduct/filter', [] ),
 					'data' => [
 						'catalog.lists.position' => ['op' => '>=', 'type' => 'number'],
 						'catalog.lists.status' => ['op' => '==', 'type' => 'select', 'val' => [
@@ -205,7 +218,7 @@ $refItems = $this->get( 'productItems', [] );
 										</th>
 										<th class="actions">
 											<div class="btn act-add fa" tabindex="1"
-												title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+												title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 											</div>
 										</th>
 									</tr>
@@ -249,14 +262,14 @@ $refItems = $this->get( 'productItems', [] );
 							<input class="form-control item-position" type="number" step="1" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.position', '' ) ) ); ?>"
 								value="<?= $enc->attr( $this->get( 'productData/catalog.lists.position/' . $idx ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> />
+								<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'catalog.lists.status', $fields ) ) : ?>
 						<td class="catalog-lists-status">
 							<select class="form-control custom-select item-status" required="required" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.status', '' ) ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> >
+								<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" >
 								<option value="">
 									<?= $enc->html( $this->translate( 'admin', 'Please select' ) ); ?>
 								</option>
@@ -279,7 +292,7 @@ $refItems = $this->get( 'productItems', [] );
 						<td class="catalog-lists-typeid">
 							<select class="form-control custom-select item-typeid" required="required" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.typeid', '' ) ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> >
+								<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" >
 								<option value="">
 									<?= $enc->html( $this->translate( 'admin', 'Please select' ) ); ?>
 								</option>
@@ -293,11 +306,41 @@ $refItems = $this->get( 'productItems', [] );
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'catalog.lists.config', $fields ) ) : ?>
-						<td class="catalog-lists-config">
-							<input class="form-control item-config" type="text" tabindex="<?= $this->get( 'tabindex' ); ?>"
-								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.config', '' ) ) ); ?>"
-								value="<?= $enc->attr( json_encode( $this->get( 'productData/catalog.lists.config/' . $idx ) ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> />
+						<td class="catalog-lists-config item-config">
+							<div class="config-type config-type-map">
+								<input type="text" class="config-value form-control" tabindex="<?= $this->get( 'tabindex' ); ?>"
+									name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.config', '' ) ) ); ?>"
+									value="<?= $enc->attr( json_encode( $this->get( 'productData/catalog.lists.config/' . $idx ) ) ); ?>"
+									<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" />
+
+								<table class="table table-striped config-map-table">
+									<tr class="config-map-row prototype-map">
+										<td class="config-map-actions">
+											<div class="btn act-delete fa" tabindex="1"
+												title="<?= $enc->attr( $this->translate( 'admin', 'Delete this entry') ); ?>">
+											</div>
+										</td>
+										<td class="config-map-row-key">
+											<input type="text" class="config-map-key form-control" tabindex="1" disabled="disabled" name="" />
+										</td>
+										<td class="config-map-row-value">
+											<input type="text" class="config-map-value form-control" tabindex="1" disabled="disabled" name="" />
+										</td>
+									</tr>
+									<tr class="config-map-actions">
+										<td class="config-map-action-add">
+											<div class="btn act-add fa" tabindex="1"
+												title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry') ); ?>">
+											</div>
+										</td>
+										<td class="config-map-action-update" colspan="2">
+											<div class="btn btn-primary act-update" tabindex="1">
+												<?= $enc->attr( $this->translate( 'admin', 'OK') ); ?>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'catalog.lists.datestart', $fields ) ) : ?>
@@ -305,7 +348,7 @@ $refItems = $this->get( 'productItems', [] );
 							<input class="form-control item-datestart" type="datetime-local" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.datestart', '' ) ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'productData/catalog.lists.datestart/' . $idx ) ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> />
+								<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'catalog.lists.dateend', $fields ) ) : ?>
@@ -313,7 +356,7 @@ $refItems = $this->get( 'productItems', [] );
 							<input class="form-control item-dateend" type="datetime-local" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.dateend', '' ) ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'productData/catalog.lists.dateend/' . $idx ) ) ); ?>"
-								<?= $this->site()->readonly( $siteId ); ?> />
+								<?= $this->site()->readonly( $siteId ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 
@@ -323,16 +366,22 @@ $refItems = $this->get( 'productItems', [] );
 						<td class="catalog-lists-refid">
 							<input class="form-control item-refid" type="hidden"
 								name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.refid', '' ) ) ); ?>"
-								value="<?= $enc->attr( $refId ); ?>" />
-							<?= $enc->html( $refId ); ?>
+								value="<?= $enc->attr( $refId ); ?>" disabled="disabled" />
 							<?php if( $refItem ) : ?>
-								- <?= $enc->html( $refItem->getLabel() . ' (' . $refItem->getCode() . ')' ); ?>
+								<a class="btn act-view fa item-refid" tabindex="<?= $this->get( 'tabindex' ); ?>" target="_blank"
+									href="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'product', 'id' => $refId] + $params, [], $getConfig ) ); ?>"
+									title="<?= $enc->attr( $this->translate( 'admin', 'Show entry') ); ?>"
+									aria-label="<?= $enc->attr( $this->translate( 'admin', 'Show' ) ); ?>">
+									<?= $enc->html( $refId ); ?> - <?= $enc->html( $refItem->getLabel() . ' (' . $refItem->getCode() . ')' ); ?>
+								</a>
+							<?php else : ?>
+								<?= $enc->html( $refId ); ?> (<?= $enc->html( $this->translate( 'admin', 'not available any more' ) ); ?>)
 							<?php endif; ?>
 						</td>
 					<?php endif; ?>
 
 					<td class="actions">
-						<input type="hidden" value="<?= $enc->attr( $listId ); ?>"
+						<input type="hidden" value="<?= $enc->attr( $listId ); ?>" disabled="disabled"
 							name="<?= $enc->attr( $this->formparam( array( 'product', 'catalog.lists.id', '' ) ) ); ?>" />
 
 						<?php if( !$this->site()->readonly( $siteId ) ) : ?>
@@ -340,11 +389,10 @@ $refItems = $this->get( 'productItems', [] );
 								href="<?= $enc->attr( $this->url( $delTarget, $delCntl, $delAction, ['resource' => 'catalog/lists', 'id' => $listId] + $params, [], $delConfig ) ); ?>"
 								title="<?= $enc->attr( $this->translate( 'admin', 'Delete this entry') ); ?>"
 								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Delete' ) ); ?>"></a>
+							<a class="btn act-edit fa" tabindex="<?= $this->get( 'tabindex' ); ?>" href="#"
+								title="<?= $enc->attr( $this->translate( 'admin', 'Edit this entry') ); ?>"
+								aria-label="<?= $enc->attr( $this->translate( 'admin', 'Edit' ) ); ?>"></a>
 						<?php endif; ?>
-						<a class="btn act-view fa" tabindex="<?= $this->get( 'tabindex' ); ?>" target="_blank"
-							href="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'product', 'id' => $refId] + $params, [], $getConfig ) ); ?>"
-							title="<?= $enc->attr( $this->translate( 'admin', 'Show entry') ); ?>"
-							aria-label="<?= $enc->attr( $this->translate( 'admin', 'Show' ) ); ?>"></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -353,7 +401,16 @@ $refItems = $this->get( 'productItems', [] );
 	</table>
 
 	<?php if( $this->get( 'productData', [] ) === [] ) : ?>
-		<?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?>
+		<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?></div>
 	<?php endif; ?>
+
+	<?= $this->partial(
+			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+			['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'productTotal' ),
+			'group' => 'cp', ( $this->param( 'id') ? 'get' : 'search' ), 'fragment' => 'product',
+			'page' =>$this->session( 'aimeos/admin/jqadm/catalogproduct/page', [] )]
+		);
+	?>
+
 </div>
 <?= $this->get( 'productBody' ); ?>

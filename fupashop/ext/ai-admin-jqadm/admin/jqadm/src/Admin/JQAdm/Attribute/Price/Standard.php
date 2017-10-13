@@ -88,8 +88,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->addViewData( $this->getView() );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
+		$data = $view->param( 'price', [] );
 
-		$view->priceData = $view->param( 'price', [] );
+		foreach( $view->value( $data, 'attribute.lists.id', [] ) as $idx => $value ) {
+			$data['attribute.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->priceData = $data;
 		$view->priceBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -97,6 +103,18 @@ class Standard
 		}
 
 		return $this->render( $view );
+	}
+
+
+	/**
+	 * Deletes a resource
+	 */
+	public function delete()
+	{
+		parent::delete();
+
+		$refIds = array_keys( $this->getView()->item->getRefItems( 'price' ) );
+		\Aimeos\MShop\Factory::createManager( $this->getContext(), 'price' )->deleteItems( $refIds );
 	}
 
 

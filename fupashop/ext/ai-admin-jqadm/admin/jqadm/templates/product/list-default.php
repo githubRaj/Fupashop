@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 $enc = $this->encoder();
@@ -429,8 +429,8 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @see admin/jqadm/partial/error
  */
 
-/** admin/jqadm/partial/filter
- * Relative path to the partial template for displaying the product filter
+/** admin/jqadm/partial/navsearch
+ * Relative path to the partial template for displaying the search filter in the navigation bar
  *
  * The template file contains the HTML code and processing instructions
  * to generate the result shown in the administration interface. The
@@ -469,7 +469,7 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @param string Relative path to the partial creating the HTML code
  * @since 2016.04
  * @category Developer
- * @see admin/jqadm/partial/filter
+ * @see admin/jqadm/partial/navsearch
  * @see admin/jqadm/partial/confirm
  * @see admin/jqadm/partial/error
  */
@@ -510,11 +510,10 @@ $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
  * @category Developer
  */
 $default = $this->config( 'admin/jqadm/product/fields', ['product.id', 'product.status', 'product.typeid', 'product.code', 'product.label'] );
-$fields = $this->param( 'fields/p', $default );
+$fields = $this->session( 'aimeos/admin/jqadm/product/fields', $default );
 
 $params = $this->get( 'pageParams', [] );
-$pageParams = ['total' => $this->get( 'total', 0 ), 'pageParams' => $params];
-$sortcode = $this->param( 'sort' );
+$sortcode = $this->session( 'aimeos/admin/jqadm/product/sort' );
 
 $typeList = [];
 foreach( $this->get( 'itemTypes', [] ) as $id => $typeItem ) {
@@ -529,10 +528,12 @@ $columnList = [
 	'product.label' => $this->translate( 'admin', 'Label' ),
 	'product.datestart' => $this->translate( 'admin', 'Start date' ),
 	'product.dateend' => $this->translate( 'admin', 'End date' ),
+	'product.config' => $this->translate( 'admin', 'Config' ),
 	'product.ctime' => $this->translate( 'admin', 'Created' ),
 	'product.mtime' => $this->translate( 'admin', 'Modified' ),
 	'product.editor' => $this->translate( 'admin', 'Editor' ),
 ];
+
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ); ?>
@@ -546,18 +547,22 @@ $columnList = [
 
 	<?= $this->partial(
 		$this->config( 'admin/jqadm/partial/navsearch', 'common/partials/navsearch-default.php' ), [
+			'filter' => $this->session( 'aimeos/admin/jqadm/product/filter', [] ),
 			'filterAttributes' => $this->get( 'filterAttributes', [] ),
 			'filterOperators' => $this->get( 'filterOperators', [] ),
-			'filterData' => $this->param( 'filter', [] ),
 			'params' => $params,
 		]
 	); ?>
 </nav>
 
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'top'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
+		'page' =>$this->session( 'aimeos/admin/jqadm/product/page', [] )]
+	);
+?>
 
-<?php $searchParam = $params; unset( $searchParam['filter'] ); ?>
 <form class="list-product" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $params, [], $config ) ); ?>">
 	<?= $this->csrf()->formfield(); ?>
 
@@ -566,20 +571,21 @@ $columnList = [
 			<tr>
 				<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ),
-						['fields' => $fields, 'params' => $params, 'data' => $columnList]
+						['fields' => $fields, 'params' => $params, 'data' => $columnList,
+						'sort' => $this->session( 'aimeos/admin/jqadm/product/sort' )]
 					);
 				?>
 
 				<th class="actions">
 					<a class="btn fa act-add" tabindex="1"
 						href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
+						title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>"
 						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
 					</a>
 
 					<?= $this->partial(
 							$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ),
-							['fields' => $fields, 'group' => 'p', 'data' => $columnList]
+							['fields' => $fields, 'data' => $columnList]
 						);
 					?>
 				</th>
@@ -589,7 +595,7 @@ $columnList = [
 
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'params' => $searchParam,
+					'fields' => $fields, 'filter' => $this->session( 'aimeos/admin/jqadm/product/filter', [] ),
 					'data' => [
 						'product.id' => ['op' => '=='],
 						'product.status' => ['op' => '==', 'type' => 'select', 'val' => [
@@ -603,6 +609,7 @@ $columnList = [
 						'product.label' => [],
 						'product.datestart' => ['op' => '>=', 'type' => 'datetime-local'],
 						'product.dateend' => ['op' => '>=', 'type' => 'datetime-local'],
+						'product.config' => ['op' => '~='],
 						'product.ctime' => ['op' => '>=', 'type' => 'datetime-local'],
 						'product.mtime' => ['op' => '>=', 'type' => 'datetime-local'],
 						'product.editor' => [],
@@ -634,6 +641,17 @@ $columnList = [
 					<?php if( in_array( 'product.dateend', $fields ) ) : ?>
 						<td class="product-dateend"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getDateEnd() ); ?></a></td>
 					<?php endif; ?>
+					<?php if( in_array( 'product.config', $fields ) ) : ?>
+						<td class="product-config config-item">
+							<a class="items-field" href="<?= $url; ?>">
+								<?php foreach( $item->getConfig() as $key => $value ) : ?>
+									<span class="config-key"><?= $enc->html( $key ); ?></span>
+									<span class="config-value"><?= $enc->html( !is_scalar( $value ) ? json_encode( $value ) : $value ); ?></span>
+									<br/>
+								<?php endforeach; ?>
+							</a>
+						</td>
+					<?php endif; ?>
 					<?php if( in_array( 'product.ctime', $fields ) ) : ?>
 						<td class="product-ctime"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getTimeCreated() ); ?></a></td>
 					<?php endif; ?>
@@ -662,11 +680,16 @@ $columnList = [
 	</table>
 
 	<?php if( $this->get( 'items', [] ) === [] ) : ?>
-		<?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?>
+		<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?></div>
 	<?php endif; ?>
 </form>
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'bottom'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/product/page', [] )]
+	);
+?>
 
 <?php $this->block()->stop(); ?>
 

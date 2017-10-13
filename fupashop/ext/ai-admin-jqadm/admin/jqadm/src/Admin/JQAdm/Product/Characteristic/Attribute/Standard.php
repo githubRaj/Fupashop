@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -86,8 +86,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'characteristic/attribute', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->attributeData = $view->param( 'characteristic/attribute', [] );
+		foreach( $view->value( $data, 'product.lists.id', [] ) as $idx => $value ) {
+			$data['product.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->attributeData = $data;
 		$view->attributeBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -304,14 +310,14 @@ class Standard
 		$manager->deleteItems( array_keys( $map ) );
 
 
-		$litem = $manager->createItem();
-		$litem->setDomain( 'attribute' );
-		$litem->setParentId( $item->getId() );
-		$litem->setTypeId( $typeManager->findItem( 'default', [], 'attribute' )->getId() );
+		$listItem = $manager->createItem();
+		$listItem->setDomain( 'attribute' );
+		$listItem->setParentId( $item->getId() );
+		$listItem->setTypeId( $typeManager->findItem( 'default', [], 'attribute' )->getId() );
 
 		foreach( $listIds as $idx => $listid )
 		{
-			$litem->setId( null );
+			$litem = clone $listItem;
 			$litem->setPosition( $idx );
 			$litem->setRefId( $this->getValue( $data, 'product.lists.refid/' . $idx ) );
 

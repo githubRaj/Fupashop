@@ -150,7 +150,7 @@ class Standard
 
 		try
 		{
-			$data = $view->param( 'item' );
+			$data = $view->param( 'item', [] );
 
 			if( !isset( $view->item ) ) {
 				$view->item = \Aimeos\MShop\Factory::createManager( $context, 'customer' )->createItem();
@@ -158,7 +158,6 @@ class Standard
 				$data = $this->toArray( $view->item );
 			}
 
-			$data['customer.id'] = $view->item->getId();
 			$data['customer.siteid'] = $view->item->getSiteId();
 
 			$view->itemSubparts = $this->getSubClientNames();
@@ -341,8 +340,9 @@ class Standard
 		try
 		{
 			$total = 0;
+			$params = $this->storeSearchParams( $view->param(), 'customer' );
 			$manager = \Aimeos\MShop\Factory::createManager( $context, 'customer' );
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->createSearch(), $params );
 
 			$view->items = $manager->searchItems( $search, [], $total );
 			$view->filterAttributes = $manager->getSearchAttributes( true );
@@ -495,7 +495,7 @@ class Standard
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		$domains = ['address', 'customer/group'];
+		$domains = ['customer/address', 'customer/group'];
 
 		return $this->getContext()->getConfig()->get( 'admin/jqadm/customer/domains', $domains );
 	}
@@ -509,6 +509,7 @@ class Standard
 	protected function getGroupItems()
 	{
 		$list = [];
+		$isSuper = $this->getView()->access( ['super'] );
 		$isAdmin = $this->getView()->access( ['admin'] );
 
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/group' );
@@ -517,7 +518,11 @@ class Standard
 
 		foreach( $manager->searchItems( $search ) as $groupId => $groupItem )
 		{
-			if( $isAdmin == false && in_array( $groupItem->getCode(), ['admin', 'editor', 'viewer'] ) ) {
+			if( !$isSuper && in_array( $groupItem->getCode(), ['super'] ) ) {
+				continue;
+			}
+
+			if( !$isSuper && !$isAdmin && in_array( $groupItem->getCode(), ['super', 'admin', 'editor'] ) ) {
 				continue;
 			}
 
@@ -595,6 +600,7 @@ class Standard
 	/**
 	 * Returns the rendered template including the view data
 	 *
+	 * @param \Aimeos\MW\View\Iface $view View object with data assigned
 	 * @return string HTML output
 	 */
 	protected function render( \Aimeos\MW\View\Iface $view )

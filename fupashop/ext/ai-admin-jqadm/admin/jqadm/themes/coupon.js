@@ -9,61 +9,24 @@ Aimeos.Coupon = {
 
 	init : function() {
 
-		Aimeos.Coupon.Item.init();
-		Aimeos.Coupon.Item.Code.init();
-	}
-};
-
-
-
-Aimeos.Coupon.Item = {
-
-	init : function() {
-
 		this.setupConfig();
 		this.setupDecorator();
 		this.setupProvider();
+
+		Aimeos.Coupon.Code.init();
 	},
 
 
 	setupConfig : function() {
 
-		$(".aimeos .item-coupon .item-basic").on("change input blur", "input.item-provider", function(ev) {
+		var delegate = $(".aimeos .item-coupon .item-basic");
 
-			Aimeos.options.done(function(data) {
+		if(delegate.length > 0 ) {
+			Aimeos.Config.setup('coupon/config', $("input.item-provider", delegate).val(), delegate);
+		}
 
-				var params = {};
-
-				if(data.meta && data.meta.prefix) {
-					params[data.meta.prefix] = {id: $(ev.currentTarget).val()};
-				} else {
-					params['id'] = $(ev.currentTarget).val();
-				}
-
-				$.ajax({
-					url: data.meta.resources['coupon/config'] || null,
-					dataType: "json",
-					data: params
-				}).done(function(result) {
-
-					$(result.data).each(function(idx, entry) {
-						var found = false;
-
-						$("table.item-config .config-key", ev.delegateTarget).each(function() {
-							if($(this).val() === entry.id) {
-								found = true;
-							}
-						});
-
-						if(found === false) {
-							var clone = Aimeos.addClone($("table.item-config .prototype", ev.delegateTarget));
-
-							$(".config-key", clone).val(entry.id);
-							$(".config-value", clone).attr("placeholder", entry.attributes.label);
-						}
-					});
-				});
-			});
+		delegate.on("change input blur", "input.item-provider", function(ev) {
+			Aimeos.Config.setup('coupon/config', $(ev.currentTarget).val(), ev.delegateTarget);
 		});
 	},
 
@@ -72,9 +35,13 @@ Aimeos.Coupon.Item = {
 
 		$(".aimeos .item-coupon .item-provider").parent().on("click", ".input-group-addon .decorator-name", function(ev) {
 
+			var name = $(this).data("name");
 			var input = $("input.item-provider", ev.delegateTarget);
-			input.val(input.val() + ',' + $(this).data("name"));
-			input.trigger("change");
+
+			if(input.val().indexOf(name) === -1) {
+				input.val(input.val() + ',' + name);
+				input.trigger("change");
+			}
 		});
 	},
 
@@ -96,7 +63,7 @@ Aimeos.Coupon.Item = {
 
 
 
-Aimeos.Coupon.Item.Code = {
+Aimeos.Coupon.Code = {
 
 	init : function() {
 

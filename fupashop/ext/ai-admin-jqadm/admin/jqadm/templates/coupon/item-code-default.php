@@ -16,11 +16,25 @@ $jsonAction = $this->config( 'admin/jsonadm/url/action', 'index' );
 $jsonConfig = $this->config( 'admin/jsonadm/url/config', [] );
 
 $enc = $this->encoder();
-$params = $searchParam = $this->get( 'pageParams', [] );
-unset( $searchParam['filter'] );
+$params = $this->get( 'pageParams', [] );
 
+
+/** admin/jqadm/coupon/code/fields
+ * List of coupon code columns that should be displayed in the coupon code view
+ *
+ * Changes the list of coupon code columns shown by default in the coupon code view.
+ * The columns can be changed by the editor as required within the administraiton
+ * interface.
+ *
+ * The names of the colums are in fact the search keys defined by the managers,
+ * e.g. "coupon.code.code" for the ID value.
+ *
+ * @param array List of field names, i.e. search keys
+ * @since 2017.10
+ * @category Developer
+ */
 $default = $this->config( 'admin/jqadm/coupon/code/fields', ['coupon.code.code', 'coupon.code.count'] );
-$fields = $this->param( 'fields/vc', $default );
+$fields = $this->session( 'aimeos/admin/jqadm/couponcode/fields', $default );
 
 $columnList = [
 	'coupon.code.code' => $this->translate( 'admin', 'Code' ),
@@ -35,24 +49,51 @@ $columnList = [
 
 ?>
 <div id="code" class="item-code content-block tab-pane fade" role="tabpanel" aria-labelledby="code">
+
+	<?= $this->partial(
+			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+			['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'codeTotal' ),
+			'group' => 'vc', 'action' => 'get', 'fragment' => 'code',
+			'page' =>$this->session( 'aimeos/admin/jqadm/couponcode/page', [] )]
+		);
+	?>
+
 	<table class="list-items table table-hover">
 		<thead class="list-header">
 			<tr>
 				<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ),
-						['fields' => $fields, 'params' => $params, 'tabindex' => $this->get( 'tabindex' ), 'data' => $columnList]
+						['fields' => $fields, 'params' => $params, 'tabindex' => $this->get( 'tabindex' ),
+						'data' => $columnList, 'group' => 'vc', 'action' => 'get', 'fragment' => 'code',
+						'sort' => $this->session( 'aimeos/admin/jqadm/couponcode/sort' )]
 					);
 				?>
 
 				<th class="actions">
-					<a class="btn fa act-add" href="#" tabindex="<?= $this->get( 'tabindex' ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
-						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
-					</a>
+					<div class="dropdown list-menu">
+						<button class="btn act-menu fa" type="button" id="menuButton"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" tabindex="<?= $this->get( 'tabindex' ); ?>">
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="menuButton">
+							<li class="dropdown-item">
+								<a class="btn act-add fa label" href="#" tabindex="<?= $this->get( 'tabindex' ); ?>"
+									title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>"
+									aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
+									<?= $enc->html( $this->translate( 'admin', 'Add' ) ); ?>
+								</a>
+							</li>
+							<li class="dropdown-item">
+								<div class="btn fa fa-upload label">
+									<?= $enc->html( $this->translate( 'admin', 'Import' ) ); ?>
+									<input class="fileupload act-import" type="file" name="code[file]" tabindex="<?= $this->get( 'tabindex' ); ?>" />
+								</div>
+							</li>
+						</ul>
+					</div>
 
 					<?= $this->partial(
 							$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ),
-							['fields' => $fields, 'group' => 'vc', 'tabindex' => $this->get( 'tabindex' ), 'data' => $columnList]
+							['fields' => $fields, 'group' => 'vc', 'data' => $columnList, 'tabindex' => $this->get( 'tabindex' )]
 						);
 					?>
 				</th>
@@ -61,7 +102,8 @@ $columnList = [
 		<tbody>
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'tabindex' => $this->get( 'tabindex' ),
+					'filter' => $this->session( 'aimeos/admin/jqadm/couponcode/filter', [] ),
+					'fields' => $fields, 'group' => 'vc', 'tabindex' => $this->get( 'tabindex' ),
 					'data' => [
 						'coupon.code.code' => [],
 						'coupon.code.count' => ['op' => '=='],
@@ -122,13 +164,13 @@ $columnList = [
 			</tr>
 
 			<?php foreach( $this->get( 'codeData/coupon.code.id', [] ) as $idx => $id ) : ?>
-				<tr class="<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?>">
+				<tr class="list-item <?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?>">
 					<?php if( in_array( 'coupon.code.code', $fields ) ) : ?>
 						<td class="coupon-code">
 							<input class="form-control coupon-code-code" type="text" required="required" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.code', '' ) ) ); ?>"
 								value="<?= $enc->attr( $this->get( 'codeData/coupon.code.code/' . $idx ) ); ?>"
-								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> />
+								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.code.count', $fields ) ) : ?>
@@ -136,7 +178,7 @@ $columnList = [
 							<input class="form-control coupon-code-count" type="number" min="0" step="1" required="required" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.count', '' ) ) ); ?>"
 								value="<?= $enc->attr( $this->get( 'codeData/coupon.code.count/' . $idx ) ); ?>"
-								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> />
+								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.code.datestart', $fields ) ) : ?>
@@ -144,7 +186,7 @@ $columnList = [
 							<input class="form-control coupon-code-datestart" type="datetime-local" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.datestart', '' ) ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'codeData/coupon.code.datestart/' . $idx ) ) ); ?>"
-								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> />
+								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.code.dateend', $fields ) ) : ?>
@@ -152,7 +194,7 @@ $columnList = [
 							<input class="form-control coupon-code-dateend" type="datetime-local" tabindex="<?= $this->get( 'tabindex' ); ?>"
 								name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.dateend', '' ) ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'codeData/coupon.code.dateend/' . $idx ) ) ); ?>"
-								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> />
+								<?= $this->site()->readonly( $this->get( 'codeData/coupon.code.siteid/' . $idx ) ); ?> disabled="disabled" />
 						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.code.ctime', $fields ) ) : ?>
@@ -177,13 +219,17 @@ $columnList = [
 						</td>
 					<?php endif; ?>
 					<td class="actions">
-						<input type="hidden" name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.id', '' ) ) ); ?>" value="<?= $enc->attr( $id ); ?>" />
+						<input type="hidden" value="<?= $enc->attr( $id ); ?>" disabled="disabled"
+							name="<?= $enc->attr( $this->formparam( array( 'code', 'coupon.code.id', '' ) ) ); ?>" />
 
 						<a class="btn fa act-delete" tabindex="<?= $this->get( 'tabindex' ); ?>"
 							href="<?= $this->url( $jsonTarget, $jsonCntl, $jsonAction, ['resource' => 'coupon/code', 'id' => $id], [], $jsonConfig ); ?>"
 							title="<?= $enc->attr( $this->translate( 'admin', 'Delete') ); ?>"
 							aria-label="<?= $enc->attr( $this->translate( 'admin', 'Delete' ) ); ?>">
 						</a>
+						<a class="btn act-edit fa" tabindex="<?= $this->get( 'tabindex' ); ?>" href="#"
+							title="<?= $enc->attr( $this->translate( 'admin', 'Edit this entry') ); ?>"
+							aria-label="<?= $enc->attr( $this->translate( 'admin', 'Edit' ) ); ?>"></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -191,7 +237,15 @@ $columnList = [
 	</table>
 
 	<?php if( $this->get( 'codeData/coupon.code.siteid', [] ) === [] ) : ?>
-		<?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?>
+		<div class="noitems"><?= $enc->html( sprintf( $this->translate( 'admin', 'No items found' ) ) ); ?></div>
 	<?php endif; ?>
+
+	<?= $this->partial(
+			$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+			['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'codeTotal' ),
+			'group' => 'vc', 'action' => 'get', 'fragment' => 'code',
+			'page' =>$this->session( 'aimeos/admin/jqadm/couponcode/page', [] )]
+		);
+	?>
 </div>
 <?= $this->get( 'codeBody' ); ?>

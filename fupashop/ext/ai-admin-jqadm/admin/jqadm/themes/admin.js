@@ -25,6 +25,26 @@ Aimeos = {
 
 		$("[disabled='disabled']", clone).prop("disabled", false);
 
+		if(typeof Modernizr != 'undefined') {
+			if(!Modernizr.inputtypes['datetime-local']) {
+				$("input[type='datetime-local']", clone).each(function(idx, elem) {
+					$(elem).datepicker({
+						dateFormat: 'yy-mm-dd',
+						constrainInput: false
+					});
+				});
+			}
+
+			if(!Modernizr.inputtypes['date']) {
+				$("input[type='date']", clone).each(function(idx, elem) {
+					$(elem).datepicker({
+						dateFormat: 'yy-mm-dd',
+						constrainInput: false
+					});
+				});
+			}
+		}
+
 		if(after) {
 			clone.insertAfter(node);
 		} else {
@@ -46,6 +66,45 @@ Aimeos = {
 		}
 
 		return node;
+	},
+
+
+	getCountries : function(request, response, element) {
+
+		if(request.term.length == 0) {
+			var url = 'https://restcountries.eu/rest/v2/all';
+		} else if(request.term.length > 1) {
+			var url = 'https://restcountries.eu/rest/v2/name/' + request.term;
+		} else {
+			return;
+		}
+
+		$.ajax({
+			url: url,
+			dataType: "json",
+			data: 'fields=alpha2Code;name',
+			success: function(result) {
+				var list = result || [];
+
+				$("option", element).remove();
+
+				response( list.map(function(obj) {
+
+					var opt = $("<option/>");
+
+					opt.attr("value", obj.alpha2Code);
+					opt.text(obj.alpha2Code);
+					opt.appendTo(element);
+
+					return {
+						label: obj.name || null,
+						value: obj.alpha2Code,
+						option: opt
+					};
+				}));
+			}
+		});
+
 	},
 
 
@@ -137,23 +196,100 @@ Aimeos.Config = {
 		this.addConfigLine();
 		this.deleteConfigLine();
 		this.configComplete();
-		this.resetSearch();
+
+		this.addConfigMapLine();
+		this.deleteConfigMapLine();
+		this.hideConfigMap();
+		this.showConfigMap();
+	},
+
+
+	setup : function(resource, provider, target, type) {
+
+		if(!provider) {
+			return;
+		}
+
+		Aimeos.options.done(function(data) {
+
+			if(!data.meta || !data.meta.resources || !data.meta.resources[resource]) {
+				return;
+			}
+
+			var params = {}, param = {id: provider};
+
+			if(type) {
+				param["type"] = type;
+			}
+
+			if(data.meta && data.meta.prefix) {
+				params[data.meta.prefix] = param;
+			} else {
+				params = param;
+			}
+
+			$.ajax({
+				url: data.meta.resources[resource],
+				dataType: "json",
+				data: params
+			}).done(function(result) {
+
+				$(result.data).each(function(idx, entry) {
+					var cfgkey = $("table.item-config input.config-key[value='" + entry.id + "']", target);
+
+					if(cfgkey.length > 0) {
+						var el = $("table.item-config .config-item.prototype .config-type-" + entry.attributes.type, target).clone();
+						var row = cfgkey.closest(".config-item");
+						var old = $(".config-type", row);
+
+						$("> [disabled='disabled']", el).prop("disabled", false);
+						$("> input", el).val(old.val());
+						el.prop("disabled", false);
+						el.val(old.val());
+						old.remove();
+
+						$(".help-text", row).html(entry.attributes.label);
+						$(".config-row-value", row).append(el);
+					} else {
+						var row = Aimeos.addClone($("table.item-config .config-item.prototype", target));
+
+						$(".config-row-value .config-type:not(.config-type-" + entry.attributes.type + ")", row).remove();
+						$(".config-row-key .help-text", row).html(entry.attributes.label);
+						$("input.config-key", row).attr("value", entry.id);
+					}
+
+					if(!entry.attributes.required) {
+						$(".config-value", row).prop("required", false);
+						row.removeClass("mandatory");
+					} else {
+						$(".config-value", row).prop("required", true);
+						row.addClass("mandatory");
+					}
+				});
+			});
+		});
 	},
 
 
 	addConfigLine : function() {
 
-		$(".aimeos .item .tab-pane").on("click", ".item-config .act-add", function(ev) {
+		$(".aimeos .item .tab-pane").on("click", ".item-config .actions .act-add", function(ev) {
 
-			var clone = Aimeos.addClone($(".prototype", $(this).closest(".item-config")));
+			var node = $(this).closest(".item-config");
+			var clone = Aimeos.addClone($(".prototype", node));
 			var count = $(".list-item-new", ev.delegateTarget).length - 2; // minus prototype and must start with 0
+			var types = $(".config-type", clone);
+
+			if(types.length > 0 ) {
+				$(".config-type:not(.config-type-string)", clone).remove();
+			}
 
 			$("input", clone).each(function() {
 				$(this).attr("name", $(this).attr("name").replace("idx", count));
 			});
 
 			$(".config-key", clone).autocomplete({
-				source: ['css-class'],
+				source: node.data("keys") || [],
 				minLength: 0,
 				delay: 0
 			});
@@ -163,7 +299,7 @@ Aimeos.Config = {
 
 	deleteConfigLine : function() {
 
-		$(".aimeos .item .tab-pane").on("click", ".item-config .act-delete", function(ev) {
+		$(".aimeos .item .tab-pane").on("click", ".item-config .actions .act-delete", function(ev) {
 			Aimeos.focusBefore($(this).closest("tr")).remove();
 		});
 	},
@@ -171,8 +307,9 @@ Aimeos.Config = {
 
 	configComplete : function() {
 
-		$(".aimeos .item .config-item .config-key").autocomplete({
-			source: ['css-class'],
+		var node = $(".aimeos .item-config");
+		$(".config-item .config-key", node).autocomplete({
+			source: node.data("keys") || [],
 			minLength: 0,
 			delay: 0
 		});
@@ -183,12 +320,75 @@ Aimeos.Config = {
 	},
 
 
-	resetSearch : function() {
+	addConfigMapLine : function() {
 
-		$(".aimeos .list-search").on("click", ".act-reset", function(ev) {
-			$("select", ev.delegateTarget).val("");
-			$("input", ev.delegateTarget).val("");
+		$(".aimeos .item-config").on("click", ".config-map-table .config-map-actions .act-add", function(ev) {
+
+			var node = $(this).closest(".config-map-table");
+			var clone = Aimeos.addClone($(".prototype-map", node));
+
+			clone.removeClass("prototype-map");
+			$(".act-delete", clone).focus();
+
 			return false;
+		});
+	},
+
+
+	deleteConfigMapLine : function() {
+
+		$(".aimeos .item-config").on("click", ".config-map-table .config-map-actions .act-delete", function(ev) {
+			Aimeos.focusBefore($(this).closest("tr")).remove();
+		});
+	},
+
+
+	hideConfigMap : function() {
+
+		$(".aimeos .item-config").on("click", ".config-map-table .config-map-actions .act-update", function(ev) {
+
+			var obj = {};
+			var table = $(this).closest(".config-map-table");
+			var lines = $(".config-map-row:not(.prototype-map)", table)
+
+			lines.each(function() {
+				obj[ $("input.config-map-key", this).val() ] = $("input.config-map-value", this).val();
+			});
+
+			$(".config-value", table.parent()).val(JSON.stringify(obj));
+
+			table.hide();
+			lines.remove();
+
+			return false;
+		});
+	},
+
+
+	showConfigMap : function() {
+
+		$(".aimeos .item-config").on("focus", ".config-value", function() {
+
+			var table = $(".config-map-table", $(this).parent());
+
+			if(table.is(":visible")) {
+				return false;
+			}
+
+			try {
+				var obj = JSON.parse($(this).val())
+			} catch(e) {
+				var obj = {};
+			}
+
+			for(var key in obj) {
+				var clone = Aimeos.addClone($(".prototype-map", table));
+				$(".config-map-value", clone).val(obj[key]);
+				$(".config-map-key", clone).val(key);
+				clone.removeClass("prototype-map");
+			}
+
+			table.show();
 		});
 	}
 };
@@ -288,6 +488,8 @@ Aimeos.Form = {
 		this.checkFields();
 		this.checkSubmit();
 		this.createDatePicker();
+		this.editFields();
+		this.resetSearch();
 		this.setupNext();
 		this.showErrors();
 		this.toggleHelp();
@@ -331,7 +533,7 @@ Aimeos.Form = {
 			$(".item-content input,select", this).each(function(idx, element) {
 				var elem = $(element);
 
-				if(elem.parents(".prototype").length === 0 && elem.is(":invalid") === true) {
+				if(elem.closest(".prototype").length === 0 && elem.is(":invalid") === true) {
 					elem.parent().addClass("has-danger");
 					nodes.push(element);
 				} else {
@@ -342,7 +544,7 @@ Aimeos.Form = {
 			$.each(nodes, function() {
 				$(".card-header", $(this).closest(".card")).addClass("has-danger");
 
-				$(this).parents(".tab-pane").each(function() {
+				$(this).closest(".tab-pane").each(function() {
 					$(".item-navbar .nav-item." + $(this).attr("id") + " .nav-link").addClass("has-danger");
 				});
 			});
@@ -360,12 +562,47 @@ Aimeos.Form = {
 
 	createDatePicker : function() {
 
-		$(".aimeos .date").each(function(idx, elem) {
+		if(typeof Modernizr != 'undefined') {
+			if(!Modernizr.inputtypes['datetime-local']) {
+				$(".aimeos input[type='datetime-local']").each(function(idx, elem) {
+					if($(elem).closest(".prototype").length === 0) {
+						$(elem).datepicker({
+							dateFormat: 'yy-mm-dd',
+							constrainInput: false
+						});
+					}
+				});
+			}
 
-			$(elem).datepicker({
-				dateFormat: $(elem).data("format"),
-				constrainInput: false
-			});
+			if(Modernizr && !Modernizr.inputtypes['date']) {
+				$(".aimeos input[type='date']").each(function(idx, elem) {
+					if($(elem).closest(".prototype").length === 0) {
+						$(elem).datepicker({
+							dateFormat: 'yy-mm-dd',
+							constrainInput: false
+						});
+					}
+				});
+			}
+		}
+	},
+
+
+	editFields : function() {
+
+		$(".aimeos .list-item").on("click", ".act-edit", function(ev) {
+			$("[disabled=disabled]", ev.delegateTarget).removeAttr("disabled");
+			return false;
+		});
+	},
+
+
+	resetSearch : function() {
+
+		$(".aimeos .list-search").on("click", ".act-reset", function(ev) {
+			$("select", ev.delegateTarget).val("");
+			$("input", ev.delegateTarget).val("");
+			return false;
 		});
 	},
 
@@ -391,7 +628,49 @@ Aimeos.Form = {
 	toggleHelp : function() {
 
 		$(".aimeos").on("click", ".help", function(ev) {
-			$(".help-text", $(this).parent()).slideToggle(300);
+			var list = $(this).closest("table.item-config");
+
+			if( list.length === 0 ) {
+				list = $(this).parent();
+			}
+
+			$(".help-text", list).slideToggle(300);
+		});
+	}
+};
+
+
+
+Aimeos.List = {
+
+	element : null,
+
+
+	init : function() {
+
+		this.askDelete();
+		this.confirmDelete();
+	},
+
+
+	askDelete : function() {
+		var self = this;
+
+		$(".aimeos .list-items").on("click", ".act-delete", function(e) {
+			$("#confirm-delete").modal("show", $(this));
+			self.element = $(this);
+			return false;
+		});
+	},
+
+
+	confirmDelete : function() {
+		var self = this;
+
+		$("#confirm-delete").on("click", ".btn-danger", function(e) {
+			if(self.element) {
+				window.location = self.element.attr("href");
+			}
 		});
 	}
 };
@@ -409,18 +688,23 @@ Aimeos.Nav = {
 
 	addShortcuts : function() {
 
-		$(window).bind('keydown', function(ev) {
+		$(document).bind('keydown', function(ev) {
 			if(ev.ctrlKey || ev.metaKey) {
+				var key = String.fromCharCode(ev.which).toLowerCase();
+
 				if(ev.altKey) {
-					var key = String.fromCharCode(ev.which).toLowerCase();
 					if(key.match(/[a-z]/)) {
 						ev.preventDefault();
-						window.location = $(".aimeos .sidebar-menu a[data-ctrlkey=" + key + "]").first().attr("href");
+						var link = $(".aimeos .sidebar-menu a[data-ctrlkey=" + key + "]").first();
+
+						if(link.length) {
+							window.location = link.attr("href");
+						}
 						return false;
 					}
 				}
-				switch(String.fromCharCode(ev.which).toLowerCase()) {
-					case 'a':
+				switch(key) {
+					case 'i':
 						ev.preventDefault();
 						var node = $(".aimeos :focus").closest(".card,.content-block").find(".act-add:visible").first();
 						if(node.length > 0) {
@@ -542,6 +826,7 @@ $(function() {
 	Aimeos.Config.init();
 	Aimeos.Filter.init();
 	Aimeos.Form.init();
+	Aimeos.List.init();
 	Aimeos.Nav.init();
 	Aimeos.Tabs.init();
 });

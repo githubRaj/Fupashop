@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -88,8 +88,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'specialprice', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->specialpriceData = $view->param( 'specialprice', [] );
+		foreach( $view->value( $data, 'product.lists.id', [] ) as $idx => $value ) {
+			$data['product.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->specialpriceData = $data;
 		$view->specialpriceBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -169,7 +175,7 @@ class Standard
 	 */
 	public function getSubClient( $type, $name = null )
 	{
-		/** admin/jqadm/product/special/decorators/excludes
+		/** admin/jqadm/product/special/price/decorators/excludes
 		 * Excludes decorators added by the "common" option from the product JQAdm client
 		 *
 		 * Decorators extend the functionality of a class by adding new aspects
@@ -181,7 +187,7 @@ class Standard
 		 * "admin/jqadm/common/decorators/default" before they are wrapped
 		 * around the JQAdm client.
 		 *
-		 *  admin/jqadm/product/special/decorators/excludes = array( 'decorator1' )
+		 *  admin/jqadm/product/special/price/decorators/excludes = array( 'decorator1' )
 		 *
 		 * This would remove the decorator named "decorator1" from the list of
 		 * common decorators ("\Aimeos\Admin\JQAdm\Common\Decorator\*") added via
@@ -191,11 +197,11 @@ class Standard
 		 * @since 2016.03
 		 * @category Developer
 		 * @see admin/jqadm/common/decorators/default
-		 * @see admin/jqadm/product/special/decorators/global
-		 * @see admin/jqadm/product/special/decorators/local
+		 * @see admin/jqadm/product/special/price/decorators/global
+		 * @see admin/jqadm/product/special/price/decorators/local
 		 */
 
-		/** admin/jqadm/product/special/decorators/global
+		/** admin/jqadm/product/special/price/decorators/global
 		 * Adds a list of globally available decorators only to the product JQAdm client
 		 *
 		 * Decorators extend the functionality of a class by adding new aspects
@@ -206,7 +212,7 @@ class Standard
 		 * This option allows you to wrap global decorators
 		 * ("\Aimeos\Admin\JQAdm\Common\Decorator\*") around the JQAdm client.
 		 *
-		 *  admin/jqadm/product/special/decorators/global = array( 'decorator1' )
+		 *  admin/jqadm/product/special/price/decorators/global = array( 'decorator1' )
 		 *
 		 * This would add the decorator named "decorator1" defined by
 		 * "\Aimeos\Admin\JQAdm\Common\Decorator\Decorator1" only to the JQAdm client.
@@ -215,11 +221,11 @@ class Standard
 		 * @since 2016.03
 		 * @category Developer
 		 * @see admin/jqadm/common/decorators/default
-		 * @see admin/jqadm/product/special/decorators/excludes
-		 * @see admin/jqadm/product/special/decorators/local
+		 * @see admin/jqadm/product/special/price/decorators/excludes
+		 * @see admin/jqadm/product/special/price/decorators/local
 		 */
 
-		/** admin/jqadm/product/special/decorators/local
+		/** admin/jqadm/product/special/price/decorators/local
 		 * Adds a list of local decorators only to the product JQAdm client
 		 *
 		 * Decorators extend the functionality of a class by adding new aspects
@@ -230,7 +236,7 @@ class Standard
 		 * This option allows you to wrap local decorators
 		 * ("\Aimeos\Admin\JQAdm\Product\Decorator\*") around the JQAdm client.
 		 *
-		 *  admin/jqadm/product/special/decorators/local = array( 'decorator2' )
+		 *  admin/jqadm/product/special/price/decorators/local = array( 'decorator2' )
 		 *
 		 * This would add the decorator named "decorator2" defined by
 		 * "\Aimeos\Admin\JQAdm\Product\Decorator\Decorator2" only to the JQAdm client.
@@ -239,10 +245,10 @@ class Standard
 		 * @since 2016.03
 		 * @category Developer
 		 * @see admin/jqadm/common/decorators/default
-		 * @see admin/jqadm/product/special/decorators/excludes
-		 * @see admin/jqadm/product/special/decorators/global
+		 * @see admin/jqadm/product/special/price/decorators/excludes
+		 * @see admin/jqadm/product/special/price/decorators/global
 		 */
-		return $this->createSubClient( 'product/special/' . $type, $name );
+		return $this->createSubClient( 'product/special/price/' . $type, $name );
 	}
 
 

@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2016
+ * @copyright Aimeos (aimeos.org), 2016-2017
  */
 
 
@@ -34,6 +34,8 @@ class CacheTest extends \PHPUnit\Framework\TestCase
 		$this->context->setCache( $this->cache );
 
 		$this->object = new \Aimeos\Admin\JQAdm\Common\Decorator\Cache( $this->mock, $this->context, $templatePaths );
+		$this->object->setAimeos( \TestHelperJqadm::getAimeos() );
+		$this->object->setView( \TestHelperJqadm::getView() );
 	}
 
 

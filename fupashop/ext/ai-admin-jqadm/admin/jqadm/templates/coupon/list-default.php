@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 $enc = $this->encoder();
@@ -34,25 +34,35 @@ $delAction = $this->config( 'admin/jqadm/url/delete/action', 'delete' );
 $delConfig = $this->config( 'admin/jqadm/url/delete/config', [] );
 
 
-$default = $this->config( 'admin/jqadm/coupon/fields', ['coupon.status', 'coupon.label', 'coupon.provider'] );
-$fields = $this->param( 'fields/v', $default );
+/** admin/jqadm/coupon/fields
+ * List of coupon columns that should be displayed in the list view
+ *
+ * Changes the list of coupon columns shown by default in the coupon list view.
+ * The columns can be changed by the editor as required within the administraiton
+ * interface.
+ *
+ * The names of the colums are in fact the search keys defined by the managers,
+ * e.g. "coupon.id" for the customer ID.
+ *
+ * @param array List of field names, i.e. search keys
+ * @since 2017.07
+ * @category Developer
+ */
+$default = ['coupon.status', 'coupon.label', 'coupon.provider'];
+$default = $this->config( 'admin/jqadm/coupon/fields', $default );
+$fields = $this->session( 'aimeos/admin/jqadm/coupon/fields', $default );
 
 $params = $this->get( 'pageParams', [] );
-$pageParams = ['total' => $this->get( 'total', 0 ), 'pageParams' => $params];
 $sortcode = $this->param( 'sort' );
-
-$typeList = [];
-foreach( $this->get( 'itemTypes', [] ) as $id => $typeItem ) {
-	$typeList[$id] = $typeItem->getCode();
-}
 
 $columnList = [
 	'coupon.id' => $this->translate( 'admin', 'ID' ),
 	'coupon.status' => $this->translate( 'admin', 'Status' ),
-	'coupon.label' => $this->translate( 'admin', 'Label' ),
 	'coupon.provider' => $this->translate( 'admin', 'Provider' ),
+	'coupon.label' => $this->translate( 'admin', 'Label' ),
 	'coupon.datestart' => $this->translate( 'admin', 'Start date' ),
 	'coupon.dateend' => $this->translate( 'admin', 'End date' ),
+	'coupon.config' => $this->translate( 'admin', 'Config' ),
 	'coupon.ctime' => $this->translate( 'admin', 'Created' ),
 	'coupon.mtime' => $this->translate( 'admin', 'Modified' ),
 	'coupon.editor' => $this->translate( 'admin', 'Editor' ),
@@ -70,16 +80,21 @@ $columnList = [
 
 	<?= $this->partial(
 		$this->config( 'admin/jqadm/partial/navsearch', 'common/partials/navsearch-default.php' ), [
+			'filter' => $this->session( 'aimeos/admin/jqadm/coupon/filter', [] ),
 			'filterAttributes' => $this->get( 'filterAttributes', [] ),
 			'filterOperators' => $this->get( 'filterOperators', [] ),
-			'filterData' => $this->param( 'filter', [] ),
 			'params' => $params,
 		]
 	); ?>
 </nav>
 
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'top'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/coupon/page', [] )]
+	);
+?>
 
 <form class="list-product" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $params, [], $config ) ); ?>">
 	<?= $this->csrf()->formfield(); ?>
@@ -89,20 +104,20 @@ $columnList = [
 			<tr>
 				<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ),
-						['fields' => $fields, 'params' => $params, 'tabindex' => 1, 'data' => $columnList]
+						['fields' => $fields, 'params' => $params, 'data' => $columnList, 'sort' => $this->session( 'aimeos/admin/jqadm/coupon/sort' )]
 					);
 				?>
 
 				<th class="actions">
 					<a class="btn fa act-add" tabindex="1"
 						href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
+						title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>"
 						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
 					</a>
 
 					<?= $this->partial(
 							$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ),
-							['fields' => $fields, 'group' => 'v', 'tabindex' => 1, 'data' => $columnList]
+							['fields' => $fields, 'data' => $columnList]
 						);
 					?>
 				</th>
@@ -112,7 +127,7 @@ $columnList = [
 
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'tabindex' => 1,
+					'fields' => $fields, 'filter' => $this->session( 'aimeos/admin/jqadm/coupon/filter', [] ),
 					'data' => [
 						'coupon.id' => ['op' => '=='],
 						'coupon.status' => ['op' => '==', 'type' => 'select', 'val' => [
@@ -121,10 +136,11 @@ $columnList = [
 							'-1' => $this->translate( 'admin', 'status:review' ),
 							'-2' => $this->translate( 'admin', 'status:archive' ),
 						]],
-						'coupon.label' => [],
 						'coupon.provider' => [],
+						'coupon.label' => [],
 						'coupon.datestart' => ['op' => '>=', 'type' => 'datetime-local'],
 						'coupon.dateend' => ['op' => '>=', 'type' => 'datetime-local'],
+						'coupon.config' => ['op' => '~='],
 						'coupon.ctime' => ['op' => '>=', 'type' => 'datetime-local'],
 						'coupon.mtime' => ['op' => '>=', 'type' => 'datetime-local'],
 						'coupon.editor' => [],
@@ -141,17 +157,28 @@ $columnList = [
 					<?php if( in_array( 'coupon.status', $fields ) ) : ?>
 						<td class="coupon-status"><a class="items-field" href="<?= $url; ?>"><div class="fa status-<?= $enc->attr( $item->getStatus() ); ?>"></div></a></td>
 					<?php endif; ?>
-					<?php if( in_array( 'coupon.label', $fields ) ) : ?>
-						<td class="coupon-label"><a class="items-field" href="<?= $url; ?>" tabindex="1"><?= $enc->html( $item->getLabel() ); ?></a></td>
-					<?php endif; ?>
 					<?php if( in_array( 'coupon.provider', $fields ) ) : ?>
 						<td class="coupon-provider"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getProvider() ); ?></a></td>
+					<?php endif; ?>
+					<?php if( in_array( 'coupon.label', $fields ) ) : ?>
+						<td class="coupon-label"><a class="items-field" href="<?= $url; ?>" tabindex="1"><?= $enc->html( $item->getLabel() ); ?></a></td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.datestart', $fields ) ) : ?>
 						<td class="coupon-datestart"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getDateStart() ); ?></a></td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.dateend', $fields ) ) : ?>
 						<td class="coupon-dateend"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getDateEnd() ); ?></a></td>
+					<?php endif; ?>
+					<?php if( in_array( 'coupon.config', $fields ) ) : ?>
+						<td class="coupon-config config-item">
+							<a class="items-field" href="<?= $url; ?>">
+								<?php foreach( $item->getConfig() as $key => $value ) : ?>
+									<span class="config-key"><?= $enc->html( $key ); ?></span>
+									<span class="config-value"><?= $enc->html( !is_scalar( $value ) ? json_encode( $value ) : $value ); ?></span>
+									<br/>
+								<?php endforeach; ?>
+							</a>
+						</td>
 					<?php endif; ?>
 					<?php if( in_array( 'coupon.ctime', $fields ) ) : ?>
 						<td class="coupon-ctime"><a class="items-field" href="<?= $url; ?>"><?= $enc->html( $item->getTimeCreated() ); ?></a></td>
@@ -185,7 +212,12 @@ $columnList = [
 	<?php endif; ?>
 </form>
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'bottom'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/coupon/page', [] )]
+	);
+?>
 
 <?php $this->block()->stop(); ?>
 

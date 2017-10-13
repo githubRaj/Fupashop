@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 $selected = function( $key, $code ) {
@@ -81,6 +81,42 @@ $action = $this->config( 'admin/jqadm/url/save/action', 'save' );
  * @see admin/jqadm/url/save/action
  */
 $config = $this->config( 'admin/jqadm/url/save/config', [] );
+
+
+/** admin/jqadm/product/item/config/suggest
+ * List of suggested configuration keys in product item panel
+ *
+ * Product items can store arbitrary key value pairs. This setting gives editors
+ * a hint which config keys are available and are used in the templates.
+ *
+ * @param string List of suggested config keys
+ * @since 2017.10
+ * @category Developer
+ * @see admin/jqadm/catalog/item/config/suggest
+ */
+$cfgSuggest = $this->config( 'admin/jqadm/product/item/config/suggest', ['css-class'] );
+
+
+/** admin/jqadm/partial/itemactions
+ * Relative path to the partial template for displaying the available actions for the item
+ *
+ * The template file contains the HTML code and processing instructions
+ * to generate the result shown in the administration interface. The
+ * configuration string is the path to the template file relative
+ * to the templates directory (usually in admin/jqadm/templates).
+ *
+ * You can overwrite the template file configuration in extensions and
+ * provide alternative templates. These alternative templates should be
+ * named like the default one but with the string "default" replaced by
+ * an unique name. You may use the name of your project for this. If
+ * you've implemented an alternative client class as well, "default"
+ * should be replaced by the name of the new class.
+ *
+ * @param string Relative path to the partial creating the HTML code
+ * @since 2017.10
+ * @category Developer
+ */
+
 
 $subparts = $this->get( 'itemSubparts', [] );
 $params = $this->get( 'pageParams', [] );
@@ -183,7 +219,8 @@ $params = $this->get( 'pageParams', [] );
 								</option>
 
 								<?php foreach( $this->get( 'itemTypes', [] ) as $id => $typeItem ) : ?>
-									<option value="<?= $enc->attr( $id ); ?>" data-code="<?= $enc->attr( $typeItem->getCode() ); ?>" <?= $selected( $this->get( 'itemData/product.typeid' ), $id ); ?> >
+									<option value="<?= $enc->attr( $id ); ?>" data-code="<?= $enc->attr( $typeItem->getCode() ); ?>"
+										<?= $selected( $this->get( 'itemData/product.typeid' ), $id ); ?> >
 										<?= $enc->html( $typeItem->getLabel() ); ?>
 									</option>
 								<?php endforeach; ?>
@@ -219,11 +256,10 @@ $params = $this->get( 'pageParams', [] );
 					<div class="form-group row optional">
 						<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Start date' ) ); ?></label>
 						<div class="col-sm-8">
-							<input class="form-control item-datestart date" type="text" tabindex="1"
+							<input class="form-control item-datestart" type="datetime-local" tabindex="1"
 								name="<?= $enc->attr( $this->formparam( array( 'item', 'product.datestart' ) ) ); ?>"
 								placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'itemData/product.datestart' ) ) ); ?>"
-								data-format="<?= $this->translate( 'admin', 'yy-mm-dd' ); ?>"
 								<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ); ?> />
 						</div>
 						<div class="col-sm-12 form-text text-muted help-text">
@@ -233,11 +269,10 @@ $params = $this->get( 'pageParams', [] );
 					<div class="form-group row optional">
 						<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'End date' ) ); ?></label>
 						<div class="col-sm-8">
-							<input class="form-control item-dateend date" type="text" tabindex="1"
+							<input class="form-control item-dateend" type="datetime-local" tabindex="1"
 								name="<?= $enc->attr( $this->formparam( array( 'item', 'product.dateend' ) ) ); ?>"
 								placeholder="<?= $enc->attr( $this->translate( 'admin', 'YYYY-MM-DD hh:mm:ss (optional)' ) ); ?>"
 								value="<?= $enc->attr( str_replace( ' ', 'T', $this->get( 'itemData/product.dateend' ) ) ); ?>"
-								data-format="<?= $this->translate( 'admin', 'yy-mm-dd' ); ?>"
 								<?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ); ?> />
 						</div>
 						<div class="col-sm-12 form-text text-muted help-text">
@@ -260,7 +295,7 @@ $params = $this->get( 'pageParams', [] );
 				</div><!--
 
 				--><div class="col-xl-6 content-block <?= $this->site()->readonly( $this->get( 'itemData/product.siteid' ) ); ?>">
-					<table class="item-config table table-striped">
+							<table class="item-config table table-striped" data-keys="<?= $enc->attr( json_encode( $cfgSuggest ) ); ?>">
 						<thead>
 							<tr>
 								<th>
@@ -275,7 +310,7 @@ $params = $this->get( 'pageParams', [] );
 								<th class="actions">
 									<?php if( !$this->site()->readonly( $this->get( 'itemData/product.siteid' ) ) ) : ?>
 										<div class="btn act-add fa" tabindex="1"
-											title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+											title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 										</div>
 									<?php endif; ?>
 								</th>

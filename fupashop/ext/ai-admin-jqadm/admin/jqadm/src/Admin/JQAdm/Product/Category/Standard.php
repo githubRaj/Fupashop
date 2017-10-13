@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  * @package Admin
  * @subpackage JQAdm
  */
@@ -89,8 +89,14 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'category', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->categoryData = $view->param( 'category', [] );
+		foreach( $view->value( $data, 'catalog.lists.id', [] ) as $idx => $value ) {
+			$data['catalog.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->categoryData = $data;
 		$view->categoryListTypes = $this->getListTypes();
 		$view->categoryBody = '';
 
@@ -120,7 +126,7 @@ class Standard
 			$search->compare( '==', 'catalog.lists.domain', 'product' )
 		);
 		$search->setConditions( $search->combine( '&&', $expr ) );
-		$search->setSortations( array( $search->sort( '+', 'catalog.lists.id' ) ) );
+		$search->setSlice( 0, 0x7fffffff );
 
 		$start = 0;
 

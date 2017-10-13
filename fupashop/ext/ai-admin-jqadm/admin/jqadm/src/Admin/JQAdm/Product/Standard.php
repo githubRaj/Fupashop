@@ -263,7 +263,7 @@ class Standard
 
 		try
 		{
-			$data = $view->param( 'item' );
+			$data = $view->param( 'item', [] );
 
 			if( !isset( $view->item ) ) {
 				$view->item = \Aimeos\MShop\Factory::createManager( $context, 'product' )->createItem();
@@ -271,7 +271,6 @@ class Standard
 				$data = $this->toArray( $view->item );
 			}
 
-			$data['product.id'] = $view->item->getId();
 			$data['product.siteid'] = $view->item->getSiteId();
 
 			$view->itemSubparts = $this->getSubClientNames();
@@ -454,8 +453,9 @@ class Standard
 		try
 		{
 			$total = 0;
+			$params = $this->storeSearchParams( $view->param(), 'product' );
 			$manager = \Aimeos\MShop\Factory::createManager( $context, 'product' );
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->createSearch(), $params );
 
 			$view->items = $manager->searchItems( $search, [], $total );
 			$view->filterAttributes = $manager->getSearchAttributes( true );

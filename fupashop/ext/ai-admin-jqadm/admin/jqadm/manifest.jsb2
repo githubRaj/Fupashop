@@ -64,6 +64,15 @@
 		},{
 			"text": "product.js",
 			"path": "themes/"
+		},{
+			"text": "plugin.js",
+			"path": "themes/"
+		},{
+			"text": "service.js",
+			"path": "themes/"
+		},{
+			"text": "supplier.js",
+			"path": "themes/"
 		}]
 	}],
 	"resources" : []

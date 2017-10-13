@@ -32,18 +32,39 @@ $newCntl = $this->config( 'admin/jqadm/url/create/controller', 'Jqadm' );
 $newAction = $this->config( 'admin/jqadm/url/create/action', 'create' );
 $newConfig = $this->config( 'admin/jqadm/url/create/config', [] );
 
+$jsonTarget = $this->config( 'admin/jsonadm/url/target' );
+$jsonCntl = $this->config( 'admin/jsonadm/url/controller', 'Jsonadm' );
+$jsonAction = $this->config( 'admin/jsonadm/url/action', 'get' );
+$jsonConfig = $this->config( 'admin/jsonadm/url/config', [] );
+
 $subparts = $this->get( 'itemSubparts', [] );
 $params = $this->get( 'pageParams', [] );
+
+
+/** admin/jqadm/catalog/item/config/suggest
+ * List of suggested configuration keys in catalog item panel
+ *
+ * Catalog items can store arbitrary key value pairs. This setting gives editors
+ * a hint which config keys are available and are used in the templates.
+ *
+ * @param string List of suggested config keys
+ * @since 2017.10
+ * @category Developer
+ * @see admin/jqadm/product/item/config/suggest
+ */
+$cfgSuggest = $this->config( 'admin/jqadm/catalog/item/config/suggest', ['css-class'] );
 
 
 ?>
 <?php $this->block()->start( 'jqadm_content' ); ?>
 
-<form class="item item-catalog form-horizontal" method="POST" enctype="multipart/form-data"
+<form class="item item-catalog item-tree form-horizontal" method="POST" enctype="multipart/form-data"
 	action="<?= $enc->attr( $this->url( $target, $cntl, $action, $params, [], $config ) ); ?>"
 	data-rootid="<?= $enc->attr( $this->get( 'itemRootId' ) ); ?>"
-	data-geturl="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'catalog', 'id' => '_id_'], [], $getConfig ) ); ?>"
-	data-createurl="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, ['resource' => 'catalog', 'id' => '_id_'], [], $newConfig ) ); ?>">
+	data-geturl="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'catalog', 'id' => '_ID_'], [], $getConfig ) ); ?>"
+	data-createurl="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, ['resource' => 'catalog', 'id' => '_ID_'], [], $newConfig ) ); ?>"
+	data-jsonurl="<?= $enc->attr( $this->url( $jsonTarget, $jsonCntl, $jsonAction, ['resource' => 'catalog'], [], $jsonConfig ) ); ?>"
+	data-idname="<?= $this->formparam( 'id' ); ?>" >
 
 	<input id="item-id" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'item', 'catalog.id' ) ) ); ?>"
 		value="<?= $enc->attr( $this->get( 'itemData/catalog.id' ) ); ?>" />
@@ -63,29 +84,23 @@ $params = $this->get( 'pageParams', [] );
 			<a class="btn btn-secondary act-cancel"
 				title="<?= $enc->attr( $this->translate( 'admin', 'Cancel') ); ?>"
 				href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $params, [], $listConfig ) ); ?>">
-				<?php if( $this->access( ['admin', 'editor'] ) ) : ?>
-					<?= $enc->html( $this->translate( 'admin', 'Cancel' ) ); ?>
-				<?php else : ?>
-					<?= $enc->html( $this->translate( 'admin', 'Back' ) ); ?>
-				<?php endif; ?>
+				<?= $enc->html( $this->translate( 'admin', 'Cancel' ) ); ?>
 			</a>
 
-			<?php if( $this->access( ['admin', 'editor'] ) ) : ?>
-				<div class="btn-group">
-					<button type="submit" class="btn btn-primary act-save"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Save entry (Ctrl+S)') ); ?>">
-						<?= $enc->html( $this->translate( 'admin', 'Save' ) ); ?>
-					</button>
-					<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">
-						<span class="sr-only"><?= $enc->html( $this->translate( 'admin', 'Toggle dropdown' ) ); ?></span>
-					</button>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item next-action" href="#" data-next="copy"><?= $enc->html( $this->translate( 'admin', 'Save & Copy' ) ); ?></a>
-						<a class="dropdown-item next-action" href="#" data-next="create"><?= $enc->html( $this->translate( 'admin', 'Save & New' ) ); ?></a>
-					</div>
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary act-save"
+					title="<?= $enc->attr( $this->translate( 'admin', 'Save entry (Ctrl+S)') ); ?>">
+					<?= $enc->html( $this->translate( 'admin', 'Save' ) ); ?>
+				</button>
+				<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<span class="sr-only"><?= $enc->html( $this->translate( 'admin', 'Toggle dropdown' ) ); ?></span>
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item next-action" href="#" data-next="copy"><?= $enc->html( $this->translate( 'admin', 'Save & Copy' ) ); ?></a>
+					<a class="dropdown-item next-action" href="#" data-next="create"><?= $enc->html( $this->translate( 'admin', 'Save & New' ) ); ?></a>
 				</div>
-			<?php endif; ?>
+			</div>
 		</div>
 	</nav>
 
@@ -97,7 +112,7 @@ $params = $this->get( 'pageParams', [] );
 				<span class="input-group-addon input-group-icon collapse-all fa" tabindex="1"></span>
 				<input type="text" class="form-control search-input" tabindex="1" placeholder="<?= $enc->attr( $this->translate( 'admin', 'Find category' ) ); ?>">
 				<span class="input-group-addon input-group-icon act-delete fa" tabindex="1"></span>
-				<span class="input-group-addon input-group-icon act-add fa" tabindex="1"></span>
+				<span class="input-group-addon input-group-icon act-add fa btn-primary" tabindex="1"></span>
 			</div>
 			<div class="tree-content">
 			</div>
@@ -212,7 +227,7 @@ $params = $this->get( 'pageParams', [] );
 						</div><!--
 
 						--><div class="col-xl-6 content-block <?= $this->site()->readonly( $this->get( 'itemData/catalog.siteid' ) ); ?>">
-							<table class="item-config table table-striped">
+							<table class="item-config table table-striped" data-keys="<?= $enc->attr( json_encode( $cfgSuggest ) ); ?>">
 								<thead>
 									<tr>
 										<th>
@@ -227,7 +242,7 @@ $params = $this->get( 'pageParams', [] );
 										<th class="actions">
 											<?php if( !$this->site()->readonly( $this->get( 'itemData/catalog.siteid' ) ) ) : ?>
 												<div class="btn act-add fa" tabindex="1"
-													title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+													title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 												</div>
 											<?php endif; ?>
 										</th>

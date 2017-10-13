@@ -54,8 +54,33 @@ $priceFormat = $this->translate( 'client/code', '%1$s %2$s' );
 $currency = $this->translate( 'client/currency', $basket->getPrice()->getCurrencyId() );
 
 $serviceAttrCodes = [
-	'delivery' => $this->config( 'admin/jqadm/order/service/delivery/attribute/codes', ['trackingid'] ),
-	'payment' => $this->config( 'admin/jqadm/order/service/payment/attribute/codes', [] ),
+	/** admin/jqadm/order/service/delivery/attribute/suggest
+	 * List of suggested configuration keys for delivery service attributes in orders
+	 *
+	 * Service attributes in orders can store arbitrary key value pairs. This
+	 * setting gives editors a hint which config keys are available and are used
+	 * in the templates.
+	 *
+	 * @param string List of suggested config keys
+	 * @since 2017.10
+	 * @category Developer
+	 * @see admin/jqadm/order/service/payment/attribute/suggest
+	 */
+	'delivery' => $this->config( 'admin/jqadm/order/service/delivery/attribute/suggest', ['trackingid'] ),
+
+	/** admin/jqadm/order/service/payment/attribute/suggest
+	 * List of suggested configuration keys for payment service attributes in orders
+	 *
+	 * Service attributes in orders can store arbitrary key value pairs. This
+	 * setting gives editors a hint which config keys are available and are used
+	 * in the templates.
+	 *
+	 * @param string List of suggested config keys
+	 * @since 2017.10
+	 * @category Developer
+	 * @see admin/jqadm/order/service/delivery/attribute/suggest
+	 */
+	'payment' => $this->config( 'admin/jqadm/order/service/payment/attribute/suggest', [] ),
 ];
 
 
@@ -79,28 +104,22 @@ $serviceAttrCodes = [
 			<a class="btn btn-secondary act-cancel"
 				title="<?= $enc->attr( $this->translate( 'admin', 'Cancel and return to list') ); ?>"
 				href="<?= $enc->attr( $this->url( $listTarget, $listCntl, $listAction, $searchParams, [], $listConfig ) ); ?>">
-				<?php if( $this->access( ['admin', 'editor'] ) ) : ?>
-					<?= $enc->html( $this->translate( 'admin', 'Cancel' ) ); ?>
-				<?php else : ?>
-					<?= $enc->html( $this->translate( 'admin', 'Back' ) ); ?>
-				<?php endif; ?>
+				<?= $enc->html( $this->translate( 'admin', 'Cancel' ) ); ?>
 			</a>
 
-			<?php if( $this->access( ['admin', 'editor'] ) ) : ?>
-				<div class="btn-group">
-					<button type="submit" class="btn btn-primary act-save"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Save entry (Ctrl+S)') ); ?>">
-						<?= $enc->html( $this->translate( 'admin', 'Save' ) ); ?>
-					</button>
-					<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-						aria-haspopup="true" aria-expanded="false">
-						<span class="sr-only"><?= $enc->html( $this->translate( 'admin', 'Toggle dropdown' ) ); ?></span>
-					</button>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item next-action" href="#" data-next="search"><?= $enc->html( $this->translate( 'admin', 'Save & Close' ) ); ?></a>
-					</div>
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary act-save"
+					title="<?= $enc->attr( $this->translate( 'admin', 'Save entry (Ctrl+S)') ); ?>">
+					<?= $enc->html( $this->translate( 'admin', 'Save' ) ); ?>
+				</button>
+				<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<span class="sr-only"><?= $enc->html( $this->translate( 'admin', 'Toggle dropdown' ) ); ?></span>
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item next-action" href="#" data-next="search"><?= $enc->html( $this->translate( 'admin', 'Save & Close' ) ); ?></a>
 				</div>
-			<?php endif; ?>
+			</div>
 		</div>
 	</nav>
 
@@ -175,7 +194,7 @@ $serviceAttrCodes = [
 										<?= $enc->html( $this->translate( 'admin', 'Please select' ) ); ?>
 									</option>
 
-									<?php foreach( $this->get( 'pageLanguages', [] ) as $langId => $langItem ) : ?>
+									<?php foreach( $this->get( 'pageLangItems', [] ) as $langId => $langItem ) : ?>
 										<option value="<?= $enc->attr( $langId ); ?>" <?= $selected( $basket->getLocale()->getLanguageId(), $langId ); ?> >
 											<?= $enc->html( $this->translate( 'client/language', $langId ) ); ?>
 										</option>
@@ -199,10 +218,12 @@ $serviceAttrCodes = [
 							<label class="col-4 form-control-label"><?= $enc->html( $this->translate( 'admin', 'Customer ID' ) ); ?></label>
 							<div class="col-8">
 								<span class="form-control item-customerid">
-									<a class="act-view" target="_blank"
-										href="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'customer', 'id' => $basket->getCustomerId()], [], $getConfig ) ); ?>">
-										<?= $enc->attr( $basket->getCustomerId() ); ?>
-									</a>
+									<?php if( $basket->getCustomerId() ) : ?>
+										<a class="act-view" target="_blank"
+											href="<?= $enc->attr( $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'customer', 'id' => $basket->getCustomerId()], [], $getConfig ) ); ?>">
+											<?= $enc->attr( $basket->getCustomerId() ); ?>
+										</a>
+									<?php endif; ?>
 								</span>
 							</div>
 						</div>
@@ -521,10 +542,10 @@ $serviceAttrCodes = [
 										<?= $enc->html( $this->translate( 'admin', 'Short state code (e.g. NY) if used in the country the customer is living' ) ); ?>
 									</div>
 								</div>
-								<div class="form-group row mandatory">
+								<div class="form-group row optional">
 									<label class="col-sm-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'Country' ) ); ?></label>
 									<div class="col-sm-8">
-										<input class="form-control item-countryid" type="text" required="required" tabindex="1" maxlength="2" pattern="^[a-zA-Z]{2}$" data-field="countryid"
+										<input class="form-control item-countryid" type="text" tabindex="1" maxlength="2" pattern="^[a-zA-Z]{2}$" data-field="countryid"
 											name="<?= $enc->attr( $this->formparam( array( 'item', 'address', $type, 'order.base.address.countryid' ) ) ); ?>"
 											placeholder="<?= $enc->attr( $this->translate( 'admin', 'Country code (required)' ) ); ?>"
 											value="<?= $enc->attr( $this->get( 'itemData/address/' . $type . '/order.base.address.countryid' ) ); ?>"
@@ -635,7 +656,7 @@ $serviceAttrCodes = [
 										<th class="actions">
 											<?php if( !$this->site()->readonly( $basket->getLocale()->getSiteId() ) ) : ?>
 												<div class="btn act-add fa" tabindex="1"
-													title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+													title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 												</div>
 											<?php endif; ?>
 										</th>

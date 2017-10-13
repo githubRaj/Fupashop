@@ -36,15 +36,46 @@
 
 
 
+/** Tree view */
+
+.aimeos .tree-toolbar,
+.aimeos .tree-content {
+	margin: 0.15rem 0;
+	margin-bottom: 1.35rem;
+}
+
+.aimeos .tree-toolbar.input-group * {
+	padding: 0.5rem;
+}
+
+.aimeos .tree-toolbar .input-group-icon.expand-all:before {
+	content: "\f065";
+}
+
+.aimeos .tree-toolbar .input-group-icon.collapse-all:before {
+	content: "\f066";
+}
+
+.aimeos .tree-toolbar .input-group-icon.act-add,
+.aimeos .tree-toolbar .input-group-icon.act-delete {
+	font-size: 75%;
+}
+
+.aimeos .tree-toolbar .input-group-icon.act-add:before {
+	content: "\f067";
+}
+
+.aimeos .tree-toolbar .input-group-icon.act-delete:before {
+	content: "\f068";
+}
+
+
+
 /* Item listing */
 
 .aimeos .list-search,
 .aimeos .list-item-new {
 	background-color: #F8F8F8;
-}
-
-.aimeos .list-items {
-	text-align: center;
 }
 
 .aimeos .list-items .btn.fa {
@@ -64,7 +95,7 @@
 	margin: auto;
 }
 
-.aimeos .list-items th .dropdown-toggle {
+.aimeos .list-items th button {
 	border-color: transparent;
 	background-color: inherit;
 	color: #FFF;
@@ -75,7 +106,7 @@
 }
 
 .aimeos .list-items a.items-field {
-	display: inline-block;
+	display: inline;
 	color: #333;
 	width: 100%;
 }
@@ -106,6 +137,21 @@
 	content:"\f187";
 }
 
+.aimeos .list-items .config-item {
+	white-space: nowrap;
+	text-align: left;
+	max-width: 15rem;
+	overflow: hidden;
+}
+
+.aimeos .list-items .config-key:after {
+	content: ":";
+}
+
+.aimeos .list-items .config-value {
+	color: #687090;
+}
+
 .aimeos .list-items a.items-field.act-view:after {
 	font: normal normal normal 14px/1 FontAwesome;
 	content:"\f06e";
@@ -127,7 +173,7 @@
 }
 
 .aimeos .item-meta small,
-.aimeos .item-catalog .item-meta small {
+.aimeos .item-tree .item-meta small {
 	white-space: nowrap;
 	margin: 0.5rem;
 	font-size: 80%;
@@ -148,6 +194,7 @@
 
 .aimeos .item .tab-pane {
 	overflow-x: auto;
+	height: 100%;
 }
 
 .aimeos .item .form-group.mandatory label:after {
@@ -170,14 +217,26 @@
 }
 
 
-.aimeos .item-config th,
-.aimeos .item-config td {
+.aimeos .item-config .config-row-key,
+.aimeos .item-config .config-row-value {
 	width: 49%;
 }
 
 .aimeos .item-config th {
 	background-color: #ffffff;
 	color: #292b2c;
+}
+
+.aimeos .item-config td {
+	vertical-align: top;
+}
+
+.aimeos .item-config .config-map-table {
+	display: none;
+}
+
+.aimeos .item-config td.config-map-action-add {
+	width: 2%;
 }
 
 
@@ -190,55 +249,24 @@
 
 /* Catalog */
 
-.aimeos .item-catalog .tree-toolbar,
-.aimeos .item-catalog .tree-content {
-	margin: 0.15rem 0;
-	margin-bottom: 1.35rem;
-}
-
-.aimeos .item-catalog .tree-toolbar.input-group * {
-	padding: 0.5rem;
-}
-
-.aimeos .item-catalog .input-group-icon.expand-all:before {
-	content: "\f065";
-}
-
-.aimeos .item-catalog .input-group-icon.collapse-all:before {
-	content: "\f066";
-}
-
-.aimeos .item-catalog .input-group-icon.act-add,
-.aimeos .item-catalog .input-group-icon.act-delete {
-	font-size: 75%;
-}
-
-.aimeos .item-catalog .input-group-icon.act-add:before {
-	content: "\f067";
-}
-
-.aimeos .item-catalog .input-group-icon.act-delete:before {
-	content: "\f068";
-}
-
-.aimeos .catalog-lists-position,
-.aimeos .customer-lists-position,
-.aimeos .catalog-lists-status,
-.aimeos .customer-lists-status,
-.aimeos .catalog-lists-type,
-.aimeos .customer-lists-type,
-.aimeos .catalog-lists-config,
-.aimeos .customer-lists-config {
+.aimeos .list-search .catalog-lists-position,
+.aimeos .list-search .customer-lists-position,
+.aimeos .list-search .catalog-lists-status,
+.aimeos .list-search .customer-lists-status,
+.aimeos .list-search .catalog-lists-type,
+.aimeos .list-search .customer-lists-type,
+.aimeos .list-search .catalog-lists-config,
+.aimeos .list-search .customer-lists-config {
 	width: 15%;
 }
 
-.aimeos .catalog-lists-refid,
-.aimeos .customer-lists-refid {
+.aimeos .list-search .catalog-lists-refid,
+.aimeos .list-search .customer-lists-refid {
 	width: 35%;
 }
 
-.aimeos .catalog-lists-refid,
-.aimeos .customer-lists-refid {
+.aimeos .list-search .catalog-lists-refid,
+.aimeos .list-search .customer-lists-refid {
 	padding: 0 0.75rem;
 	text-align: left;
 }
@@ -253,39 +281,25 @@
 
 /* Images */
 
-.aimeos .item-image .actions .btn {
-	position: relative;
-	overflow: hidden;
-}
-
-.aimeos .item-image .actions .btn.focus {
-	-webkit-box-shadow: 0 0 0 2px rgba(2,117,216,.25);
-	box-shadow: 0 0 0 2px rgba(2,117,216,.25);
-	outline: 0;
-}
-
-.aimeos .item-image .fileupload {
-	cursor: pointer;
-	overflow: hidden;
-	position: absolute;
-	top: 0rem;
-	right: 0rem;
-	height: 2.25rem;
-	width: 2.75rem;
-	opacity: 0;
+.aimeos .item-image .image-preview {
+	border: 2px dashed #B0B0B0;
+	border-radius: .25rem;
+	height: 10rem;
 }
 
 .aimeos .item-image .image-preview img {
-	max-width: 100px;
-	max-height: 100px;
+	max-height: calc(10rem - 4px);
+	max-width: 100%;
+	display: block;
+	margin: auto;
 }
 
-.aimeos .item-image .ai-combobox {
-	width: 3rem;
-}
-
-.aimeos .item-image .image-label {
-	min-width: 7.5em;
+.aimeos .item-image .image-preview .fileupload {
+	height: calc(10rem - 4px);
+	position: absolute;
+	overflow: hidden;
+	cursor: pointer;
+	opacity: 0;
 }
 
 
@@ -437,7 +451,15 @@
 }
 
 
+.aimeos .item-coupon .actions .dropdown-item .label input.fileupload {
+	position: absolute;
+	padding: 0;
+	opacity: 0;
+	left: 0;
+}
 
+
+.prototype-map,
 .prototype {
 	display: none;
 }

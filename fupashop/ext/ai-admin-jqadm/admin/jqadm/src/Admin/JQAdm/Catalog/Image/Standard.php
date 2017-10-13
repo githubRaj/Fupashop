@@ -70,6 +70,7 @@ class Standard
 		$view = $this->getView();
 
 		$view->imageData = $this->toArray( $view->item, true );
+		$view->imageTypes = $this->getMediaTypes();
 		$view->imageBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -88,8 +89,15 @@ class Standard
 	public function create()
 	{
 		$view = $this->getView();
+		$data = $view->param( 'image', [] );
+		$siteid = $this->getContext()->getLocale()->getSiteId();
 
-		$view->imageData = $view->param( 'image', [] );
+		foreach( $view->value( $data, 'catalog.lists.id', [] ) as $idx => $value ) {
+			$data['catalog.lists.siteid'][$idx] = $siteid;
+		}
+
+		$view->imageData = $data;
+		$view->imageTypes = $this->getMediaTypes();
 		$view->imageBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -97,6 +105,16 @@ class Standard
 		}
 
 		return $this->render( $view );
+	}
+
+
+	/**
+	 * Deletes a resource
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$this->cleanupItems( $this->getView()->item->getListItems( 'media' ), [] );
 	}
 
 
@@ -110,6 +128,7 @@ class Standard
 		$view = $this->getView();
 
 		$view->imageData = $this->toArray( $view->item );
+		$view->imageTypes = $this->getMediaTypes();
 		$view->imageBody = '';
 
 		foreach( $this->getSubClients() as $client ) {
@@ -341,18 +360,17 @@ class Standard
 
 
 	/**
-	 * Returns the media items for the given IDs
+	 * Returns the available media types
 	 *
-	 * @param array $ids List of media IDs
-	 * @return array List of media items with ID as key and items implementing \Aimeos\MShop\Media\Item\Iface as values
+	 * @return \Aimeos\MShop\Common\Item\Type\Iface[] Associative list of media type ID as keys and items as values
 	 */
-	protected function getMediaItems( array $ids )
+	protected function getMediaTypes()
 	{
-		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'media' );
+		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'media/type' );
 
 		$search = $manager->createSearch();
-		$search->setConditions( $search->compare( '==', 'media.id', $ids ) );
-		$search->setSlice( 0, 0x7fffffff );
+		$search->setConditions( $search->compare( '==', 'media.type.domain', 'catalog' ) );
+		$search->setSortations( array( $search->sort( '+', 'media.type.label' ) ) );
 
 		return $manager->searchItems( $search );
 	}
@@ -386,44 +404,32 @@ class Standard
 
 		$listIds = (array) $this->getValue( $data, 'catalog.lists.id', [] );
 		$listItems = $manager->getItem( $item->getId(), array( 'media' ) )->getListItems( 'media', 'default' );
-		$mediaItems = $this->getMediaItems( $this->getValue( $data, 'media.id', [] ) );
 
 		$mediaItem = $this->createItem();
 		$listItem = $this->createListItem( $item->getId() );
 
 		$files = $this->getValue( (array) $this->getView()->request()->getUploadedFiles(), 'image/files', [] );
-		$num = 0;
 
 		foreach( $listIds as $idx => $listid )
 		{
 			if( !isset( $listItems[$listid] ) )
 			{
-				$litem = $listItem;
-				$litem->setId( null );
+				$litem = clone $listItem;
 
-				$mediaId = $this->getValue( $data, 'media.id/' . $idx );
-
-				if( $mediaId !== '' && isset( $mediaItems[$mediaId] ) )
-				{
-					$item = $mediaItems[$mediaId];
-				}
-				else if( ( $file = $this->getValue( $files, $num ) ) !== null )
-				{
-					$item = $mediaItem;
-					$item->setId( null );
-
-					$cntl->add( $item, $file );
-					$num++;
-				}
-				else
-				{
-					throw new \Aimeos\Admin\JQAdm\Exception( sprintf( 'No file uploaded for %1$d. new image', $num+1 ) );
+				if( ( $refId = $this->getValue( $data, 'catalog.lists.refid/' . $idx ) ) !== null ) {
+					$item = $mediaManager->getItem( $refId ); // copy existing item
+				} else {
+					$item = clone $mediaItem;
 				}
 			}
 			else
 			{
 				$litem = $listItems[$listid];
 				$item = $litem->getRefItem();
+			}
+
+			if( ( $file = $this->getValue( $files, $idx ) ) !== null ) {
+				$cntl->add( $item, $file );
 			}
 
 			$item->setLabel( $this->getValue( $data, 'media.label/' . $idx ) );
@@ -450,18 +456,12 @@ class Standard
 	 */
 	protected function toArray( \Aimeos\MShop\Catalog\Item\Iface $item, $copy = false )
 	{
-		$data = $ids = [];
+		$data = [];
 		$siteId = $this->getContext()->getLocale()->getSiteId();
-
-		foreach( $item->getListItems( 'media', 'default' ) as $listItem ) {
-			$ids[] = $listItem->getRefId();
-		}
-
-		$mediaItems = $this->getMediaItems( $ids );
 
 		foreach( $item->getListItems( 'media', 'default' ) as $listItem )
 		{
-			if( !isset( $mediaItems[$listItem->getRefId()] ) ) {
+			if( ( $refItem = $listItem->getRefItem() ) === null ) {
 				continue;
 			}
 
@@ -477,7 +477,7 @@ class Standard
 				$data[$key][] = $value;
 			}
 
-			foreach( $mediaItems[$listItem->getRefId()]->toArray( true ) as $key => $value ) {
+			foreach( $refItem->toArray( true ) as $key => $value ) {
 				$data[$key][] = $value;
 			}
 		}

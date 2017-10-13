@@ -2,7 +2,7 @@
 
 /**
  * @license LGPLv3, http://opensource.org/licenses/LGPL-3.0
- * @copyright Aimeos (aimeos.org), 2015-2016
+ * @copyright Aimeos (aimeos.org), 2015-2017
  */
 
 $enc = $this->encoder();
@@ -167,6 +167,7 @@ $config = $this->config( 'admin/jqadm/url/get/config', [] );
 
 		<div id="item-selection-group-data-" class="card-block collapse show row">
 			<div class="col-lg-6">
+				<input class="item-id" type="hidden" name="<?= $enc->attr( $this->formparam( array( 'selection', 'product.id', '' ) ) ); ?>" value="" />
 				<div class="form-group row mandatory">
 					<label class="col-lg-4 form-control-label help"><?= $enc->html( $this->translate( 'admin', 'SKU' ) ); ?></label>
 					<div class="col-lg-8">
@@ -202,7 +203,7 @@ $config = $this->config( 'admin/jqadm/url/get/config', [] );
 							</th>
 							<th class="actions">
 								<div class="btn act-add fa" tabindex="<?= $this->get( 'tabindex' ); ?>"
-									title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+									title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 								</div>
 							</th>
 						</tr>
@@ -230,7 +231,7 @@ $config = $this->config( 'admin/jqadm/url/get/config', [] );
 
 	<div class="card-tools-more">
 		<div class="btn btn-primary btn-card-more act-add fa"
-			title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>">
+			title="<?= $enc->attr( $this->translate( 'admin', 'Insert new entry (Ctrl+I)') ); ?>">
 		</div>
 	</div>
 

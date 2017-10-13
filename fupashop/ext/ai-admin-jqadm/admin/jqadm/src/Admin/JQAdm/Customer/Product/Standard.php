@@ -137,11 +137,14 @@ class Standard
 
 		try
 		{
-			$listItems = $this->getListItems( $view->item, $view->param() );
+			$total = 0;
+			$params = $this->storeSearchParams( $view->param( 'up', [] ), 'customerproduct' );
+			$listItems = $this->getListItems( $view->item, $params, $total );
 
 			$view->productItems = $this->getProductItems( $listItems );
 			$view->productData = $this->toArray( $listItems );
 			$view->productListTypes = $this->getListTypes();
+			$view->productTotal = $total;
 			$view->productBody = '';
 
 			foreach( $this->getSubClients() as $client ) {
@@ -177,6 +180,7 @@ class Standard
 
 		try
 		{
+			$this->storeSearchParams( $view->param( 'up', [] ), 'customerproduct' );
 			$this->fromArray( $view->item, $view->param( 'product', [] ) );
 			$view->productBody = '';
 
@@ -295,9 +299,10 @@ class Standard
 	 *
 	 * @param \Aimeos\MShop\Customer\Item\Iface $item Customer item object
 	 * @param array $params Associative list of GET/POST parameters
+	 * @param integer $total Value/result parameter that will contain the item total afterwards
 	 * @return \Aimeos\MShop\Common\Item\List\Iface[] Customer list items referencing the products
 	 */
-	protected function getListItems( \Aimeos\MShop\Customer\Item\Iface $item, array $params = [] )
+	protected function getListItems( \Aimeos\MShop\Customer\Item\Iface $item, array $params = [], &$total )
 	{
 		$manager = \Aimeos\MShop\Factory::createManager( $this->getContext(), 'customer/lists' );
 
@@ -312,7 +317,7 @@ class Standard
 		];
 		$search->setConditions( $search->combine( '&&', $expr ) );
 
-		return $manager->searchItems( $search );
+		return $manager->searchItems( $search, [], $total );
 	}
 
 
@@ -390,9 +395,7 @@ class Standard
 		$search->setConditions( $search->compare( '==', 'customer.lists.id', $listIds ) );
 		$search->setSlice( 0, 0x7fffffff );
 
-		$listItem = $listManager->createItem();
-		$listItem->setParentId( $item->getId() );
-		$listItem->setDomain( 'product' );
+		$listItems = $listManager->searchItems( $search );
 
 
 		foreach( (array) $listIds as $idx => $listid )
@@ -400,10 +403,11 @@ class Standard
 			if( isset( $listItems[$listid] ) ) {
 				$litem = $listItems[$listid];
 			} else {
-				$litem = clone $listItem;
+				$litem = $listManager->createItem();
 			}
 
-			$litem->setId( $listid ?: null );
+			$litem->setParentId( $item->getId() );
+			$litem->setDomain( 'product' );
 
 			if( isset( $data['customer.lists.refid'][$idx] ) ) {
 				$litem->setRefId( $this->getValue( $data, 'customer.lists.refid/' . $idx ) );
@@ -435,7 +439,7 @@ class Standard
 				$litem->setConfig( $conf );
 			}
 
-			if( isset( $data['config'][$idx]['key'] ) )
+			if( $litem->getId() === null && isset( $data['config'][$idx]['key'] ) )
 			{
 				$conf = [];
 

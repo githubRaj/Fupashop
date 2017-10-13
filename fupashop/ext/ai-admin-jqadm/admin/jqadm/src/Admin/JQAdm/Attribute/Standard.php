@@ -150,7 +150,7 @@ class Standard
 
 		try
 		{
-			$data = $view->param( 'item' );
+			$data = $view->param( 'item', [] );
 
 			if( !isset( $view->item ) ) {
 				$view->item = \Aimeos\MShop\Factory::createManager( $context, 'attribute' )->createItem();
@@ -158,7 +158,6 @@ class Standard
 				$data = $this->toArray( $view->item );
 			}
 
-			$data['attribute.id'] = $view->item->getId();
 			$data['attribute.siteid'] = $view->item->getSiteId();
 
 			$view->itemSubparts = $this->getSubClientNames();
@@ -341,8 +340,9 @@ class Standard
 		try
 		{
 			$total = 0;
+			$params = $this->storeSearchParams( $view->param(), 'attribute' );
 			$manager = \Aimeos\MShop\Factory::createManager( $context, 'attribute' );
-			$search = $this->initCriteria( $manager->createSearch(), $view->param() );
+			$search = $this->initCriteria( $manager->createSearch(), $params );
 
 			$view->items = $manager->searchItems( $search, [], $total );
 			$view->filterAttributes = $manager->getSearchAttributes( true );
@@ -496,7 +496,7 @@ class Standard
 		 * @since 2017.07
 		 * @category Developer
 		 */
-		$domains = array('media', 'price', 'text' );
+		$domains = array( 'media', 'price', 'text' );
 
 		return $this->getContext()->getConfig()->get( 'admin/jqadm/attribute/domains', $domains );
 	}

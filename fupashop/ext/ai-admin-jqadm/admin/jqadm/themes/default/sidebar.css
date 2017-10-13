@@ -156,7 +156,6 @@
 	transition-duration: .3s;
 }
 
-.aimeos .sidebar-menu li.active .tree-menu,
 .aimeos .sidebar-menu li:hover .tree-menu {
 	transform: translateX(0);
 	visibility: visible;
@@ -214,10 +213,10 @@
 .aimeos .main-sidebar .supplier .icon:before { content: "\f275" }
 .aimeos .main-sidebar .service .icon:before { content: "\f09d" }
 .aimeos .main-sidebar .service .icon:after { content: "\f0d1" }
-.aimeos .main-sidebar .plugin .icon:before { content: "\f12e" }
+.aimeos .main-sidebar .plugin .icon:before { content: "\f1e6" }
+.aimeos .main-sidebar .type .icon:before { content: "\f02b" }
 .aimeos .main-sidebar .locale .icon:before { content: "\f0ac" }
-.aimeos .main-sidebar .type .icon:before { content: "\f02c" }
-.aimeos .main-sidebar .config .icon:before { content: "\f1ab" }
+.aimeos .main-sidebar .language .icon:before { content: "\f1ab" }
 
 
 .aimeos .main-content {
@@ -244,7 +243,6 @@
 	.aimeos .sidebar-menu > li:hover > .tree-menu {
 		left: 5rem;
 	}
-	.aimeos .sidebar-menu li.active .tree-menu,
 	.aimeos .sidebar-menu li:hover .tree-menu {
 		left: 5rem;
 	}

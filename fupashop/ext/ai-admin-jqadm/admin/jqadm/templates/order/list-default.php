@@ -13,11 +13,6 @@ $controller = $this->config( 'admin/jqadm/url/search/controller', 'Jqadm' );
 $action = $this->config( 'admin/jqadm/url/search/action', 'search' );
 $config = $this->config( 'admin/jqadm/url/search/config', [] );
 
-$newTarget = $this->config( 'admin/jqadm/url/create/target' );
-$newCntl = $this->config( 'admin/jqadm/url/create/controller', 'Jqadm' );
-$newAction = $this->config( 'admin/jqadm/url/create/action', 'create' );
-$newConfig = $this->config( 'admin/jqadm/url/create/config', [] );
-
 $getTarget = $this->config( 'admin/jqadm/url/get/target' );
 $getCntl = $this->config( 'admin/jqadm/url/get/controller', 'Jqadm' );
 $getAction = $this->config( 'admin/jqadm/url/get/action', 'get' );
@@ -27,6 +22,76 @@ $copyTarget = $this->config( 'admin/jqadm/url/copy/target' );
 $copyCntl = $this->config( 'admin/jqadm/url/copy/controller', 'Jqadm' );
 $copyAction = $this->config( 'admin/jqadm/url/copy/action', 'copy' );
 $copyConfig = $this->config( 'admin/jqadm/url/copy/config', [] );
+
+/** admin/jqadm/url/export/target
+ * Destination of the URL where the controller specified in the URL is known
+ *
+ * The destination can be a page ID like in a content management system or the
+ * module of a software development framework. This "target" must contain or know
+ * the controller that should be called by the generated URL.
+ *
+ * @param string Destination of the URL
+ * @since 2017.10
+ * @category Developer
+ * @see admin/jqadm/url/export/controller
+ * @see admin/jqadm/url/export/action
+ * @see admin/jqadm/url/export/config
+ */
+$expTarget = $this->config( 'admin/jqadm/url/export/target' );
+
+/** admin/jqadm/url/export/controller
+ * Name of the controller whose action should be called
+ *
+ * In Model-View-Controller (MVC) applications, the controller contains the methods
+ * that create parts of the output displayed in the generated HTML page. Controller
+ * names are usually alpha-numeric.
+ *
+ * @param string Name of the controller
+ * @since 2016.04
+ * @category Developer
+ * @see admin/jqadm/url/export/target
+ * @see admin/jqadm/url/export/action
+ * @see admin/jqadm/url/export/config
+ */
+$expCntl = $this->config( 'admin/jqadm/url/export/controller', 'Jqadm' );
+
+/** admin/jqadm/url/export/action
+ * Name of the action that should create the output
+ *
+ * In Model-View-Controller (MVC) applications, actions are the methods of a
+ * controller that create parts of the output displayed in the generated HTML page.
+ * Action names are usually alpha-numeric.
+ *
+ * @param string Name of the action
+ * @since 2016.04
+ * @category Developer
+ * @see admin/jqadm/url/export/target
+ * @see admin/jqadm/url/export/controller
+ * @see admin/jqadm/url/export/config
+ */
+$expAction = $this->config( 'admin/jqadm/url/export/action', 'export' );
+
+/** admin/jqadm/url/export/config
+ * Associative list of configuration options used for generating the URL
+ *
+ * You can specify additional options as key/value pairs used when generating
+ * the URLs, like
+ *
+ *  admin/jqadm/url/export/config = ['absoluteUri' => true )
+ *
+ * The available key/value pairs depend on the application that embeds the e-commerce
+ * framework. This is because the infrastructure of the application is used for
+ * generating the URLs. The full list of available config options is referenced
+ * in the "see also" section of this page.
+ *
+ * @param string Associative list of configuration options
+ * @since 2016.04
+ * @category Developer
+ * @see admin/jqadm/url/export/target
+ * @see admin/jqadm/url/export/controller
+ * @see admin/jqadm/url/export/action
+ */
+$expConfig = $this->config( 'admin/jqadm/url/export/config', [] );
 
 
 /** admin/jqadm/order/fields
@@ -44,13 +109,12 @@ $copyConfig = $this->config( 'admin/jqadm/url/copy/config', [] );
  * @category Developer
  */
 $default = $this->config( 'admin/jqadm/order/fields', ['order.id', 'order.ctime', 'order.statuspayment', 'order.base.address.lastname'] );
-$fields = $this->param( 'fields/o', $default );
-
-$params = $this->get( 'pageParams', [] );
-$pageParams = ['total' => $this->get( 'total', 0 ), 'pageParams' => $params];
-$sortcode = $this->param( 'sort' );
+$fields = $this->session( 'aimeos/admin/jqadm/order/fields', $default );
 
 $baseItems = $this->get( 'baseItems', [] );
+$params = $this->get( 'pageParams', [] );
+$sortcode = $this->param( 'sort' );
+
 
 $columnList = [
 	'order.id' => $this->translate( 'admin', 'Invoice' ),
@@ -140,16 +204,21 @@ $statusList = [
 
 	<?= $this->partial(
 		$this->config( 'admin/jqadm/partial/navsearch', 'common/partials/navsearch-default.php' ), [
+			'filter' => $this->session( 'aimeos/admin/jqadm/order/filter', [] ),
 			'filterAttributes' => $this->get( 'filterAttributes', [] ),
 			'filterOperators' => $this->get( 'filterOperators', [] ),
-			'filterData' => $this->param( 'filter', [] ),
 			'params' => $params,
 		]
 	); ?>
 </nav>
 
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'top'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'top', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/order/page', [] )]
+	);
+?>
 
 <?php $searchParam = $params; unset( $searchParam['filter'] ); ?>
 <form class="list-order" method="POST" action="<?= $enc->attr( $this->url( $target, $controller, $action, $params, [], $config ) ); ?>">
@@ -160,20 +229,20 @@ $statusList = [
 			<tr>
 				<?= $this->partial(
 						$this->config( 'admin/jqadm/partial/listhead', 'common/partials/listhead-default.php' ),
-						['fields' => $fields, 'params' => $params, 'data' => $columnList]
+						['fields' => $fields, 'params' => $params, 'data' => $columnList, 'sort' => $this->session( 'aimeos/admin/jqadm/order/sort' )]
 					);
 				?>
 
 				<th class="actions">
-					<a class="btn fa act-add" tabindex="1"
-						href="<?= $enc->attr( $this->url( $newTarget, $newCntl, $newAction, $params, [], $newConfig ) ); ?>"
-						title="<?= $enc->attr( $this->translate( 'admin', 'Add new entry (Ctrl+A)') ); ?>"
-						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Add' ) ); ?>">
+					<a class="btn fa act-download" tabindex="1"
+						href="<?= $enc->attr( $this->url( $expTarget, $expCntl, $expAction, $params, [], $expConfig ) ); ?>"
+						title="<?= $enc->attr( $this->translate( 'admin', 'Download') ); ?>"
+						aria-label="<?= $enc->attr( $this->translate( 'admin', 'Download' ) ); ?>">
 					</a>
 
 					<?= $this->partial(
 							$this->config( 'admin/jqadm/partial/columns', 'common/partials/columns-default.php' ),
-							['fields' => $fields, 'group' => 'o', 'data' => $columnList]
+							['fields' => $fields, 'data' => $columnList]
 						);
 					?>
 				</th>
@@ -183,7 +252,7 @@ $statusList = [
 
 			<?= $this->partial(
 				$this->config( 'admin/jqadm/partial/listsearch', 'common/partials/listsearch-default.php' ), [
-					'fields' => $fields, 'params' => $searchParam,
+					'fields' => $fields, 'filter' => $this->session( 'aimeos/admin/jqadm/order/filter', [] ),
 					'data' => [
 						'order.id' => ['op' => '=='],
 						'order.type' => [],
@@ -272,13 +341,7 @@ $statusList = [
 					<?php $baseItem = ( isset( $baseItems[$item->getBaseId()] ) ? $baseItems[$item->getBaseId()] : null ); ?>
 
 					<?php if( in_array( 'order.base.customerid', $fields ) ) : ?>
-						<td class="order-base-customerid">
-							<?php if( $baseItem ) : ?>
-								<a class="items-field act-view fa" target="_blank" href="<?= $this->url( $getTarget, $getCntl, $getAction, ['resource' => 'customer', 'id' => $baseItem->getCustomerId()], [], $getConfig ); ?>">
-									<?= $enc->html( $baseItem->getCustomerId() ); ?>
-								</a>
-							<?php endif; ?>
-						</td>
+						<td class="order-base-customerid"><a class="items-field" href="<?= $url; ?>"><?= $baseItem ? $enc->html( $baseItem->getCustomerId() ) : ''; ?></a></td>
 					<?php endif; ?>
 					<?php if( in_array( 'order.base.sitecode', $fields ) ) : ?>
 						<td class="order-base-sitecode"><a class="items-field" href="<?= $url; ?>"><?= $baseItem ? $enc->html( $baseItem->getSiteCode() ) : ''; ?></a></td>
@@ -410,7 +473,12 @@ $statusList = [
 	<?php endif; ?>
 </form>
 
-<?= $this->partial( $this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ), $pageParams + ['pos' => 'bottom'] ); ?>
+<?= $this->partial(
+		$this->config( 'admin/jqadm/partial/pagination', 'common/partials/pagination-default.php' ),
+		['pageParams' => $params, 'pos' => 'bottom', 'total' => $this->get( 'total' ),
+		'page' => $this->session( 'aimeos/admin/jqadm/order/page', [] )]
+	);
+?>
 
 <?php $this->block()->stop(); ?>
 
