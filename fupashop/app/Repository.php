@@ -39,6 +39,7 @@ class Repository
 		//echo var_dump($tempTablet->getProcessor());
 		//return;
 		$this->tablets[] = $tablet;
+		return;
 	}
 
 	public function getSingleTablet($id){

@@ -66,12 +66,12 @@
          </thead>
 
 	@foreach ($monitors as $monitor)
-	<tr class="{{ $monitor->brandName }}">
+	<tr class="{{ $monitor->getBrandName() }}">
               <tr>
-		<td><a href="monitors/{{ $monitor->modelNumber }}">{{ $monitor->modelNumber }}</a></td>
-		<td class="brand">{{ $monitor->brandName }}</td>
-		<td>{{ $monitor->size }}</td>
-		<td class="price">{{ $monitor->price }}</td>
+		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>
+		<td class="brand">{{ $monitor->getBrandName() }}</td>
+		<td>{{ $monitor->getSize() }}</td>
+		<td class="price">{{ $monitor->getPrice() }}</td>
 		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>
 	@endforeach

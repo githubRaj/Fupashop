@@ -24,11 +24,11 @@ class Desktop extends Item
 		$this->price = $price;
 	}
 
-    public function getProcessor() { return $this->$processor; }
-    public function getDimensions() { return $this->$dimensions; }
-    public function getRamSize() { return $this->$ramSize; }
-    public function getCpuCores() { return $this->$cpuCores; }
-    public function getHddSize() { return $this->$hddSize; }
+    public function getProcessor() { return $this->processor; }
+    public function getDimensions() { return $this->dimensions; }
+    public function getRamSize() { return $this->ramSize; }
+    public function getCpuCores() { return $this->cpuCores; }
+    public function getHddSize() { return $this->hddSize; }
 
     public function setProcessor($processor) { $this->processor = $processor; }
     public function setDimensions($dimensions) { $this->dimensions = $dimensions; }

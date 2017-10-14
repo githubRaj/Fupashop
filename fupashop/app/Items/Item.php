@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Items;
-use Tablet;
 
 class Item
 {
 	// Attributes
 
-	private $modelNumber;
-	private $brandName;
-	private $price;
-	private $weight;
-	private $type;
+	protected $modelNumber;
+	protected $brandName;
+	protected $price;
+	protected $weight;
+	protected $type;
 
 	// Getters
 	public function getModelNumber() { return $this->modelNumber; }

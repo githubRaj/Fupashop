@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Items;
-
+use App\Items\Item;
 class Monitor extends Item
 {
     private $size;
@@ -15,7 +15,7 @@ class Monitor extends Item
         $this->price = $price;
     }
 
-    public function getSize() { return $this->$size; }
+    public function getSize() { return $this->size; }
 
     public function setSize($size) { $this->size = $size; }
 

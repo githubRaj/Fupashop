@@ -5,10 +5,10 @@ use App\Items\Item;
 
 class Tv extends Item
 {
-    private $dimensions;
-    private $tvType;
-    private $resolution;
-    private $screenSize;
+    protected $dimensions;
+    protected $tvType;
+    protected $resolution;
+    protected $screenSize;
 
     public function __construct($brandName, $dimensions, $weight, $tvType, $modelNumber, $price, $resolution, $screenSize )
     {
@@ -22,13 +22,13 @@ class Tv extends Item
         $this->screenSize = $screenSize;
     }
 
-    public function getDimensions() { return $this->$dimensions; }
-    public function getTvType() { return $this->$tvType; }
-    public function getResolution() { return $this->$resolution; }
-    public function getScreenSize() { return $this->$screenSize; }
+    public function getDimensions() { return $this->dimensions; }
+    public function getTvType() { return $this->tvType; }
+    public function getResolution() { return $this->resolution; }
+    public function getScreenSize() { return $this->screenSize; }
 
     public function setDimensions($dimensions) { $this->dimensions = $dimensions; }
-    public function setTvType($tvType) { $this->tvType = $tvType; }
+    public function setTvType($tvType) { $this->tvType = tvType; }
     public function setResolution($resolution) { $this->resolution = $resolution; }
     public function setScreenSize($screenSize) { $this->screenSize = $screenSize; }
 

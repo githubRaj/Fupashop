@@ -29,23 +29,23 @@
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/tablets/{{ $tablets[0]->modelNumber }}">
+                        <a href="/tablets/{{ $tablets[0]->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/acerb3.png') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $tablets[0]->modelNumber }}
+                          {{ $tablets[0]->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $tablets[0]->price }}
+                        {{ $tablets[0]->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $tablets[0]->processor }} processor</li>
-                          <li> {{ $tablets[0]->hddSize }} storage space</li>
-                          <li> {{ $tablets[0]->cpucores }} </li>
+                          <li> {{ $tablets[0]->getProcessor()}} processor</li>
+                          <li> {{ $tablets[0]->getHddSize() }} storage space</li>
+                          <li> {{ $tablets[0]->getCpuCores() }} </li>
                     </p>
                 </div>
             </div>
@@ -58,23 +58,23 @@
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/desktops/{{ $desktops[0]->modelNumber }}">
+                        <a href="/desktops/{{ $desktops[0]->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/c1.jpg') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $desktops[0]->modelNumber }}
+                          {{ $desktops[0]->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $desktops[0]->price }}
+                        {{ $desktops[0]->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $desktops[0]->processor }} processor</li>
-                          <li> {{ $desktops[0]->hddSize }} storage space</li>
-                          <li> {{ $desktops[0]->cpuCores }} </li>
+                          <li> {{ $desktops[0]->getProcessor() }} processor</li>
+                          <li> {{ $desktops[0]-getHddSize() }} storage space</li>
+                          <li> {{ $desktops[0]->getCpuCores() }} </li>
                     </p>
                 </div>
             </div>
@@ -91,16 +91,16 @@
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $monitors[0]->modelNumber }}
+                          {{ $monitors[0]->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $monitors[0]->price }}
+                        {{ $monitors[0]->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $monitors[0]->size }} inch screen</li>
-                          <li> {{ $monitors[0]->weight }} lbs</li>
+                          <li> {{ $monitors[0]->getSize() }} inch screen</li>
+                          <li> {{ $monitors[0]->getWeight() }} lbs</li>
                     </p>
                 </div>
             </div>
@@ -111,23 +111,23 @@
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/laptops/{{ $laptops[0]->modelNumber }}">
+                        <a href="/laptops/{{ $laptops[0]->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/l1.jpg') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $laptops[0]->modelNumber }}
+                          {{ $laptops[0]->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $laptops[0]->price }}
+                        {{ $laptops[0]->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $laptops[0]->processor }} processor</li>
-                          <li> {{ $laptops[0]->hddSize }} </li>
-                          <li> {{ $laptops[0]->cpuCores }} cores </li>
+                          <li> {{ $laptops[0]->getProcessor() }} processor</li>
+                          <li> {{ $laptops[0]->getHddSize() }} </li>
+                          <li> {{ $laptops[0]->getCpuCores() }} cores </li>
                     </p>
                 </div>
             </div>

@@ -14,9 +14,9 @@ use App\Items\Laptop;
 class Mapper
 {
 	//protected $tablets;
-	private $tdg;
-	private $uow;
-	private $repo;
+	protected $tdg;
+	protected $uow;
+	protected $repo;
 
 	public function __construct()
 	{
@@ -32,7 +32,7 @@ class Mapper
 	{
 
 		
-		if($this->repo->emptyTablets()){	//no Tablets found in repo. load all from db to repo
+		//if($this->repo->emptyTablets()){	//no Tablets found in repo. load all from db to repo
 			$tempTablets =  $this->tdg->getAllTablets();
 			foreach($tempTablets as $item){
 				//create the object
@@ -40,9 +40,12 @@ class Mapper
 				//store into repo
 				$this->repo->addTabletToRepo($tablet);
 			}
-		}
+		//}
 		//testing tablet object display
 
+		//$test = array();
+		//$test = $this->repo->getAllTablets();
+		//var_dump($test);
 		return $this->repo->getAllTablets();
 	}
 
@@ -60,7 +63,7 @@ class Mapper
 
 			$tablet = $item;
 
-			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
+			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screenSize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
 		}
 		else //doesnt exist
 
@@ -118,7 +121,7 @@ class Mapper
 				//create the object
 				$monitor = new Monitor($item->modelNumber, $item->size, $item->weight, $item->brandName, $item->price);
 				//store into repo
-				$this->repo->addMonitorsToRepo($monitor);
+				$this->repo->addMonitorToRepo($monitor);
 			}
 		}
 
@@ -186,7 +189,6 @@ class Mapper
 		else //doesnt exist
 			return  null;
 
-		
 
 	}
 /*-------------------LAPTOPS---------------------------*/
@@ -204,9 +206,9 @@ class Mapper
 			$tempTvs =  $this->tdg->getAllLaptops();
 			foreach($tempTvs as $item){
 				//create the object
-				$laptop = new Laptop($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->price);
+				$laptop = new Laptop($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->cameraInformation, $item->price);
 				//store into repo
-				$this->repo->addLaptopsToRepo($laptop);
+				$this->repo->addLaptopToRepo($laptop);
 			}
 		}
 
@@ -228,7 +230,7 @@ class Mapper
 
 			$item = $laptop;
 
-			return new Laptops($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->price);
+			return new Laptops($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->cameraInformation, $item->price);
 		}
 		else //doesnt exist
 			return  null;

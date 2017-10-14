@@ -76,7 +76,7 @@ class ProductsController extends Controller
 
       $tv =  $this->mapper->getTvById($id);
       if($tv != null){  //not an empty object
-
+          return view ('tvs.info', compact('tv'));
       }
       else{
         //return/redirect user to tv index
@@ -87,7 +87,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $tv = $item;
-            return view ('tvs.info', compact('tv'));
+            
           }
         }*/
     }
@@ -128,7 +128,7 @@ class ProductsController extends Controller
 
         $desktop =  $this->mapper->getDesktopById($id);
         if($desktop != null){  //not an empty object
-
+            return view ('desktops.info', compact('desktop'));
         }
         else{
           //return/redirect user to desktop index
@@ -138,7 +138,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $desktop = $item;
-            return view ('desktops.info', compact('desktop'));
+            
 
           }
         }*/
@@ -174,7 +174,7 @@ class ProductsController extends Controller
 
         $laptop =  $this->mapper->getLaptopById($id);
         if($laptop != null){  //not an empty object
-
+            return view ('laptops.info', compact('laptop'));
         }
         else{
           //return/redirect user to tablet index
@@ -186,7 +186,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $laptop = $item;
-            return view ('laptops.info', compact('laptop'));
+            
 
           }
         }*/
@@ -221,7 +221,7 @@ class ProductsController extends Controller
 
       $monitor =  $this->mapper->getMonitorById($id);
         if($monitor != null){  //not an empty object
-
+          return view ('monitors.info', compact('monitor'));
         }
         else{
           //return/redirect user to tablet index
@@ -232,7 +232,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $monitor = $item;
-            return view ('monitors.info', compact('monitor'));
+           
 
           }
         }*/
@@ -270,7 +270,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $tablet = $item;
-            return view ('tablets.info', compact('tablet'));
+            
 
           }
         }*/
@@ -278,7 +278,7 @@ class ProductsController extends Controller
 
         $tablet =  $this->mapper->getTabletById($id);
         if($tablet != null){  //not an empty object
-
+            return view ('tablets.info', compact('tablet'));
         }
         else{
           //return/redirect user to tablet index
@@ -294,7 +294,7 @@ class ProductsController extends Controller
 
 
 
-      $this->uow->commit();
+      //$this->uow->commit();
     }
 
     public function makeNewTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
@@ -336,14 +336,19 @@ class ProductsController extends Controller
 
     public function getShowcaseArrays()
     {
-      $this->tablets =  $this->mapper->getTablets();
+      $this->tablets =  $this->mapper->getAllTablets();
+
+
       $tablets = $this->tablets; // cant send using compact without this
-      $this->monitors =  $this->mapper->getMonitors();
-      $monitors = $this->monitors; // cant send using compact without this
-      $this->desktops =  $this->mapper->getDesktops();
-      $desktops = $this->desktops; // cant send using compact without this
-      $this->laptops =  $this->mapper->getLaptops();
-      $laptops = $this->laptops; // cant send using compact without this
+      //echo $tablets[0]->getModelNumber();
+      //var_dump($tablets);
+
+      //$this->monitors =  $this->mapper->getAllMonitors();
+      //$monitors = $this->monitors; // cant send using compact without this
+     // $this->desktops =  $this->mapper->getAllDesktops();
+      //$desktops = $this->desktops; // cant send using compact without this
+      //$this->laptops =  $this->mapper->getAllLaptops();
+      //$laptops = $this->laptops; // cant send using compact without this
 
       return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
     }
