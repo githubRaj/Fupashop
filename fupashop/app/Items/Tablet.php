@@ -7,14 +7,14 @@ use App\Items\Item;
 class Tablet extends Item
 {
     // Attributes that apply to all items are in superclass Item
-	protected $processor;
-	protected $screenSize;
-	protected $dimensions;
-	protected $ramSize;
-	protected $cpucores;
-	protected $hddSize;
-	protected $operatingSystem;
-	protected $cameraInformation;
+	private $processor;
+	private $screenSize;
+	private $dimensions;
+	private $ramSize;
+	private $cpucores;
+	private $hddSize;
+	private $operatingSystem;
+	private $cameraInformation;
 
     public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
 	{

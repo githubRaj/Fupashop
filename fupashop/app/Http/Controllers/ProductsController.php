@@ -37,8 +37,6 @@ class ProductsController extends Controller
         $this->tvs = array();
         $this->monitors = array();
         $this->laptops = array();
-        //$this->repo = new Repository(); // <----- Identity Map
-        //$this->uow = new UOW($this->mapper); // Unit of Work
     }
 
 
@@ -194,8 +192,8 @@ class ProductsController extends Controller
       $brands = array();
       $this->tablets =  $this->mapper->getAllTablets();
       $tablets = $this->tablets; // cant send using compact without this
-      
-      foreach( $this->tablets as $item ){
+
+      foreach( $this->tablets as $item){
         var_dump($item->getProcessor());
         $flag = false;
         foreach( $brands as $brand ){

@@ -36,9 +36,6 @@ class Repository
 
 	public function addTabletToRepo($tablet){
 		//if (!itemExists($tablet))
-			//$tablet->setItemType('Tablet');
-		//$tempTablet = new Tablet('', '', '', '', '', '', '', '', '', '', '', '', '');
-		//$tempTablet = $tablet;
 		//echo var_dump($tempTablet->getProcessor());
 		//return;
 		$this->tablets[] = $tablet;
