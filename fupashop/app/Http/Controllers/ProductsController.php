@@ -52,7 +52,19 @@ class ProductsController extends Controller
 
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
-      return view ('tvs.index', compact('tvs'));
+
+      $brands = array();
+      foreach($tvs as $item){
+        $flag = false;
+        foreach($brands as $brand){
+          if($brand == $item->brandName)
+            $flag = true;
+        }
+        if($flag != true){
+          $brands[] = $item->brandName;
+        }
+      }
+      return view ('tvs.index', compact('tvs', 'brands'));
     }
     public function getTv($id)
     {
@@ -62,7 +74,6 @@ class ProductsController extends Controller
           {
             $tv = $item;
             return view ('tvs.info', compact('tv'));
-
           }
         }
     }
@@ -71,13 +82,6 @@ class ProductsController extends Controller
 
      public function Desktopindex()
     {
-    	//$desktops = Desktop::all();
-      //$brands = Desktop::all(['brandName'])->unique('brandName');
-
-
-
-    	//return view ('desktops.index', compact('desktops','brands'));
-
       $this->desktops =  $this->mapper->getDesktops();
       $desktops = $this->desktops; // cant send using compact without this
 
@@ -94,8 +98,6 @@ class ProductsController extends Controller
       }
 
       return view ('desktops.index', compact('desktops','brands'));
-
-
     }
 
     public function getDesktop($id)
