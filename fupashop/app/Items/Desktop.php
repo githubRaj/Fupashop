@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Items;
+use App\Items\Item;
 
 class Desktop extends Item
 {
-	protected $processor;
-	protected $dimensions;
-	protected $ramSize;
-	protected $cpuCores;
-	protected $hddSize;
+	private $processor;
+	private $dimensions;
+	private $ramSize;
+	private $cpuCores;
+	private $hddSize;
 
 	public function __construct($modelNumber, $processor, $dimensions, $ramSize, $weight, $cpuCores, $hddSize, $brandName, $price)
 	{

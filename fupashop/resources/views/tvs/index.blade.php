@@ -81,12 +81,12 @@
 
 			<tbody>
 		@foreach ($tvs as $tv)
-			<tr class="{{ $tv->resolution }}">
+			<tr class="{{ $tv->getResolution() }}">
 					<tr>
-<td><a href="tvs/{{ $tv->modelNumber }}">{{ $tv->modelNumber }}</a></td>
-<td class="brand">{{ $tv->brandName }}</td>
-<td>{{ $tv->tvType }}</td>
-<td class="price">{{ $tv->price }}</td>
+<td><a href="tvs/{{ $tv->getModelNumber() }}">{{ $tv->getModelNumber() }}</a></td>
+<td class="brand">{{ $tv->getBrandName() }}</td>
+<td>{{ $tv->getTvType() }}</td>
+<td class="price">{{ $tv->getPrice() }}</td>
 <td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 		</tr>
 		@endforeach

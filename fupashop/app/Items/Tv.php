@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Items;
+use App\Items\Item;
 
 class Tv extends Item
 {
-    protected $dimensions;
-    protected $tvType;
-    protected $resolution;
-    protected $screenSize;
+    private $dimensions;
+    private $tvType;
+    private $resolution;
+    private $screenSize;
 
-    public function __construct($brandName, $dimensions, $weight, $tvType, $modelNumber, $price, $resolution, $screenSize, )
+    public function __construct($brandName, $dimensions, $weight, $tvType, $modelNumber, $price, $resolution, $screenSize )
     {
         $this->brandName = $brandName;
         $this->dimensions = $dimensions;

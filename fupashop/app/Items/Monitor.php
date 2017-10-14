@@ -4,7 +4,7 @@ namespace App\Items;
 
 class Monitor extends Item
 {
-    protected $size;
+    private $size;
 
     public function __construct($modelNumber, $size, $weight, $brandName, $price)
     {
