@@ -20,7 +20,12 @@ class TableDataGateway
 
 	public function getTabletById($modelNumber)
 	{
-		return DB::table('tablets')->where('modelNumber', $modelNumber)->get();
+		return DB::table('tablets')->where('modelNumber', $modelNumber)->first();
+	}
+
+	public function ifTabletExists($modelNumber)
+	{
+		return DB::table('tablets')->where('modelNumber', $modelNumber)->count();
 	}
 
 	public function insertTablet($tablet)

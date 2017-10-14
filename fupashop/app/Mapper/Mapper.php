@@ -17,20 +17,28 @@ class Mapper
 	public function __construct()
 	{
 		$this->tdg = new TableDataGateway();
+		$this->repo = new Repository();
 		$this->uow = new UOW($this);
+
 	}
 
 	// changed tablets to illustrate my understanding of the implementation
-	public function getTablets()
+	public function getAllTablets()
 	{
 
-		return $this->tdg->getAllTablets();
+		
+		if($this->repo->emptyTablets()){	//no Tablets found in repo. load all from db to repo
+			$tempTablets =  $this->tdg->getAllTablets();
+			foreach($tempTablets as $item){
+				//create the object
+				$tablet = new Tablet($item->modelNumber, $item->processor, $item->screenSize, $item->dimensions, $item->ramSize, $item->weight, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->cameraInformation, $item->price);
+				//store into repo
+				$this->repo->addTabletToRepo($tablet);
+			}
+		}
+		//testing tablet object display
 
-		//$tablet = new Tablet($item->modelNumber, $item->brandName, $item->price, $item->weight, $item->displaySize, $item->dimensions, $item->screenSize, $item->ramSize, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->operatingSystem, $item->cameraInformation);
-
-		//return $tablet;
-
-
+		return $this->repo->getAllTablets();
 	}
 
 	public function getTabletById($id)
@@ -50,8 +58,9 @@ class Mapper
 			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
 		}
 		else //doesnt exist
-			return  is_null;
 
+			return  null;
+//testing tablet object display
 
 	}
 

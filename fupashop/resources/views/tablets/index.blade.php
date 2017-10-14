@@ -78,13 +78,13 @@
 
 			<tbody>
 		@foreach ($tablets as $tablet)
-			<tr class="{{ $tablet->brandName }}">
+			<tr class="{{ $tablet->getBrandName() }}">
 					<tr>
-<td><a href="tablets/{{ $tablet->modelNumber }}">{{ $tablet->modelNumber }}</a></td>
-<td class="brand">{{ $tablet->brandName }}</td>
-<td>{{ $tablet->processor }}</td>
-<td>{{ $tablet->hddSize }}</td>
-<td class="price">{{ $tablet->price }}</td>
+<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
+<td class="brand">{{ $tablet->getBrandName() }}</td>
+<td>{{ $tablet->getProcessor() }}</td>
+<td>{{ $tablet->getHddSize() }}</td>
+<td class="price">{{ $tablet->getPrice() }}</td>
 <td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 		</tr>
 		@endforeach

@@ -36,8 +36,12 @@ class Repository
 
 	public function addTabletToRepo($tablet){
 		//if (!itemExists($tablet))
-			$tablet->setItemType('Tablet');
-			$this->tablets[] = $tablet;
+			//$tablet->setItemType('Tablet');
+		//$tempTablet = new Tablet('', '', '', '', '', '', '', '', '', '', '', '', '');
+		//$tempTablet = $tablet;
+		//echo var_dump($tempTablet->getProcessor());
+		//return;
+		$this->tablets[] = $tablet;
 	}
 
 	public function getSingleTablet($id){
@@ -47,6 +51,10 @@ class Repository
 				return $item;
 		}
 		return null;
+	}
+
+	public function emptyTablets(){
+		return empty($this->tablets);
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){

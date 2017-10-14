@@ -32,16 +32,13 @@ class ProductsController extends Controller
     {
         $this->middleware('auth');
         $this->mapper = new Mapper();
-
-        //all items will be within Identity Map. This is temporary
-        //$this->tablets = new Tablet();
-        /*
-        $this->desktop = new Desktop();
-        $this->tvs = new Tv();
-        $this->monitors = new Monitor();
-        $this->laptops = new Laptop();*/
-        $this->repo = new Repository(); // <----- Identity Map
-        $this->uow = new UOW($this->mapper); // Unit of Work
+        $this->tablets = array(); 
+        $this->desktops = array();
+        $this->tvs = array();
+        $this->monitors = array();
+        $this->laptops = array();
+        //$this->repo = new Repository(); // <----- Identity Map
+        //$this->uow = new UOW($this->mapper); // Unit of Work
     }
 
 
@@ -193,22 +190,24 @@ class ProductsController extends Controller
 
     public function Tabletindex()
     {
-      $this->tablets =  $this->mapper->getTablets();
-      $tablets = $this->tablets; // cant send using compact without this
-
+      $tablets = array();
       $brands = array();
-      foreach( $tablets as $item ){
+      $this->tablets =  $this->mapper->getAllTablets();
+      $tablets = $this->tablets; // cant send using compact without this
+      
+      foreach( $this->tablets as $item ){
+        var_dump($item->getProcessor());
         $flag = false;
         foreach( $brands as $brand ){
-          if($brand == $item->brandName)
+          
+          if($brand == $item->getBrandName())
               $flag = true;
         }
         if( $flag != true ){
-          $brands[] = $item->brandName;
+          $brands[] = $item->getBrandName();
         }
       }
-
-      return view ('tablets.index', compact('tablets', 'brands'));
+      //return view ('tablets.index', compact('tablets', 'brands'));
     }
 
     public function getTablet($id)

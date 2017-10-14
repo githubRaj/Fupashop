@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Items;
-use Illuminate\Database\Eloquent\Model;
 //use Tablet;
 
 class Item

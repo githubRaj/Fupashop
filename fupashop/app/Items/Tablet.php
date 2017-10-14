@@ -8,7 +8,7 @@ class Tablet extends Item
 {
     // Attributes that apply to all items are in superclass Item
 	protected $processor;
-	protected $screensize;
+	protected $screenSize;
 	protected $dimensions;
 	protected $ramSize;
 	protected $cpucores;
@@ -16,11 +16,11 @@ class Tablet extends Item
 	protected $operatingSystem;
 	protected $cameraInformation;
 
-    public function __construct($modelNumber, $processor, $screensize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
+    public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
 	{
 		$this->modelNumber = $modelNumber;
 		$this->processor = $processor;
-		$this->screensize = $screensize;
+		$this->screenSize = $screenSize;
 		$this->dimensions = $dimensions;
 		$this->ramSize = $ramSize;
 		$this->weight = $weight;
@@ -34,7 +34,8 @@ class Tablet extends Item
 	}
 
 
-	public function getScreensize() { return $this->$screensize; }
+	public function getScreenSize() { return $this->$screenSize; }
+	public function getProcessor() { return $this->$processor; }
 	public function getDimensions() { return $this->$dimensions; }
 	public function getRamSize() { return $this->$ramSize; }
 	public function getCpucores() { return $this->$cpucores; }
@@ -45,7 +46,8 @@ class Tablet extends Item
 
 
 	// Setters
-	public function setScreensize($screensize) { $this->screensize = $screensize; }
+	public function setScreenSize($screenSize) { $this->screenSize = $screenSize; }
+	public function setProcessor($processor) { $this->$processor = $processor; }
 	public function setDimensions($dimensions) { $this->dimensions = $dimensions; }
 	public function setRamSize($ramSize) { $this->ramSize = $ramSize; }
 	public function setCpucores($cpucores) { $this->cpucores = $cpucores; }
@@ -61,7 +63,7 @@ class Tablet extends Item
 		[
 			'modelNumber' => $modelNumber,
 			'processor' => $processor,
-			'screensize' => $screensize,
+			'screenSize' => $screenSize,
 			'dimensions' => $dimensions,
 			'ramSize' => $ramSize,
 			'weight' => $weight,
