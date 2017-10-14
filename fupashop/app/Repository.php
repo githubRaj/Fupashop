@@ -40,12 +40,13 @@ class Repository
 			$this->tablets[] = $tablet;
 	}
 
-	public function getSingleTablets($id){
+	public function getSingleTablet($id){
 		
 		foreach($this->tablets as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
+		return null;
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){

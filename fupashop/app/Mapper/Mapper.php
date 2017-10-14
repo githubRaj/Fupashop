@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Mapper;
+use App\UOW\UOW;
 use App\TDG\TableDataGateway;
+use App\Repository;
 use App\Items\Item;
 use App\Items\Tablet;
 
@@ -9,10 +11,13 @@ class Mapper
 {
 	//protected $tablets;
 	private $tdg;
+	private $uow;
+	private $repo;
 
 	public function __construct()
 	{
 		$this->tdg = new TableDataGateway();
+		$this->uow = new UOW($this);
 	}
 
 	// changed tablets to illustrate my understanding of the implementation
@@ -30,11 +35,24 @@ class Mapper
 
 	public function getTabletById($id)
 	{
-		$item = $this->tdg->getTabletById($id);
 
-		$tablet = $item[0];
+		$tempItem = $this->repo->getSingleTablet($id);
+		if($tempItem != null){
+			//found in repo
+			return $tempItem;
+		}
+		else if($this->tdg->ifTabletExists($id) > 0){
+			//found in db
+			$item = $this->tdg->getTabletById($id);
 
-		return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
+			$tablet = $item;
+
+			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
+		}
+		else //doesnt exist
+			return  is_null
+
+		
 	}
 
 	public function getDesktops(){
