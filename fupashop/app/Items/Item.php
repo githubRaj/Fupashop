@@ -1,18 +1,17 @@
 <?php
 
 namespace App\Items;
-use Illuminate\Database\Eloquent\Model;
-//use Tablet;
+use Tablet;
 
 class Item
 {
 	// Attributes
 
-	protected $modelNumber;
-	protected $brandName;
-	protected $price;
-	protected $weight;
-	protected $type;
+	private $modelNumber;
+	private $brandName;
+	private $price;
+	private $weight;
+	private $type;
 
 	// Getters
 	public function getModelNumber() { return $this->modelNumber; }

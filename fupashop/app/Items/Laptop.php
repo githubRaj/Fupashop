@@ -5,17 +5,17 @@ namespace App\Items;
 
 class Laptop extends Item
 {
-    protected $processor;
-	protected $displaySize;
-	protected $ramSize;
-	protected $cpuCores;
-	protected $hddSize;
-	protected $batteryType;
-	protected $batteryInformation;
-	protected $brandName;
-	protected $operatingSystem;
-	protected $touchFeature	
-	protected $cameraInformation;
+    private $processor;
+	private $displaySize;
+	private $ramSize;
+	private $cpuCores;
+	private $hddSize;
+	private $batteryType;
+	private $batteryInformation;
+	private $brandName;
+	private $operatingSystem;
+	private $touchFeature	
+	private $cameraInformation;
 
     public function __construct($modelNumber, $processor, $displaySize, $ramSize, $weight, $cpuCores, $hddSize, $batteryType, $batteryInformation, $brandName, $operatingSystem, $touchFeature, $price)
     {

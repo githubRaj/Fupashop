@@ -36,8 +36,9 @@ class Repository
 
 	public function addTabletToRepo($tablet){
 		//if (!itemExists($tablet))
-			$tablet->setItemType('Tablet');
-			$this->tablets[] = $tablet;
+		//echo var_dump($tempTablet->getProcessor());
+		//return;
+		$this->tablets[] = $tablet;
 	}
 
 	public function getSingleTablet($id){
@@ -47,6 +48,10 @@ class Repository
 				return $item;
 		}
 		return null;
+	}
+
+	public function emptyTablets(){
+		return empty($this->tablets);
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){
@@ -61,9 +66,13 @@ class Repository
 	public function getSingleDesktop($id){
 		
 		foreach($this->desktops as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
+	}
+
+	public function emptyDesktops(){
+		return empty($this->desktops);
 	}
 /*-------------------MONITORS---------------------------*/
 	public function getAllMonitors(){
@@ -78,9 +87,13 @@ class Repository
 	public function getSingleMonitor($id){
 		
 		foreach($this->monitors as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
+	}
+
+	public function emptyMonitors(){
+		return empty($this->monitors);
 	}
 /*-------------------TVS---------------------------*/
 	public function getAllTvs(){
@@ -88,15 +101,19 @@ class Repository
 		return $this->tvs;
 	}
 
-	public function addTvToRepo($tv){
+	public function addTvsToRepo($tv){
 		$this->tvs[] = $tv;
 	}
 	public function getSingleTv($id){
 		
 		foreach($this->tvs as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
+	}
+
+	public function emptyTvs(){
+		return empty($this->tvs);
 	}
 /*-------------------LAPTOPS---------------------------*/
 	public function getAllLaptops(){
@@ -110,11 +127,14 @@ class Repository
 	public function getSingleLaptop($id){
 		
 		foreach($this->laptops as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
 	}
 
+	public function emptyLaptops(){
+		return empty($this->laptops);
+	}
 /*-------------------GENERAL FUNCTIONALITY---------------------------*/
 
 	public function isEmpty($type){

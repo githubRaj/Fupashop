@@ -6,6 +6,10 @@ use App\TDG\TableDataGateway;
 use App\Repository;
 use App\Items\Item;
 use App\Items\Tablet;
+use App\Items\Monitor;
+use App\Items\Tv;
+use App\Items\Desktop;
+use App\Items\Laptop;
 
 class Mapper
 {
@@ -17,20 +21,29 @@ class Mapper
 	public function __construct()
 	{
 		$this->tdg = new TableDataGateway();
+		$this->repo = new Repository();
 		$this->uow = new UOW($this);
+
 	}
+/*-------------------TABLETS---------------------------*/
 
 	// changed tablets to illustrate my understanding of the implementation
-	public function getTablets()
+	public function getAllTablets()
 	{
 
-		return $this->tdg->getAllTablets();
+		
+		if($this->repo->emptyTablets()){	//no Tablets found in repo. load all from db to repo
+			$tempTablets =  $this->tdg->getAllTablets();
+			foreach($tempTablets as $item){
+				//create the object
+				$tablet = new Tablet($item->modelNumber, $item->processor, $item->screenSize, $item->dimensions, $item->ramSize, $item->weight, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->cameraInformation, $item->price);
+				//store into repo
+				$this->repo->addTabletToRepo($tablet);
+			}
+		}
+		//testing tablet object display
 
-		//$tablet = new Tablet($item->modelNumber, $item->brandName, $item->price, $item->weight, $item->displaySize, $item->dimensions, $item->screenSize, $item->ramSize, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->operatingSystem, $item->cameraInformation);
-
-		//return $tablet;
-
-
+		return $this->repo->getAllTablets();
 	}
 
 	public function getTabletById($id)
@@ -50,29 +63,182 @@ class Mapper
 			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
 		}
 		else //doesnt exist
-			return  is_null;
 
+			return  null;
+//testing tablet object display
 
 	}
+/*-------------------DEKSTOPS---------------------------*/
 
-	public function getDesktops(){
+	public function getAllDesktops(){
 
-		return $this->tdg->desktopGateway();
+		if($this->repo->emptyDesktops()){	//no desktops found in repo. load all from db to repo
+			$tempDesktop =  $this->tdg->getAllDesktops();
+			foreach($tempDesktop as $item){
+				//create the object
+				$desktop = new Desktop($item->modelNumber, $item->processor, $item->dimensions, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->brandName, $item->price);
+				//store into repo
+				$this->repo->addDesktopToRepo($desktop);
+			}
+		}
+
+		return $this->repo->getAllDesktops();
 	}
-	public function getMonitors(){
 
-		return $this->tdg->monitorGateway();
+	public function getDesktopById($id)
+	{
+
+		$tempItem = $this->repo->getSingleDesktop($id);
+		if($tempItem != null){
+			//found in repo
+			return $tempItem;
+		}
+		else if($this->tdg->ifDesktopExists($id) > 0){
+			//found in db
+			$desktop = $this->tdg->getDesktopById($id);
+
+			$item = $desktop;
+
+			return new Desktop($item->modelNumber, $item->processor, $item->dimensions, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->brandName, $item->price);
+		}
+		else //doesnt exist
+			return  null;
+
+		
 	}
 
-	public function getTvs(){
+/*-------------------MONITORS---------------------------*/
 
-		return $this->tdg->tvGateway();
+	public function getAllMonitors()
+	{
+		
+		if($this->repo->emptyMonitors()){	//no Monitors found in repo. load all from db to repo
+			$tempMonitors =  $this->tdg->getAllMonitors();
+			foreach($tempMonitors as $item){
+				//create the object
+				$monitor = new Monitor($item->modelNumber, $item->size, $item->weight, $item->brandName, $item->price);
+				//store into repo
+				$this->repo->addMonitorsToRepo($monitor);
+			}
+		}
+
+		return $this->repo->getAllMonitors();
 	}
+
+
+	public function getMonitorsById($id)
+	{
+
+		$tempItem = $this->repo->getSingleMonitors($id);
+		if($tempItem != null){
+			//found in repo
+			return $tempItem;
+		}
+		else if($this->tdg->ifMonitorsExists($id) > 0){
+			//found in db
+			$monitor = $this->tdg->getMonitorsById($id);
+
+			$item = $monitor;
+
+			return new Monitor($item->modelNumber, $item->size, $item->weight, $item->brandName, $item->price);
+		}
+		else //doesnt exist
+			return  null;
+
+		
+	}
+
+/*-------------------TVS---------------------------*/
+
+	public function getAllTvs()
+	{
+		
+		if($this->repo->emptyTvs()){	//no Monitors found in repo. load all from db to repo
+			$tempTvs =  $this->tdg->getAllTvs();
+			foreach($tempTvs as $item){
+				//create the object
+				$tv = new Tv($item->brandName, $item->dimensions, $item->weight, $item->tvType, $item->modelNumber, $item->price, $item->resolution, $item->screenSize);
+				//store into repo
+				$this->repo->addTvsToRepo($tv);
+			}
+		}
+
+		return $this->repo->getAllTvs();
+	}
+
+
+	public function getTvsById($id)
+	{
+
+		$tempItem = $this->repo->getSingleTvs($id);
+		if($tempItem != null){
+			//found in repo
+			return $tempItem;
+		}
+		else if($this->tdg->ifTvsExists($id) > 0){
+			//found in db
+			$tv = $this->tdg->getTvsById($id);
+
+			$item = $tv;
+
+			return new Tv($item->modelNumber, $item->size, $item->weight, $item->brandName, $item->price);
+		}
+		else //doesnt exist
+			return  null;
+
+		
+>>>>>>> All Items turned to proper objects
+	}
+/*-------------------LAPTOPS---------------------------*/
 
 	public function getLaptops(){
 
 		return $this->tdg->laptopGateway();
 	}
+
+
+	public function getAllLaptops()
+	{
+		
+		if($this->repo->emptyLaptops()){	//no Monitors found in repo. load all from db to repo
+			$tempTvs =  $this->tdg->getAllLaptops();
+			foreach($tempTvs as $item){
+				//create the object
+				$laptop = new Laptop($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->price);
+				//store into repo
+				$this->repo->addLaptopsToRepo($laptop);
+			}
+		}
+
+		return $this->repo->getAllLaptops();
+	}
+
+
+	public function getLaptopsById($id)
+	{
+
+		$tempItem = $this->repo->getSingleLaptops($id);
+		if($tempItem != null){
+			//found in repo
+			return $tempItem;
+		}
+		else if($this->tdg->ifLaptopsExists($id) > 0){
+			//found in db
+			$laptop = $this->tdg->getLaptopsById($id);
+
+			$item = $laptop;
+
+			return new Laptops($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->price);
+		}
+		else //doesnt exist
+			return  null;
+
+		
+	}
+
+
+
+/*-------------------FUNCTIONALITY---------------------------*/
 
 	public function saveNewItem($item)
 	{
