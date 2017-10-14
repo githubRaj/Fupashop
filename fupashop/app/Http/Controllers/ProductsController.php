@@ -97,6 +97,7 @@ class ProductsController extends Controller
 
 
     }
+
     public function getDesktop($id)
     {
         $this->desktops =  $this->mapper->getDesktops();
@@ -164,13 +165,14 @@ class ProductsController extends Controller
           if($brand == $item->brandName){
             $flag = true;
           }
-        } 
+        }
         if( $flag != true ){
           $brands[] = $item->brandName;
         }
       }
       return view ('monitors.index', compact('monitors', 'brands'));
     }
+
     public function getMonitor($id)
     {
       $this->monitors =  $this->mapper->getMonitors();
@@ -237,7 +239,7 @@ class ProductsController extends Controller
         //$this->uow->registerDeleted($tablet);
         //$this->repo->removeFromRepo('tablets', $id);
 
-      
+
 
       $this->uow->commit();
     }
@@ -245,7 +247,7 @@ class ProductsController extends Controller
     public function makeNewTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
     {
       $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
-    
+
       $this->repo->addTabletToRepo($tablet);
 
       $this->uow->registerNew($tablet);
@@ -256,7 +258,7 @@ class ProductsController extends Controller
     public function setTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
     {
       $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
-    
+
       // $type should either be generic of strongly typed
       $this->repo->removeFromRepo('tablet', $modelNumber);
       $this->repo->addTabletToRepo($tablet);
@@ -278,6 +280,20 @@ class ProductsController extends Controller
 
     /*--------------------------------
           TESTING        */
+
+    public function getShowcaseArrays()
+    {
+      $this->tablets =  $this->mapper->getTablets();
+      $tablets = $this->tablets; // cant send using compact without this
+      $this->monitors =  $this->mapper->getMonitors();
+      $monitors = $this->monitors; // cant send using compact without this
+      $this->desktops =  $this->mapper->getDesktops();
+      $desktops = $this->desktops; // cant send using compact without this
+      $this->laptops =  $this->mapper->getLaptops();
+      $laptops = $this->laptops; // cant send using compact without this
+
+      return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
+    }
 
     public function test()
     {

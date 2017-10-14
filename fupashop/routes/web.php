@@ -24,7 +24,8 @@ Route::prefix('admin')->group(function(){
 	Route::get('/', 'AdminController@index')->name('admin.dashboard');
 });
 
-Route::get('/', 'HomeController@index');  // / -> home
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> home
+Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
 
 Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
 

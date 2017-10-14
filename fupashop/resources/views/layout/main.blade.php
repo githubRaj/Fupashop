@@ -19,7 +19,7 @@
         <div  class="top-bar">
             <div style="color:white" class="top-bar-left">
                 <h4 class="brand-title">
-                    <a href="index.html">
+                    <a href="{{ url('/') }}">
                         <i class="fa fa-home fa-lg" aria-hidden="true">
                         </i>
                        FUPA TECHNOLOGY
@@ -107,19 +107,19 @@
   <div class="row full-width">
     <div class="small-12 medium-4 large-4 columns">
       <i class="fi-laptop"></i>
-      <p>Coded with love by Webdevmatics for educational purpose only</p>
+      <p>Coded with love for Dr. Constantinides</p>
     </div>
     <div class="small-12 medium-4 large-4 columns">
       <i class="fi-html5"></i>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit impedit consequuntur at! Amet sed itaque nostrum, distinctio eveniet odio, id ipsam fuga quam minima cumque nobis veniam voluptates deserunt!</p>
+      <p>Powered by HTML5</p>
     </div>
 
     <div class="small-6 medium-4 large-4 columns">
-      <h4>Follow Us</h4>
+      <h4>Follow Us on Twitch</h4>
       <ul class="footer-links">
-        <li><a href="https://github.com/webdevmatics">GitHub</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="https://twitter.com/webdevmatics">Twitter</a></li>
+        <li><a href="https://twitch.tv/oystersdota">Nick</a></li>
+        <li><a href="https://twitch.tv/grao__">Gurk</a></li>
+        <li><a href="https://twitch.tv/trembie">Shake</a></li>
       <ul>
     </div>
   </div>
