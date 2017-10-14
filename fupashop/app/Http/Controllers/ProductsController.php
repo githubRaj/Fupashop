@@ -10,6 +10,7 @@ use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
 use App\Repository;
+use App\UOW\UOW;
 //gotta check this
  use Session;
  use App\Cart;
@@ -24,7 +25,8 @@ class ProductsController extends Controller
     private $tvs;
     private $monitors;
     private $laptops;
-	private $repo;
+    private $repo;
+    private $uow;
 
     public function __construct()
     {
@@ -32,13 +34,14 @@ class ProductsController extends Controller
         $this->mapper = new Mapper();
 
         //all items will be within Identity Map. This is temporary
-        $this->tablets = new Tablet();
+        //$this->tablets = new Tablet();
+        /*
         $this->desktop = new Desktop();
         $this->tvs = new Tv();
         $this->monitors = new Monitor();
-        $this->laptops = new Laptop();
+        $this->laptops = new Laptop();*/
         $this->repo = new Repository(); // <----- Identity Map
-
+        $this->uow = new UOW($this->mapper); // Unit of Work
     }
 
 
@@ -49,18 +52,7 @@ class ProductsController extends Controller
 
       $this->tvs =  $this->mapper->getTvs();
       $tvs = $this->tvs; // cant send using compact without this
-       $brands = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($brands as $brand){
-          if($brand == $item->brandName)
-            $flag = true;
-        }
-        if($flag != true){
-          $brands[] = $item->brandName;
-        }
-      }
-      return view ('tvs.index', compact('tvs','brands'));
+      return view ('tvs.index', compact('tvs'));
     }
     public function getTv($id)
     {
@@ -144,6 +136,8 @@ class ProductsController extends Controller
 
     public function getLaptop($id)
     {
+
+
       $this->laptops =  $this->mapper->getLaptops();
         foreach($this->laptops as $item){
           if($item->modelNumber == $id)
@@ -213,12 +207,10 @@ class ProductsController extends Controller
       return view ('tablets.index', compact('tablets', 'brands'));
     }
 
-
-
-
     public function getTablet($id)
     {
-        $this->tablets =  $this->mapper->getTablets();
+
+        /*$this->tablets =  $this->mapper->getTablets();
         foreach($this->tablets as $item){
           if($item->modelNumber == $id)
           {
@@ -226,7 +218,62 @@ class ProductsController extends Controller
             return view ('tablets.info', compact('tablet'));
 
           }
+        }*/
+
+
+        $tablet =  $this->mapper->getTabletById($id);
+        if($tablet != null){  //not an empty object
+
         }
+        else{
+          //return/redirect user to tablet index
+        }
+
+        //$this->repo->addTabletToRepo($tablet);
+
+        //$tablet = $this->repo->getSingleTablets($id);
+
+
+        //$this->uow->registerDeleted($tablet);
+        //$this->repo->removeFromRepo('tablets', $id);
+
+      
+
+      $this->uow->commit();
+    }
+
+    public function makeNewTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
+    {
+      $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
+    
+      $this->repo->addTabletToRepo($tablet);
+
+      $this->uow->registerNew($tablet);
+
+      $this->uow->commit();
+    }
+
+    public function setTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
+    {
+      $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
+    
+      // $type should either be generic of strongly typed
+      $this->repo->removeFromRepo('tablet', $modelNumber);
+      $this->repo->addTabletToRepo($tablet);
+
+      $this->uow->registerDirty($tablet);
+
+      $this->uow->commit();
+    }
+
+    public function deleteTablet($modelNumber)
+    {
+      // $type should either be generic of strongly typed
+      $this->repo->removeFromRepo('tablet', $modelNumber);
+
+      $this->uow->registerDeleted($tablet);
+
+      $this->uow->commit();
     }
 
     /*--------------------------------
@@ -256,7 +303,7 @@ class ProductsController extends Controller
       $desktop->hddSize = $request->input('hddSize');
       $desktop->brandName = $request->input('brandName');
       $desktop->price = $request->input('price');
-      $desktop->save();
+      $desktop->save(); // should be passed to $mapper->saveNewItem($desktop)
       return redirect('/adminpanel')->with('success', 'Product Added!');
     }
 
@@ -274,5 +321,4 @@ class ProductsController extends Controller
          dd($request->session()->get('cart'));
         return redirect()->route('product.index');
     }
-
 }

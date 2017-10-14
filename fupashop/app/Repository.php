@@ -1,5 +1,8 @@
 <?php
 
+// Notes/TODO: 	- $type should be strongly typed and not a string, i.e, using an enum (custom class in PHP) or maybe use get_class()
+//				- Make everyone like Tablet
+
 namespace App;
 use App\Items\Tv;
 use App\Items\Desktop;
@@ -32,15 +35,18 @@ class Repository
 	}
 
 	public function addTabletToRepo($tablet){
+		//if (!itemExists($tablet))
+			$tablet->setItemType('Tablet');
 			$this->tablets[] = $tablet;
 	}
 
-	public function getSingleTablets($id){
+	public function getSingleTablet($id){
 		
 		foreach($this->tablets as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return $item;
 		}
+		return null;
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){
@@ -173,6 +179,7 @@ class Repository
 		public function removeFromRepo($type, $id){
 		switch ($type) {
 			case 'tablets':
+
 				$object = $this->tablets;
 				break;
 			case 'desktops':
@@ -195,13 +202,12 @@ class Repository
 		/*if(($key = array_search($id, $object)) !== false) {
     		unset($object[$key]);
 		}*/
-
 		foreach ($object as $key => $item) {
-		    if($object[$key] == $id) {
+		    if($object[$key]->modelNumber == $id) {
+
 		        unset($object[$key]);
 		    }
 		}
-
 		switch ($type) {
 			case 'tablets':
 				$this->tablets = $object;
