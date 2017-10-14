@@ -340,15 +340,14 @@ class ProductsController extends Controller
 
 
       $tablets = $this->tablets; // cant send using compact without this
-      //echo $tablets[0]->getModelNumber();
-      //var_dump($tablets);
+     
 
-      //$this->monitors =  $this->mapper->getAllMonitors();
-      //$monitors = $this->monitors; // cant send using compact without this
-     // $this->desktops =  $this->mapper->getAllDesktops();
-      //$desktops = $this->desktops; // cant send using compact without this
-      //$this->laptops =  $this->mapper->getAllLaptops();
-      //$laptops = $this->laptops; // cant send using compact without this
+      $this->monitors =  $this->mapper->getAllMonitors();
+      $monitors = $this->monitors; // cant send using compact without this
+     $this->desktops =  $this->mapper->getAllDesktops();
+      $desktops = $this->desktops; // cant send using compact without this
+      $this->laptops =  $this->mapper->getAllLaptops();
+      $laptops = $this->laptops; // cant send using compact without this
 
       return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
     }

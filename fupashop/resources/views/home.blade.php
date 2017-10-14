@@ -73,7 +73,7 @@
                     <p>
                         <ul>
                           <li> {{ $desktops[0]->getProcessor() }} processor</li>
-                          <li> {{ $desktops[0]-getHddSize() }} storage space</li>
+                          <li> {{ $desktops[0]->getHddSize() }} storage space</li>
                           <li> {{ $desktops[0]->getCpuCores() }} </li>
                     </p>
                 </div>
@@ -85,7 +85,7 @@
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/monitors/{{ $monitors[0]->modelNumber }}">
+                        <a href="/monitors/{{ $monitors[0]->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/tv1.jpg') }}"/>
                         </a>
                     </div>

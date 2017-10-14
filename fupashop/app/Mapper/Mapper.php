@@ -129,17 +129,17 @@ class Mapper
 	}
 
 
-	public function getMonitorsById($id)
+	public function getMonitorById($id)
 	{
 
-		$tempItem = $this->repo->getSingleMonitors($id);
+		$tempItem = $this->repo->getSingleMonitor($id);
 		if($tempItem != null){
 			//found in repo
 			return $tempItem;
 		}
-		else if($this->tdg->ifMonitorsExists($id) > 0){
+		else if($this->tdg->ifMonitorExists($id) > 0){
 			//found in db
-			$monitor = $this->tdg->getMonitorsById($id);
+			$monitor = $this->tdg->getMonitorById($id);
 
 			$item = $monitor;
 
@@ -170,21 +170,21 @@ class Mapper
 	}
 
 
-	public function getTvsById($id)
+	public function getTvById($id)
 	{
 
-		$tempItem = $this->repo->getSingleTvs($id);
+		$tempItem = $this->repo->getSingleTv($id);
 		if($tempItem != null){
 			//found in repo
 			return $tempItem;
 		}
-		else if($this->tdg->ifTvsExists($id) > 0){
+		else if($this->tdg->ifTvExists($id) > 0){
 			//found in db
-			$tv = $this->tdg->getTvsById($id);
+			$tv = $this->tdg->getTvById($id);
 
 			$item = $tv;
 
-			return new Tv($item->modelNumber, $item->size, $item->weight, $item->brandName, $item->price);
+			return new Tv($item->modelNumber, $item->dimensions, $item->screenSize, $item->tvType, $item->resolution, $item->weight, $item->brandName, $item->price);
 		}
 		else //doesnt exist
 			return  null;
@@ -216,21 +216,21 @@ class Mapper
 	}
 
 
-	public function getLaptopsById($id)
+	public function getLaptopById($id)
 	{
 
-		$tempItem = $this->repo->getSingleLaptops($id);
+		$tempItem = $this->repo->getSingleLaptop($id);
 		if($tempItem != null){
 			//found in repo
 			return $tempItem;
 		}
-		else if($this->tdg->ifLaptopsExists($id) > 0){
+		else if($this->tdg->ifLaptopExists($id) > 0){
 			//found in db
-			$laptop = $this->tdg->getLaptopsById($id);
+			$laptop = $this->tdg->getLaptopById($id);
 
 			$item = $laptop;
 
-			return new Laptops($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->cameraInformation, $item->price);
+			return new Laptop($item->modelNumber, $item->processor, $item->displaySize, $item->ramSize, $item->weight, $item->cpuCores, $item->hddSize, $item->batteryType, $item->batteryInformation, $item->brandName, $item->operatingSystem, $item->touchFeature, $item->cameraInformation, $item->price);
 		}
 		else //doesnt exist
 			return  null;
