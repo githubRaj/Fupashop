@@ -16,7 +16,7 @@ class CreateMonitorsTable extends Migration
         Schema::create('monitors', function (Blueprint $table) {
             $table->integer('size');
             $table->decimal('weight', 10, 1);
-            $table->string('brand', 7);
+            $table->string('brandName', 7);
             $table->string('modelNumber', 10);
             $table->decimal('price',10,2);
              $table->primary('modelNumber');
