@@ -17,100 +17,120 @@
                 Most Popular Products
             </h2>
         </div>
-       
-       
+
+
         <div class="row">
+
+          <!--TARGET AREA START-->
+
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('dist/img/products/l1.jpg') }}"/>
+                        <a href="/tablets/{{ $tablets[0]->modelNumber }}">
+                            <img src="{{ asset('dist/img/products/acerb3.png') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                            Hp specter bussines 
+                          {{ $tablets[0]->modelNumber }}
                         </h3>
                     </a>
                     <h5>
-                        $19.99
+                        {{ $tablets[0]->price }}
                     </h5>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere sem enim, accumsan convallis risus semper.
+                        <ul>
+                          <li> {{ $tablets[0]->processor }} processor</li>
+                          <li> {{ $tablets[0]->hddSize }} storage space</li>
+                          <li> {{ $tablets[0]->cpucores }} </li>
                     </p>
                 </div>
             </div>
+
+            <!--TARGET AREA END-->
+
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="#">
-                            <img src="{{ asset('dist/img/products/tv1.jpg') }}"/>
-                        </a>
-                    </div>
-                    <a href="#">
-                        <h3>
-                           LG CURVED TV
-                        </h3>
-                    </a>
-                    <h5>
-                        $19.99
-                    </h5>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere sem enim, accumsan convallis risus semper.
-                    </p>
-                </div>
-            </div>
-            <div class="small-3 columns">
-                <div class="item-wrapper">
-                    <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
-                            Add to Cart
-                        </a>
-                        <a href="#">
-                            <img src="{{ asset('dist/img/products/m1.jpg') }}"/>
-                        </a>
-                    </div>
-                    <a href="#">
-                        <h3>
-                            GAMING MONITOR
-                        </h3>
-                    </a>
-                    <h5>
-                        $19.99
-                    </h5>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere sem enim, accumsan convallis risus semper.
-                    </p>
-                </div>
-            </div>
-            <div class="small-3 columns">
-                <div class="item-wrapper">
-                    <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
-                            Add to Cart
-                        </a>
-                        <a href="#">
+                        <a href="/desktops/{{ $desktops[0]->modelNumber }}">
                             <img src="{{ asset('dist/img/products/c1.jpg') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                           IPHONE 20
+                          {{ $desktops[0]->modelNumber }}
                         </h3>
                     </a>
                     <h5>
-                        $19.99
+                        {{ $desktops[0]->price }}
                     </h5>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere sem enim, accumsan convallis risus semper.
+                        <ul>
+                          <li> {{ $desktops[0]->processor }} processor</li>
+                          <li> {{ $desktops[0]->hddSize }} storage space</li>
+                          <li> {{ $desktops[0]->cpuCores }} </li>
                     </p>
                 </div>
             </div>
+
+            <div class="small-3 columns">
+                <div class="item-wrapper">
+                    <div class="img-wrapper">
+                        <a class="button expanded add-to-cart">
+                            Add to Cart
+                        </a>
+                        <a href="/monitors/{{ $monitors[0]->modelNumber }}">
+                            <img src="{{ asset('dist/img/products/tv1.jpg') }}"/>
+                        </a>
+                    </div>
+                    <a href="#">
+                        <h3>
+                          {{ $monitors[0]->modelNumber }}
+                        </h3>
+                    </a>
+                    <h5>
+                        {{ $monitors[0]->price }}
+                    </h5>
+                    <p>
+                        <ul>
+                          <li> {{ $monitors[0]->size }} inch screen</li>
+                          <li> {{ $monitors[0]->weight }} lbs</li>
+                    </p>
+                </div>
+            </div>
+
+            <div class="small-3 columns">
+                <div class="item-wrapper">
+                    <div class="img-wrapper">
+                        <a class="button expanded add-to-cart">
+                            Add to Cart
+                        </a>
+                        <a href="/laptops/{{ $laptops[0]->modelNumber }}">
+                            <img src="{{ asset('dist/img/products/l1.jpg') }}"/>
+                        </a>
+                    </div>
+                    <a href="#">
+                        <h3>
+                          {{ $laptops[0]->modelNumber }}
+                        </h3>
+                    </a>
+                    <h5>
+                        {{ $laptops[0]->price }}
+                    </h5>
+                    <p>
+                        <ul>
+                          <li> {{ $laptops[0]->processor }} processor</li>
+                          <li> {{ $laptops[0]->hddSize }} </li>
+                          <li> {{ $laptops[0]->cpuCores }} cores </li>
+                    </p>
+                </div>
+            </div>
+
         </div>
 @endsection

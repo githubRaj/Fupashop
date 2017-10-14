@@ -23,7 +23,7 @@ class Mapper
 	// changed tablets to illustrate my understanding of the implementation
 	public function getTablets()
 	{
-		
+
 		return $this->tdg->getAllTablets();
 
 		//$tablet = new Tablet($item->modelNumber, $item->brandName, $item->price, $item->weight, $item->displaySize, $item->dimensions, $item->screenSize, $item->ramSize, $item->cpucores, $item->hddSize, $item->batteryInformation, $item->operatingSystem, $item->cameraInformation);
@@ -50,27 +50,27 @@ class Mapper
 			return new Tablet($tablet->modelNumber, $tablet->processor, $tablet->screensize, $tablet->dimensions, $tablet->ramSize, $tablet->weight, $tablet->cpucores, $tablet->hddSize, $tablet->batteryInformation, $tablet->brandName, $tablet->operatingSystem, $tablet->cameraInformation, $tablet->price);
 		}
 		else //doesnt exist
-			return  is_null
+			return  is_null;
 
-		
+
 	}
 
 	public function getDesktops(){
-		
+
 		return $this->tdg->desktopGateway();
 	}
 	public function getMonitors(){
-		
+
 		return $this->tdg->monitorGateway();
 	}
 
 	public function getTvs(){
-		
+
 		return $this->tdg->tvGateway();
 	}
 
 	public function getLaptops(){
-		
+
 		return $this->tdg->laptopGateway();
 	}
 
@@ -125,7 +125,7 @@ class Mapper
 	}
 
 	public function saveDeletedItem($item)
-	{		
+	{
 		switch (get_class($item))
 		{
 			case Tablet::class:
