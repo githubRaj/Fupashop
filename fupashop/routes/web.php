@@ -69,19 +69,43 @@ Route::get('/add-to-cart/{id}', [
 
 
 
-//admin routes********************
-
-// Add desktop
-Route::get('/adminpanel/addDesktop', 'AdminController@createDesktop');
-Route::post('/storeDesktop', 'AdminController@storeDesktop');
-
-Route::get('/adminpanel/Desktops', 'AdminController@showAdminDesktops');
-
+//***************admin routes********************
+//Admin Panel
 Route::get('/adminpanel', function(){
   return view('admin/adminpanelmain/layouts');
 });
 
-//desktop view page for admin
-Route::get('/adminpanel/adminDesktops', function () {
-return view('admin.adminpanelviews.adminDesktops');
-});
+// Add desktop
+Route::get('/adminpanel/addNewDesktop', 'AdminController@createDesktop');
+Route::post('/storeDesktop', 'AdminController@storeDesktop');
+
+//show desktops to admin
+Route::get('/adminpanel/Desktops', 'AdminController@showAdminDesktops');
+
+//add laptop
+Route::get('/adminpanel/addNewLaptop', 'AdminController@createLaptop');
+Route::post('/storeLaptop', 'AdminController@storeLaptop');
+
+//show laptops to admin
+Route::get('/adminpanel/Laptops', 'AdminController@showAdminLaptops');
+
+// Add Tv
+Route::get('/adminpanel/addNewTv', 'AdminController@createTv');
+Route::post('/storeTv', 'AdminController@storeTv');
+
+//show TVs to admin
+Route::get('/adminpanel/Tvs', 'AdminController@showAdminTvs');
+
+// Add Tablet
+Route::get('/adminpanel/addNewTablet', 'AdminController@createTablet');
+Route::post('/storeTablet', 'AdminController@storeTablet');
+
+//show Tablets to admin
+Route::get('/adminpanel/Tablets', 'AdminController@showAdminTablets');
+
+// Add Monitor
+Route::get('/adminpanel/addNewMonitor', 'AdminController@createMonitor');
+Route::post('/storeMonitor', 'AdminController@storeMonitor');
+
+//show Monitors to admin
+Route::get('/adminpanel/Monitors', 'AdminController@showAdminMonitors');

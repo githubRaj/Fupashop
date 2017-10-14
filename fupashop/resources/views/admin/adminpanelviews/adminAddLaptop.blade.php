@@ -9,7 +9,7 @@
 <!-- Form Elements -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h2>Add a Desktop</h2>
+    <h2>Add a Laptop</h2>
   </div>
     <div class="panel-body">
       <div class="row">

@@ -9,7 +9,7 @@
         <!--Fupa table example -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i>LAPTOPS
+                <i class="fa fa-bar-chart-o fa-fw"></i>MONITORS
                 <div class="pull-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -39,38 +39,21 @@
                                 <thead>
                                     <tr>
                                       <th>Model Number</th>
-                          		        <th>Processor</th>
-                          		        <th>Display Size</th>
-                          		      	<th>Ram Size</th>
-                                      <th>Weight</th>
-                          		        <th>CPU Cores</th>
-                          		        <th>HDD Size</th>
-                          		      	<th>Battery Type</th>
-                                      <th>Brand Name</th>
-                                      <th>Operating System</th>
-                                      <th>Touch Feature</th>
-                                      <th>Camera Information</th>
+                          		        <th>Size</th>
+                                      <th>weight</th>
+                                      <th>brandName</th>
                                       <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                  @foreach ($laptops as $laptop)
+                                  @foreach ($monitors as $monitor)
                                     <tr>
-                                      <td>{{$laptop->getModelNumber()}}</td>
-                                      <td>{{$laptop->getProcessor()}}</td>
-                                      <td>{{$laptop->getDisplaySize()}}</td>
-                                      <td>{{$laptop->getRamSize()}}</td>
-                                      <td>{{$laptop->getWeight()}}</td>
-                                      <td>{{$laptop->getCpuCores()}}</td>
-                                      <td>{{$laptop->getHddSize()}}</td>
-                                      <td>{{$laptop->getBatteryType()}}</td>
-                                      <td>{{$laptop->getBatteryInformation()}}</td>
-                                      <td>{{$laptop->getBrandName()}}</td>
-                                      <td>{{$laptop->getOperatingSystem()}}</td>
-                                      <td>{{$laptop->getTouchFeature()}}</td>
-                                      <td>{{$laptop->getCameraInformation()}}</td>
-                                      <td>{{$laptop->getPrice()}}</td>
+                                      <td>{{$monitor->getModelNumber()}}</td>
+                                      <td>{{$monitor->getSize()}}</td>
+                                      <td>{{$monitor->getWeight()}}</td>
+                                      <td>{{$monitor->getBrandName()}}</td>
+                                      <td>{{$monitor->getPrice()}}</td>
                                     </tr>
                                   @endforeach
 
