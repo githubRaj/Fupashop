@@ -82,7 +82,7 @@ INSERT INTO `laptops` (`modelNumber`, `processor`, `displaySize`, `ramSize`, `we
 -- Dumping data for table `monitors`
 --
 
-INSERT INTO `monitors` (`size`, `weight`, `brand`, `modelNumber`, `price`) VALUES
+INSERT INTO `monitors` (`size`, `weight`, `brandName`, `modelNumber`, `price`) VALUES
 (23, '7.9', 'Acer', 'H236HLBID', '190.00'),
 (24, '8.4', 'Acer', 'S241HL ', '178.00'),
 (27, '9.5', 'Acer', 'G277HL', '220.00'),
@@ -149,7 +149,7 @@ INSERT INTO `tablets` (`modelNumber`, `processor`, `screensize`, `dimensions`, `
 -- Dumping data for table `tvs`
 --
 
-INSERT INTO `tvs` (`brand`, `dimensions`, `weight`, `tvType`, `modelNumber`, `price`, `resolution`, `screenSize`) VALUES
+INSERT INTO `tvs` (`brandName`, `dimensions`, `weight`, `tvType`, `modelNumber`, `price`, `resolution`, `screenSize`) VALUES
 ('Insignia', '73.33x44.25x9.12', '8.82', 'HD LED ', 'NS-32D311NA17', '208.99', '720p', 32),
 ('LG', '145.3x83.3x4.66', '25.00', 'LED', 'OLED65W7T', '9995.00', '4K', 65),
 ('LG', '123.6x77.35x5 ', '20.10', 'Ultra HD', '55UJ752T', '1999.00', '4K', 55),

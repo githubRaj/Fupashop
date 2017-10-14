@@ -222,15 +222,20 @@ class ProductsController extends Controller
 
 
         $tablet =  $this->mapper->getTabletById($id);
-        
+        if($tablet != null){  //not an empty object
+
+        }
+        else{
+          //return/redirect user to tablet index
+        }
 
         //$this->repo->addTabletToRepo($tablet);
 
         //$tablet = $this->repo->getSingleTablets($id);
 
 
-        $this->uow->registerDeleted($tablet);
-        $this->repo->removeFromRepo('tablets', $id);
+        //$this->uow->registerDeleted($tablet);
+        //$this->repo->removeFromRepo('tablets', $id);
 
       
 
