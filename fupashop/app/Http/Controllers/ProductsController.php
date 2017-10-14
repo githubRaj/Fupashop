@@ -32,7 +32,7 @@ class ProductsController extends Controller
     {
         $this->middleware('auth');
         $this->mapper = new Mapper();
-        $this->tablets = array(); 
+        $this->tablets = array();
         $this->desktops = array();
         $this->tvs = array();
         $this->monitors = array();
@@ -87,7 +87,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $tv = $item;
-            
+
           }
         }*/
     }
@@ -138,7 +138,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $desktop = $item;
-            
+
 
           }
         }*/
@@ -186,7 +186,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $laptop = $item;
-            
+
 
           }
         }*/
@@ -232,7 +232,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $monitor = $item;
-           
+
 
           }
         }*/
@@ -251,7 +251,7 @@ class ProductsController extends Controller
       foreach( $this->tablets as $item){
         $flag = false;
         foreach( $brands as $brand ){
-          
+
           if($brand == $item->getBrandName())
               $flag = true;
         }
@@ -270,7 +270,7 @@ class ProductsController extends Controller
           if($item->modelNumber == $id)
           {
             $tablet = $item;
-            
+
 
           }
         }*/
@@ -340,7 +340,7 @@ class ProductsController extends Controller
 
 
       $tablets = $this->tablets; // cant send using compact without this
-     
+
 
       $this->monitors =  $this->mapper->getAllMonitors();
       $monitors = $this->monitors; // cant send using compact without this
@@ -358,28 +358,6 @@ class ProductsController extends Controller
 
         return view ('test', compact('results'));
     }
-
-    public function Create()
-    {
-      return view('Product/create');
-    }
-
-    public function store(Request $request)
-    {
-      $desktop = new Desktop;
-      $desktop->modelNumber = $request->input('modelNumber');
-      $desktop->processor = $request->input('processor');
-      $desktop->dimensions = $request->input('dimensions');
-      $desktop->ramSize = $request->input('ramSize');
-      $desktop->weight = $request->input('weight');
-      $desktop->cpuCores = $request->input('cpuCores');
-      $desktop->hddSize = $request->input('hddSize');
-      $desktop->brandName = $request->input('brandName');
-      $desktop->price = $request->input('price');
-      $desktop->save(); // should be passed to $mapper->saveNewItem($desktop)
-      return redirect('/adminpanel')->with('success', 'Product Added!');
-    }
-
 
 
        // Add product to cart

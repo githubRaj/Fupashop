@@ -61,16 +61,27 @@ Route::prefix('test')->group(function(){
 	Route::get('/', 'ProductsController@test');
 });
 
-Route::get('/Product/create', 'ProductsController@Create');
-Route::post('/store', 'ProductsController@store');
-
-Route::get('/adminpanel', function(){
-  return view('admin/sidebar/layouts');
-});
-
-
 //Create shopping cart
 Route::get('/add-to-cart/{id}', [
  	'uses' => 'ProductsController@getAddToCart',
 	'as' => 'product@addToCart',
 ]);
+
+
+
+//admin routes********************
+
+// Add desktop
+Route::get('/adminpanel/addDesktop', 'AdminController@createDesktop');
+Route::post('/storeDesktop', 'AdminController@storeDesktop');
+
+Route::get('/adminpanel/Desktops', 'AdminController@showAdminDesktops');
+
+Route::get('/adminpanel', function(){
+  return view('admin/adminpanelmain/layouts');
+});
+
+//desktop view page for admin
+Route::get('/adminpanel/adminDesktops', function () {
+return view('admin.adminpanelviews.adminDesktops');
+});
