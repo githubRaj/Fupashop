@@ -187,7 +187,7 @@ class Mapper
 			return  null;
 
 		
->>>>>>> All Items turned to proper objects
+
 	}
 /*-------------------LAPTOPS---------------------------*/
 
