@@ -1,28 +1,15 @@
 @extends('layout.main')
 
-
 @section('content')
-
 	<html lang="en"><head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-		<title>Demo selection article</title>
-
-
-
 		<link rel="canonical" href="/default/en/EUR/detail/10022/Demo_selection_article">
-
-
 		<meta name="application-name" content="Aimeos">
-
-
 		<script type="text/javascript" defer="defer" src="/default/en/EUR/stock?s_prodcode%5B0%5D=demo-article&amp;s_prodcode%5B1%5D=demo-selection-article&amp;s_prodcode%5B2%5D=demo-selection-article-1&amp;s_prodcode%5B3%5D=demo-selection-article-2"></script>
 
 		<title>Aimeos shop :: Laravel demo</title>
-
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="http://laravel.demo.aimeos.org/packages/aimeos/shop/themes/elegance/common.css">
 		<link type="text/css" rel="stylesheet" href="http://laravel.demo.aimeos.org/packages/aimeos/shop/themes/elegance/aimeos.css">
@@ -39,24 +26,15 @@
 	<body>
 	<div class="col-xs-12">
 		<section class="aimeos catalog-stage" data-jsonurl="http://laravel.demo.aimeos.org/default/jsonapi/en?currency=EUR">
-
-
-
 			<div class="catalog-stage-image">
 			</div>
 
 		</section>
 		<section class="aimeos catalog-detail" itemscope="" itemtype="http://schema.org/Product" data-jsonurl="http://laravel.demo.aimeos.org/default/jsonapi/en?currency=EUR">
-
-
-
-
 			<article class="product " data-id="10022">
+				<div class="catalog-detail-image">
 
-				<div class="catalog-detail-image"><!--
-	--><!--
-
-	--><div class="image-single" data-pswp="{bgOpacity: 0.75, shareButtons: false}">
+	<div class="image-single" data-pswp="{bgOpacity: 0.75, shareButtons: false}">
 
 
 						<figure id="image-40205" class="item" style="background-image: url(&quot;https://demo.aimeos.org/media/2-big.jpg&quot;); background-size: contain;" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject" data-image="https://demo.aimeos.org/media/2.jpg">
@@ -66,8 +44,6 @@
 
 
 					</div>
-
-
 					<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="pswp__bg"></div>
 						<div class="pswp__scroll-wrap">
@@ -78,60 +54,20 @@
 								<div class="pswp__item"></div>
 								<div class="pswp__item"></div>
 							</div>
-
-							<!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-							<div class="pswp__ui pswp__ui--hidden">
-								<div class="pswp__top-bar">
-
-									<div class="pswp__counter"></div>
-
-									<button class="pswp__button pswp__button--close" title="Close">
-									</button>
-									<!-- button class="pswp__button pswp__button--share"
-                                        title="Share">
-                                    </button -->
-									<button class="pswp__button pswp__button--fs" title="Toggle fullscreen">
-									</button>
-									<button class="pswp__button pswp__button--zoom" title="Zoom in/out">
-									</button>
-
-									<div class="pswp__preloader">
-										<div class="pswp__preloader__icn">
-											<div class="pswp__preloader__cut">
-												<div class="pswp__preloader__donut"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-									<div class="pswp__share-tooltip"></div>
-								</div>
-
-								<button class="pswp__button pswp__button--arrow--left" title="Previous">
-								</button>
-								<button class="pswp__button pswp__button--arrow--right" title="Next">
-								</button>
-
-								<div class="pswp__caption"><div class="pswp__caption__center"></div></div>
-
-							</div>
 						</div>
 					</div>
-
 				</div>
 
-
+				<h1> {{ $tablet->getModelNumber() }} </h1>
 				<div class="catalog-detail-basic">
-					<h1 class="name" itemprop="name">Product details</h1>
-					<p class="code">
-						<span class="name">Article no.:</span>
-						<span class="value" itemprop="sku">demo-selection-article</span>
+					<h1 class="name" itemprop="name">Product Quicksheet</h1>
+					<p>
+						Brand: {{ $tablet->getBrandName() }} <br>
+						Screen: {{ $tablet->getScreenSize() }} inches<br>
+						Processor: {{ $tablet->getProcessor() }} <br>
+						OS: {{ $tablet->getOperatingSystem() }} <br>
 					</p>
-					<p class="short" itemprop="description">This is the short description of the selection demo article.</p>
 				</div>
-
-
 				<div class="catalog-detail-basket" data-reqstock="1" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
 
 					<div class="price-list">
@@ -143,7 +79,7 @@
 							<div class="price-item default" itemprop="priceSpecification" itemscope="" itemtype="http://schema.org/PriceSpecification">
 
 								<meta itemprop="valueAddedTaxIncluded" content="true">
-								<meta itemprop="priceCurrency" content="EUR">
+								<meta itemprop="priceCurrency" content="$">
 								<meta itemprop="price" content="150.00">
 
 								<span class="quantity" itemscope="" itemtype="http://schema.org/QuantitativeValue">
@@ -151,7 +87,8 @@
 			from 1		</span>
 
 								<span class="value">
-			€ 150.00		</span>
+									${{ $tablet->getPrice() }}
+								</span>
 							</div>
 						</div>
 					</div>
@@ -204,20 +141,72 @@
 				<div class="catalog-detail-additional">
 
 					<div class="additional-box">
-						<h2 class="header description">Description</h2>
-						<div class="content description" style="display: block;">
-							<div class="long item">Add a detailed description of the selection demo article that may be a little bit longer.</div>
-						</div>
-					</div>
-
-					<div class="additional-box">
-						<h2 class="header attributes">Characteristics</h2>
+						<h2 class="header attributes"> Detailed Product Specifications </h2>
 						<div class="content attributes" style="display: block;">
+							<section>
+						  <div class="tbl-header">
+						    <table cellpadding="0" cellspacing="0" border="0">
+						      <thead>
+						        <tr>
+						          <th>Category</th>
+						          <th>Specification</th>
+						        </tr>
+						      </thead>
+						    </table>
+						  </div>
+						  <div class="tbl-content">
+						    <table cellpadding="0" cellspacing="0" border="0">
+						      <tbody>
+						        <tr>
+						          <td>Brand</td>
+						          <td> {{ $tablet->getBrandName() }} </td>
+						        </tr>
+						        <tr>
+						          <td>Processor</td>
+						          <td>{{ $tablet->getProcessor() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Screen Size</td>
+						          <td>{{ $tablet->getScreenSize() }} inch</td>
+						        </tr>
+						        <tr>
+						          <td>Dimensions</td>
+						          <td>{{ $tablet->getDimensions() }}</td>
+						        </tr>
+						        <tr>
+						          <td>RAM</td>
+						          <td>{{ $tablet->getRamSize() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Weight</td>
+						          <td>{{ $tablet->getWeight() }} grams</td>
+						        </tr>
+						        <tr>
+						          <td>CPU Cores</td>
+						          <td>{{ $tablet->getCpucores() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Storage Size</td>
+						          <td>{{ $tablet->getHddSize() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Battery Information</td>
+						          <td>{{ $tablet->getBatteryInformation() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Operating System</td>
+						          <td>{{ $tablet->getOperatingSystem() }}</td>
+						        </tr>
+						        <tr>
+						          <td>Camera</td>
+						          <td>{{ $tablet->getCameraInformation() }}</td>
+						        </tr>
+						      </tbody>
+						    </table>
+						  </div>
+							</section>
 						</div>
 					</div>
-
-
-
 				</div>
 
 				<div class="footer-section">
@@ -235,4 +224,3 @@
 
 
 	</body></html>
-

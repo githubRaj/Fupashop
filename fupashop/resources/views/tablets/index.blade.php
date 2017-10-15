@@ -73,6 +73,7 @@
 				<th>Processor</th>
 				<th>HDD</th>
 				<th>Price</th>
+				<th>Option</th>
 			</tr>
 		 </thead>
 

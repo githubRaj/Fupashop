@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <!-- Le styles 
+    <!-- Le styles
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">-->
     <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
@@ -12,21 +12,21 @@
     <script type="text/javascript" src={{ asset('/static/js/jquery.js') }}></script>
     <script type="text/javascript" src={{ asset('/static/js/tablesorter.js') }}></script>
     <script type="text/javascript">
-      $(document).ready(function() 
-      { 
-      
+      $(document).ready(function()
+      {
+
       $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-      } 
-      ); 
+      }
+      );
     </script>
 
-   
-  
+
+
   </head>
 
   <body>
 
-   
+
 
     <div class="container-fluid">
       <div class="row-fluid">
@@ -46,13 +46,13 @@
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
              @php
-             	$id=1 
+             	$id=1
              @endphp
-             
-              @foreach ($brands as $b) 
+
+              @foreach ($brands as $b)
 	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 	      			@php
-	      				$id = $id + 1 
+	      				$id = $id + 1
 	      			@endphp
 	      	  @endforeach
 	    </ul>
@@ -73,11 +73,12 @@
 		        <th>Processor</th>
 		        <th>Display</th>
 		      	<th>Price</th>
+            <th>Option</th>
 	      	</tr>
          </thead>
 
           <tbody>
-	    	@foreach ($laptops as $laptop) 
+	    	@foreach ($laptops as $laptop)
 	        <tr class="{{ $laptop->getBrandName() }}">
               <tr>
 		<td><a href="laptops/{{ $laptop->getModelNumber() }}">{{ $laptop->getModelNumber() }}</a></td>
@@ -101,11 +102,11 @@
       </footer>
 
     </div><!--/.fluid-container-->
-    
+
 
   </body>
-  
+
   <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
-  
+
 </html>
 @endsection
