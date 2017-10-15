@@ -16,7 +16,9 @@ use Session;
 
 class AdminController extends Controller
 {
+  private $repo;
   private $mapper;
+  private $uow;
     /**
      * Create a new controller instance.
      *
@@ -26,6 +28,8 @@ class AdminController extends Controller
     {
         $this->middleware('auth:admin');
         $this->mapper = new Mapper();
+        $this->repo = new Repository();
+        $this->uow = new UOW($this->mapper);
     }
 
     /**
@@ -45,21 +49,19 @@ class AdminController extends Controller
 
     public function storeDesktop(Request $request)
     {
-      $repo = new Repository();
-      $desktop = new Desktop;
-      $desktop->modelNumber = $request->input('modelNumber');
-      $desktop->processor = $request->input('processor');
-      $desktop->dimensions = $request->input('dimensions');
-      $desktop->ramSize = $request->input('ramSize');
-      $desktop->weight = $request->input('weight');
-      $desktop->cpuCores = $request->input('cpuCores');
-      $desktop->hddSize = $request->input('hddSize');
-      $desktop->brandName = $request->input('brandName');
-      $desktop->price = $request->input('price');
-      //$desktop->save();
-      $repo->addDesktopToRepo($desktop);
+          $desktop = new Desktop($request->input('modelNumber'), $request->input('processor'),
+          $request->input('dimensions'), $request->input('ramSize'),$request->input('weight'),
+          $request->input('cpuCores'), $request->input('hddSize'), $request->input('brandName'),
+          $request->input('price')
+          );
 
-      return redirect('/adminpanel/addNewDesktop');
+          $this->repo->addDesktopToRepo($desktop);
+
+          $this->uow->registerNew($desktop);
+
+          $this->uow->commit();
+
+          //return redirect('/adminpanel/addNewDesktop');
     }
 
     public function showAdminDesktops()
@@ -179,7 +181,7 @@ class AdminController extends Controller
        return view ('admin/adminpanelviews/adminMonitors', compact('monitors'));
    }
 
-  public function storeMonitort(Request $request)
+  public function storeMonitor(Request $request)
   {
       return redirect('/adminpanel/addNewMonitor');
   }

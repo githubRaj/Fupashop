@@ -7,7 +7,7 @@
     <div class="col-lg-8">
 
         <!--Fupa table example -->
-        <div class="panel panel-primary">
+        <div class=" panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>LAPTOPS
                 <div class="pull-right">
@@ -40,17 +40,20 @@
                                     <tr>
                                       <th>Model Number</th>
                           		        <th>Processor</th>
-                          		        <th>Display Size</th>
-                          		      	<th>Ram Size</th>
+                          		        <th>Size</th>
+                          		      	<th>Ram</th>
                                       <th>Weight</th>
                           		        <th>CPU Cores</th>
                           		        <th>HDD Size</th>
                           		      	<th>Battery Type</th>
-                                      <th>Brand Name</th>
-                                      <th>Operating System</th>
-                                      <th>Touch Feature</th>
-                                      <th>Camera Information</th>
+                                      <th>Battery Info</th>
+                                      <th>Brand</th>
+                                      <th>OS</th>
+                                      <th>Touch</th>
+                                      <th>Camera</th>
                                       <th>Price</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +74,8 @@
                                       <td>{{$laptop->getTouchFeature()}}</td>
                                       <td>{{$laptop->getCameraInformation()}}</td>
                                       <td>{{$laptop->getPrice()}}</td>
+                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
+                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                     </tr>
                                   @endforeach
 

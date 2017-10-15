@@ -7,7 +7,7 @@
     <div class="col-lg-8">
 
         <!--Fupa table example -->
-        <div class="panel panel-primary">
+        <div class=" panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>MONITORS
                 <div class="pull-right">
@@ -38,11 +38,13 @@
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                      <th>Model Number</th>
+                                      <th>Model #</th>
                           		        <th>Size</th>
                                       <th>weight</th>
-                                      <th>brandName</th>
+                                      <th>brand</th>
                                       <th>Price</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,6 +56,8 @@
                                       <td>{{$monitor->getWeight()}}</td>
                                       <td>{{$monitor->getBrandName()}}</td>
                                       <td>{{$monitor->getPrice()}}</td>
+                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
+                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                     </tr>
                                   @endforeach
 

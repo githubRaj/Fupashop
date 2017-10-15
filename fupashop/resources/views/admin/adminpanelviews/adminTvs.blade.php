@@ -7,7 +7,7 @@
     <div class="col-lg-8">
 
         <!--Fupa table example -->
-        <div class="panel panel-primary">
+        <div class=" panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>TVS
                 <div class="pull-right">
@@ -46,6 +46,8 @@
                           		        <th>ScreenSize</th>
                           		      	<th>Brand</th>
                                       <th>Price</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,6 +62,8 @@
                                       <td>{{$tv->getScreenSize()}}</td>
                                       <td>{{$tv->getBrandName()}}</td>
                                       <td>{{$tv->getPrice()}}</td>
+                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
+                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                     </tr>
                                   @endforeach
 

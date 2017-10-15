@@ -7,7 +7,7 @@
     <div class="col-lg-8">
 
         <!--Fupa table example -->
-        <div class="panel panel-primary">
+        <div class=" panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>DESKTOPS
                 <div class="pull-right">
@@ -40,13 +40,15 @@
                                     <tr>
                                       <th>Model Number</th>
                           		        <th>Processor</th>
-                          		        <th>dimensions</th>
-                          		      	<th>ramSize</th>
-                                      <th>weight</th>
-                          		        <th>cpuCores</th>
-                          		        <th>hddSize</th>
-                          		      	<th>brand</th>
-                                      <th>price</th>
+                          		        <th>Dimensions</th>
+                          		      	<th>Ram</th>
+                                      <th>Weight</th>
+                          		        <th>Cores</th>
+                          		        <th>HDD</th>
+                          		      	<th>Brand</th>
+                                      <th>Price</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,6 +64,8 @@
                                       <td>{{$desktop->getHddSize()}}</td>
                                       <td>{{$desktop->getBrandName()}}</td>
                                       <td>{{$desktop->getPrice()}}</td>
+                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
+                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
                                     </tr>
                                   @endforeach
 

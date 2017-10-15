@@ -70,6 +70,8 @@ class TableDataGateway
 
 	public function insertDesktop($desktop)
 	{
+		echo "Hi mom";
+		return;
 		DB::table('desktops')->insert($desktop->getAttributes());
 	}
 
