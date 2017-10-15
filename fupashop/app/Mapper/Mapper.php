@@ -30,8 +30,6 @@ class Mapper
 	// changed tablets to illustrate my understanding of the implementation
 	public function getAllTablets()
 	{
-
-		
 		//if($this->repo->emptyTablets()){	//no Tablets found in repo. load all from db to repo
 			$tempTablets =  $this->tdg->getAllTablets();
 			foreach($tempTablets as $item){
@@ -40,12 +38,6 @@ class Mapper
 				//store into repo
 				$this->repo->addTabletToRepo($tablet);
 			}
-		//}
-		//testing tablet object display
-
-		//$test = array();
-		//$test = $this->repo->getAllTablets();
-		//var_dump($test);
 		return $this->repo->getAllTablets();
 	}
 
@@ -107,14 +99,14 @@ class Mapper
 		else //doesnt exist
 			return  null;
 
-		
+
 	}
 
 /*-------------------MONITORS---------------------------*/
 
 	public function getAllMonitors()
 	{
-		
+
 		if($this->repo->emptyMonitors()){	//no Monitors found in repo. load all from db to repo
 			$tempMonitors =  $this->tdg->getAllMonitors();
 			foreach($tempMonitors as $item){
@@ -148,14 +140,14 @@ class Mapper
 		else //doesnt exist
 			return  null;
 
-		
+
 	}
 
 /*-------------------TVS---------------------------*/
 
 	public function getAllTvs()
 	{
-		
+
 		if($this->repo->emptyTvs()){	//no Monitors found in repo. load all from db to repo
 			$tempTvs =  $this->tdg->getAllTvs();
 			foreach($tempTvs as $item){
@@ -201,7 +193,7 @@ class Mapper
 
 	public function getAllLaptops()
 	{
-		
+
 		if($this->repo->emptyLaptops()){	//no Monitors found in repo. load all from db to repo
 			$tempTvs =  $this->tdg->getAllLaptops();
 			foreach($tempTvs as $item){
@@ -234,11 +226,7 @@ class Mapper
 		}
 		else //doesnt exist
 			return  null;
-
-		
 	}
-
-
 
 /*-------------------FUNCTIONALITY---------------------------*/
 

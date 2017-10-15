@@ -42,7 +42,7 @@
 					<li><a href="/psu">Power Supplies</a></li>
 					<li><a href="/case">Cases</a></li>
 				</ul>-->
-	
+
 
  <ul id="filters" class="nav nav-list">
 					<li class="nav-header">Brand</li>
@@ -57,8 +57,8 @@
 					@endphp
 				@endforeach
 
-	
-	
+
+
 
 	<ul class="nav nav-list">
 		<li class="nav-header">Price Range</li>
@@ -76,6 +76,7 @@
 				<th>Brand</th>
 				<th>TV Type</th>
 				<th>Price</th>
+				<th>Option</th>
 			</tr>
 		 </thead>
 
