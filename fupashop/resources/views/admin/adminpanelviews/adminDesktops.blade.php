@@ -64,9 +64,11 @@
                                       <td>{{$desktop->getHddSize()}}</td>
                                       <td>{{$desktop->getBrandName()}}</td>
                                       <td>{{$desktop->getPrice()}}</td>
-                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
-                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
-                                    </tr>
+                                      <td><button class="btn btn-info"><a href="/admin/adminpanelviews/{{$desktop->getModelNumber()}}/edit">Edit</a></button></td>
+                                      <td>
+                                        <button class="btn btn-danger"><a href="/admin/adminpanelviews/{{$desktop->getModelNumber()}}/delete">Delete</a></button>
+                                      </td>
+                                  </tr>
                                   @endforeach
 
                                 </tbody>

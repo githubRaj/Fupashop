@@ -186,4 +186,27 @@ class AdminController extends Controller
       return redirect('/adminpanel/addNewMonitor');
   }
 
+  //Edit Product
+  public function edit($id)
+  {
+    /*$this->repo->getSingleDesktop($id);
+    $this->uow->getDesktopById($id);
+    $this->uow->commit();
+    */
+    //return view('admin/adminpanelviews/edit')->with('product', $product);
+    return view('admin/adminpanelviews/edit');
+  }
+
+  //Update Product in Database
+  public function update(Request $request, $id)
+  {
+     return 'Product has been updated';
+  }
+
+  //Delete Product
+  public function delete($id)
+  {
+     return $id;
+  }
+
 }

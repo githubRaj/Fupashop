@@ -75,6 +75,12 @@ Route::get('/adminpanel', function(){
   return view('admin/adminpanelmain/layouts');
 });
 
+//Edit Product
+Route::get('admin/adminpanelviews/{id}/edit', 'AdminController@edit');
+
+//Delete Product
+Route::get('admin/adminpanelviews/{id}/delete', 'AdminController@delete');
+
 // Add desktop
 Route::get('/adminpanel/addNewDesktop', 'AdminController@createDesktop');
 Route::post('/storeDesktop', 'AdminController@storeDesktop');
