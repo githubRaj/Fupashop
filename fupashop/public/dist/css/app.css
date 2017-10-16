@@ -1,3 +1,5 @@
+/*Top Bar / Header CSS sheet*/
+
 .top-bar, .top-bar ul {
     background: linear-gradient(to bottom, #0066cc 0%, #33cccc 92%);    
     border-bottom: 5px solid rgba(2, 103, 40, 0.38);;
@@ -8,6 +10,7 @@
 }
 .top-bar a{
 	color: white;
+  font-weight: bold;
 }
 .top-bar a:hover{
 	text-decoration: underline;

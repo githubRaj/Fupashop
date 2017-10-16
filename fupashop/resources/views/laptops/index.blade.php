@@ -19,6 +19,7 @@
       }
       );
     </script>
+  
 
 
 
@@ -32,17 +33,19 @@
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Parts</li>
-              <li class="active"><a href="/cpu">CPUs</a></li>
-              <li><a href="/mobo">Motherboards</a></li>
-              <li><a href="/ram">RAM</a></li>
-              <li><a href="/hdd">Hard Drives</a></li>
-              <li><a href="/ssd">Solid State Drives</a></li>
-              <li><a href="/gpu">Graphics Cards</a></li>
-              <li><a href="/psu">Power Supplies</a></li>
-              <li><a href="/case">Cases</a></li>
-            </ul>
+      <ul id="filter1" class="nav nav-list">
+            <li class="nav-header">Processors</li>
+            @php
+              $id=1
+            @endphp
+
+          @foreach ($processors as $p)
+          <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
+          @php
+            $id = $id + 1
+          @endphp
+        @endforeach
+      </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
              @php
@@ -81,11 +84,11 @@
 	    	@foreach ($laptops as $laptop)
 	        <tr class="{{ $laptop->getBrandName() }}">
               <tr>
-		<td><a href="laptops/{{ $laptop->getModelNumber() }}">{{ $laptop->getModelNumber() }}</a></td>
-		<td class="brand">{{ $laptop->getBrandName() }}</td>
-		<td>{{ $laptop->getProcessor() }}</td>
-		<td>{{ $laptop->getDisplaySize() }}</td>
-		<td class="price">{{ $laptop->getPrice() }}</td>
+		<td><a href="laptops/{{ $laptop->modelNumber }}">{{ $laptop->modelNumber }}</a></td>
+		<td class="brand">{{ $laptop->brandName }}</td>
+		<td class="processor">{{ $laptop->processor }}</td>
+		<td>{{ $laptop->displaySize }}</td>
+		<td class="price">{{ $laptop->price }}</td>
 		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>
 	      @endforeach

@@ -32,17 +32,19 @@
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Parts</li>
-              <li class="active"><a href="/cpu">CPUs</a></li>
-              <li><a href="/mobo">Motherboards</a></li>
-              <li><a href="/ram">RAM</a></li>
-              <li><a href="/hdd">Hard Drives</a></li>
-              <li><a href="/ssd">Solid State Drives</a></li>
-              <li><a href="/gpu">Graphics Cards</a></li>
-              <li><a href="/psu">Power Supplies</a></li>
-              <li><a href="/case">Cases</a></li>
-            </ul>
+      <ul id="filter1" class="nav nav-list">
+          <li class="nav-header">Processors</li>
+          @php
+            $id=1
+          @endphp
+
+          @foreach ($processors as $p)
+          <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
+          @php
+            $id = $id + 1
+          @endphp
+        @endforeach
+      </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
              @php
@@ -81,11 +83,11 @@
 	    	@foreach ($desktops as $desktop)
 	        <tr class="{{ $desktop->getBrandName() }}">
               <tr>
-		<td><a href="desktops/{{ $desktop->getModelNumber() }}">{{ $desktop->getModelNumber() }}</a></td>
-		<td class="brand">{{ $desktop->getBrandName() }}</td>
-		<td>{{ $desktop->getProcessor() }}</td>
-		<td>{{ $desktop->getCpuCores() }}</td>
-		<td class="price">{{ $desktop->getPrice() }}</td>
+		<td><a href="desktops/{{ $desktop->modelNumber }}">{{ $desktop->modelNumber }}</a></td>
+		<td class="brand">{{ $desktop->brandName }}</td>
+		<td class="processor">{{ $desktop->processor }}</td>
+		<td>{{ $desktop->cpuCores }}</td>
+		<td class="price">{{ $desktop->price }}</td>
 		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 	      </tr>
 	      @endforeach

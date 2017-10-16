@@ -119,7 +119,21 @@ class ProductsController extends Controller
           $brands[] = $item->getBrandName();
         }
       }
-      return view ('desktops.index', compact('desktops','brands'));
+
+      $processors = array();
+      foreach( $desktops as $item ){
+        $flag = false;
+        foreach( $processors as $pro ){
+          if($pro == $item->processor)
+              $flag = true;
+        }
+        if( $flag != true ){
+          $processors[] = $item->processor;
+        }
+      }
+
+      return view ('desktops.index', compact('desktops','brands', 'processors'));
+
     }
 
     public function getDesktop($id)
@@ -165,7 +179,19 @@ class ProductsController extends Controller
         }
       }
 
-      return view ('laptops.index', compact('laptops', 'brands'));
+       $processors = array();
+      foreach( $laptops as $item ){
+        $flag = false;
+        foreach( $processors as $pro ){
+          if($pro == $item->processor)
+              $flag = true;
+        }
+        if( $flag != true ){
+          $processors[] = $item->processor;
+        }
+      }
+
+      return view ('laptops.index', compact('laptops', 'brands', 'processors'));
     }
 
     public function getLaptop($id)
@@ -259,7 +285,20 @@ class ProductsController extends Controller
           $brands[] = $item->getBrandName();
         }
       }
-      return view ('tablets.index', compact('tablets', 'brands'));
+
+      $processors = array();
+      foreach( $tablets as $item ){
+        $flag = false;
+        foreach( $processors as $pro ){
+          if($pro == $item->processor)
+              $flag = true;
+        }
+        if( $flag != true ){
+          $processors[] = $item->processor;
+        }
+      }
+
+      return view ('tablets.index', compact('tablets', 'brands', 'processors'));
     }
 
     public function getTablet($id)

@@ -1,3 +1,5 @@
+// Real time filtering of Brands
+
 var brands = new Array()
 
 $("#filters :checkbox" ).click(function() {
@@ -24,6 +26,7 @@ $("#filters :checkbox" ).click(function() {
 	}
     });
     console.log(chker)
+    
 //Adds any checked item into Array
     $('#filters :checkbox:checked').each(function(){
 	for (var i = 0; i < brands.length; i++) {
@@ -85,3 +88,70 @@ $('#btnFilter').click(function() {
     });
     
 });
+
+// Real time filtering of Processors
+
+var processors = new Array()
+
+$("#filter1 :checkbox" ).click(function() {
+    var chker = new Array()
+//Removes any item from the array that is unchecked
+    $('#filter1 :checkbox:not(:checked)').each(function(){
+	var tmp = new Array()
+	var tmpb=processors.pop()
+	for (var y = 0; y < processors.length; y++) {
+	    if(tmpb == ($(this).val())){
+		
+	    }
+	    else{
+		tmp.push(tmpb);
+	    }
+	}
+
+	for (var i = 0; i < tmp.length; i++) {
+	    chker[i] = tmp[i]
+	}
+	
+	for (var x = 0; x < tmp.length; x++) {
+	    processors.push(tmp.pop())
+	}
+    });
+    console.log(chker)
+    
+//Adds any checked item into Array
+    $('#filter1 :checkbox:checked').each(function(){
+	for (var i = 0; i < processors.length; i++) {
+	    if(processors[i] == ($(this).val())){
+		break;
+	    }
+	}
+	if (i == processors.length){
+	processors.push($(this).val())
+	}
+    });
+    
+    console.log(chker)
+    
+    if(chker.length != 0){
+	processors = chker
+    }
+    
+    //Filters out the table
+    $( 'tr' ).show(); 
+    console.log(processors)
+    $('tr td.processor').each(function(){
+	for (var i = 0; i < processors.length; i++) {
+	    if(processors[i] == ($(this).text())){
+		break;
+	    }
+	}
+	if (i == processors.length){
+	    $(this).parent().hide()
+	}
+    });
+    
+    if (processors.length == 0){
+	$( 'tr' ).show(); 
+    }
+});
+

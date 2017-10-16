@@ -234,7 +234,7 @@ a {
   color: #0088cc;
   text-decoration: none;
 }
-
+/*Links in the Body*/
 a:hover,
 a:focus {
   color: #005580;
@@ -3354,7 +3354,7 @@ input[type="button"].btn-block {
 .btn-success.active,
 .btn-info.active,
 .btn-inverse.active {
-  color: rgba(255, 255, 255, 0.75);
+  text-decoration: line-through;
 }
 
 .btn-primary {
@@ -6166,6 +6166,7 @@ a.badge:focus {
   position: fixed;
 }
 
+<<<<<<< Updated upstream
 
 h1{
   font-size: 30px;
@@ -6212,3 +6213,5 @@ body{
   background: linear-gradient(to right, #25c481, #25b7c4);
   font-family: 'Roboto', sans-serif;
 }
+=======
+>>>>>>> Stashed changes

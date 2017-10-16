@@ -15,6 +15,8 @@
 
     </head>
     <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="js/anchorlink.js"></script>
         <div  class="top-bar">
             <div style="color:white" class="top-bar-left">
                 <h4 class="brand-title">
@@ -27,28 +29,28 @@
                 </div>
              <div class="top-bar-left">
                 <ol class="menu">
-                    <li>
-                        <a href="{{ url('tvs') }}">
+                    <li class="{{ Request::is( 'tvs') ? 'active' : '' }}">
+                        <a href="{{ URL::to( 'tvs') }}">
                             TVS
                         </a>
                     </li>
-                      <li>
-                        <a href="{{ url('monitors') }}">
+                      <li class="{{ Request::is( 'monitors') ? 'active' : '' }}">
+                        <a href="{{ URL::to( 'monitors') }}">
                             MONITORS
                         </a>
                     </li>
-                      <li>
-                        <a href="{{ url('desktops') }}">
+                      <li class="{{ Request::is( 'desktops') ? 'active' : '' }}">
+                        <a href="{{ URL::to( 'desktops') }}">
                             DESKTOPS
                         </a>
                     </li>
-                      <li>
-                        <a href="{{ url('laptops') }}">
+                      <li class="{{ Request::is( 'laptops') ? 'active' : '' }}">
+                        <a href="{{ URL::to( 'laptops') }}">
                             LAPTOPS
                         </a>
                     </li>
-                      <li>
-                        <a href="{{ url('tablets') }}">
+                      <li class="{{ Request::is( 'tablets') ? 'active' : '' }}">
+                        <a href="{{ URL::to( 'tablets') }}">
                             TABLETS
                         </a>
                     </li>

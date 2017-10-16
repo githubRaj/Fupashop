@@ -28,12 +28,6 @@
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Monitors</li>
-              <li class="active"><a href="/brand">Brands</a></li>
-              <li><a href="/size">Size</a></li>
-              <li><a href="/weight">Weight</a></li>
-            </ul>
 			<ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
              @php
@@ -65,7 +59,7 @@
             <th>Option</th>
 	      	</tr>
          </thead>
-
+         
 	@foreach ($monitors as $monitor)
 	<tr class="{{ $monitor->getBrandName() }}">
               <tr>

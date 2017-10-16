@@ -32,19 +32,21 @@
 	<div class="row-fluid">
 		<div class="span3">
 			<div class="well sidebar-nav">
-				<ul class="nav nav-list">
-					<li class="nav-header">Parts</li>
-					<li class="active"><a href="/cpu">CPUs</a></li>
-					<li><a href="/mobo">Motherboards</a></li>
-					<li><a href="/ram">RAM</a></li>
-					<li><a href="/hdd">Hard Drives</a></li>
-					<li><a href="/ssd">Solid State Drives</a></li>
-					<li><a href="/gpu">Graphics Cards</a></li>
-					<li><a href="/psu">Power Supplies</a></li>
-					<li><a href="/case">Cases</a></li>
-				</ul>
+	<ul id="filter1" class="nav nav-list">
+			<li class="nav-header">Processors</li>
+				 @php
+					$id=1
+				 @endphp
+
+					@foreach ($processors as $p)
+					<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
+					@php
+						$id = $id + 1
+					@endphp
+				@endforeach
+	</ul>
 	<ul id="filters" class="nav nav-list">
-					<li class="nav-header">Manufacturer</li>
+			<li class="nav-header">Manufacturer</li>
 				 @php
 					$id=1
 				 @endphp
@@ -78,17 +80,17 @@
 		 </thead>
 
 			<tbody>
-		@foreach ($tablets as $tablet)
-			<tr class="{{ $tablet->getBrandName() }}">
+	@foreach ($tablets as $tablet)
+		<tr class="{{ $tablet->getBrandName() }}">
 					<tr>
-<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
-<td class="brand">{{ $tablet->getBrandName() }}</td>
-<td>{{ $tablet->getProcessor() }}</td>
-<td>{{ $tablet->getHddSize() }}</td>
-<td class="price">{{ $tablet->getPrice() }}</td>
-<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
+		<td><a href="tablets/{{ $tablet->modelNumber }}">{{ $tablet->modelNumber }}</a></td>
+		<td class="brand">{{ $tablet->brandName }}</td>
+		<td class="processor">{{ $tablet->processor }}</td>
+		<td>{{ $tablet->hddSize }}</td>
+		<td class="price">{{ $tablet->price }}</td>
+		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
 		</tr>
-		@endforeach
+	@endforeach
 
 				</tbody>
 </table>
