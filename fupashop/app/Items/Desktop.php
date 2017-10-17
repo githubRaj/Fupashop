@@ -52,4 +52,3 @@ class Desktop extends Item
         ];
     }
 }
-

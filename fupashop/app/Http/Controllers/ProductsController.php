@@ -124,11 +124,11 @@ class ProductsController extends Controller
       foreach( $desktops as $item ){
         $flag = false;
         foreach( $processors as $pro ){
-          if($pro == $item->processor)
+          if($pro == $item->getProcessor())
               $flag = true;
         }
         if( $flag != true ){
-          $processors[] = $item->processor;
+          $processors[] = $item->getProcessor();
         }
       }
 
@@ -183,11 +183,11 @@ class ProductsController extends Controller
       foreach( $laptops as $item ){
         $flag = false;
         foreach( $processors as $pro ){
-          if($pro == $item->processor)
+          if($pro == $item->getProcessor() )
               $flag = true;
         }
         if( $flag != true ){
-          $processors[] = $item->processor;
+          $processors[] = $item->getProcessor();
         }
       }
 
@@ -290,11 +290,11 @@ class ProductsController extends Controller
       foreach( $tablets as $item ){
         $flag = false;
         foreach( $processors as $pro ){
-          if($pro == $item->processor)
+          if($pro == $item->getProcessor())
               $flag = true;
         }
         if( $flag != true ){
-          $processors[] = $item->processor;
+          $processors[] = $item->getProcessor();
         }
       }
 
