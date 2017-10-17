@@ -6166,8 +6166,6 @@ a.badge:focus {
   position: fixed;
 }
 
-<<<<<<< Updated upstream
-
 h1{
   font-size: 30px;
   text-transform: uppercase;
@@ -6204,7 +6202,6 @@ td{
   border-bottom: solid 1px rgba(255,255,255,0.1);
 }
 
-
 /* demo styles */
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
@@ -6213,5 +6210,3 @@ body{
   background: linear-gradient(to right, #25c481, #25b7c4);
   font-family: 'Roboto', sans-serif;
 }
-=======
->>>>>>> Stashed changes
