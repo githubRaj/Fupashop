@@ -35,20 +35,31 @@ class Desktop extends Item
     public function setRamSize($ramSize) { $this->ramSize = $ramSize; }
     public function setCpuCores($cpuCores) { $this->cpuCores = $cpuCores; }
     public function setHddSize($hddSize) { $this->hddSize = $hddSize; }
+    public function setAll($new){
+        $this->modelNumber = $new['modelNumber'];
+        $this->processor = $new['processor'];
+        $this->dimensions = $new['dimensions'];
+        $this->ramSize = $new['ramSize'];
+        $this->weight = $new['weight'];
+        $this->cpuCores = $new['cpuCores'];
+        $this->hddSize = $new['hddSize'];
+        $this->brandName = $new['brandName'];
+        $this->price = $new['price'];
+    }
 
     public function getAttributes()
     {
         return
         [
-            'modelNumber' => $modelNumber,
-            'processor' => $processor,
-            'dimensions' => $dimensions,
-            'ramSize' => $ramSize,
-            'weight' => $weight,
-            'cpuCores' => $cpuCores,
-            'hddSize' => $hddSize,
-            'brandName' => $brandName,
-            'price' => $price
+            'modelNumber' => $this->modelNumber,
+            'processor' => $this->processor,
+            'dimensions' => $this->dimensions,
+            'ramSize' => $this->ramSize,
+            'weight' => $this->weight,
+            'cpuCores' => $this->cpuCores,
+            'hddSize' => $this->hddSize,
+            'brandName' => $this->brandName,
+            'price' => $this->price
         ];
     }
 }

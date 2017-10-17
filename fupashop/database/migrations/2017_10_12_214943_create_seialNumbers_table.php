@@ -14,7 +14,11 @@ class CreateSeialNumbersTable extends Migration
     public function up()
     {
         Schema::create('seialNumbers', function (Blueprint $table) {
-            $table->string('modelNumber', 10);
+            $table->integer('modelNumber')->unsigned();
+            $table->foreign('modelNumber')->references('modelNumber')->on('tablets')->onDelete('cascade');
+            $table->foreign('modelNumber')->references('modelNumber')->on('desktops')->onDelete('cascade');
+            $table->foreign('modelNumber')->references('modelNumber')->on('monitors')->onDelete('cascade');
+            $table->foreign('modelNumber')->references('modelNumber')->on('laptops')->onDelete('cascade');
             $table->bigInteger('serialNumber', 11);
             $table->timestamps();
         });

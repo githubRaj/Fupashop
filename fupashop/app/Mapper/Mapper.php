@@ -65,6 +65,12 @@ class Mapper
 	}
 /*-------------------DEKSTOPS---------------------------*/
 
+	public function addDesktopToRepo($newDesktop){
+		$this->repo->addDesktopToRepo($newDesktop);
+		$this->uow->registerNew($newDesktop);
+        $this->uow->commit();
+	}
+
 	public function getAllDesktops(){
 
 		if($this->repo->emptyDesktops()){	//no desktops found in repo. load all from db to repo
@@ -102,6 +108,23 @@ class Mapper
 
 	}
 
+
+
+	public function setDesktop($newDesktop, $oldModel){
+		$this->repo->updateDesktop($newDesktop, $oldModel);
+		$this->uow->registerDirty($newDesktop);
+		$this->uow->commit();
+		//echo var_dump($this->repo->getSingleDesktop($newDesktop->getModelNumber()));
+		//return;
+	}
+
+	public function deleteDesktop($desktopID){
+		$desktop = $this->repo->getSingleDesktop($desktopID);		//get item
+		$this->repo->removeFromRepo('desktops', $desktopID);	//remove item from repo
+		$this->uow->registerDeleted($desktop);					//delete from db
+		$this->uow->commit();
+
+	}
 /*-------------------MONITORS---------------------------*/
 
 	public function getAllMonitors()
@@ -235,19 +258,19 @@ class Mapper
 		// try this
 		switch (get_class($item))
 		{
-			case 'Tablet':
+			case 'App\Items\Tablet':
 				$this->tdg->insertTablet($item);
 				break;
-			case 'Desktop':
+			case 'App\Items\Desktop':
 				$this->tdg->insertDesktop($item);
 				break;
-			case 'Monitor':
+			case 'App\Items\Monitor':
 				$this->tdg->insertMonitor($item);
 				break;
-			case 'Tv':
+			case 'App\Items\Tv':
 				$this->tdg->insertTv($item);
 				break;
-			case 'Laptop':
+			case 'App\Items\Laptop':
 				$this->tdg->insertLaptop($item);
 				break;
 			default:
@@ -260,19 +283,19 @@ class Mapper
 		// try this
 		switch (get_class($item))
 		{
-			case 'Tablet':
+			case Tablet::class:
 				$this->tdg->updateTablet($item);
 				break;
-			case 'Desktop':
+			case Desktop::class:
 				$this->tdg->updateDesktop($item);
 				break;
-			case 'Monitor':
+			case Monitor::class:
 				$this->tdg->updateMonitor($item);
 				break;
-			case 'Tv':
+			case Tv::class:
 				$this->tdg->updateTv($item);
 				break;
-			case 'Laptop':
+			case Laptop::class:
 				$this->tdg->updateLaptop($item);
 				break;
 			default:

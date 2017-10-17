@@ -60,12 +60,22 @@ class Repository
 		return $this->desktops;
 	}
 
+	public function updateDesktop($newDesktop, $oldModelNumber)
+	{
+		$oldDesktop = null;
+		$oldDesktop = Repository::getSingleDesktop($oldModelNumber);
+		$tempArray = array();
+		$tempArray = $newDesktop->getAttributes();
+		$oldDesktop->setAll($tempArray);
+		//echo var_dump($oldDesktop);
+		//return;
+	}
+
 	public function addDesktopToRepo($desktop){
 		$this->desktops[] = $desktop;
 	}
 
 	public function getSingleDesktop($id){
-		
 		foreach($this->desktops as $item){
 			if($item->getModelNumber() == $id)
 				return $item;
@@ -191,7 +201,7 @@ class Repository
 		}
 
 		foreach($object as $item){
-			if($item->modelNumber == $id)
+			if($item->getModelNumber() == $id)
 				return true;
 		}
 		return false;
@@ -224,7 +234,7 @@ class Repository
     		unset($object[$key]);
 		}*/
 		foreach ($object as $key => $item) {
-		    if($object[$key]->modelNumber == $id) {
+		    if($object[$key]->getModelNumber() == $id) {
 
 		        unset($object[$key]);
 		    }

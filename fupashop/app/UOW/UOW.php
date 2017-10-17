@@ -20,7 +20,7 @@ class UOW
   // Add item to newItems
   public function registerNew($item)
   {
-    if (isNotRegistered($item))
+    if (UOW::isNotRegistered($item))
       array_push($this->newItems, $item);
     // else
       // TODO: Error message about already being in newItems so you can't do whatever you want to do
@@ -29,8 +29,8 @@ class UOW
   // Add item to dirtyItems
   public function registerDirty($item)
   {
-    if (isNotRegistered($item))
-      array_push($dirtyItems, $item);
+    if (UOW::isNotRegistered($item))
+      array_push($this->dirtyItems, $item);
     // else
       // TODO: Error message about already being in dirtytems so you can't do whatever you want to do
   }
@@ -39,8 +39,7 @@ class UOW
   public function registerDeleted($item)
   {
     //if (UOW::isNotRegistered($item))
-
-    array_push($this->deletedItems, $item);
+      array_push($this->deletedItems, $item);
     // else
       // TODO: Error message about already being in deletedItems so you can't do whatever you want to do
   }

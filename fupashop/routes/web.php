@@ -77,6 +77,7 @@ Route::get('/adminpanel', function(){
 
 //Edit Product
 Route::get('admin/adminpanelviews/{id}/edit', 'AdminController@edit');
+Route::post('/adminpanel/Desktops', 'AdminController@update');
 
 //Delete Product
 Route::get('admin/adminpanelviews/{id}/delete', 'AdminController@delete');

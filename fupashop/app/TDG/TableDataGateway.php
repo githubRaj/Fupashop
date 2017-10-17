@@ -70,14 +70,12 @@ class TableDataGateway
 
 	public function insertDesktop($desktop)
 	{
-		echo "Hi mom";
-		return;
 		DB::table('desktops')->insert($desktop->getAttributes());
 	}
 
 	public function updateDesktop($desktop)
 	{
-		DB::table('desktops')->where('modelNumber', $desktop->modelNumber)->update($desktop->getAttributes());
+		DB::table('desktops')->where('modelNumber', $desktop->getModelNumber())->update($desktop->getAttributes());
 	}
 
 	public function deleteDesktop($desktop)

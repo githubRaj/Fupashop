@@ -9,16 +9,12 @@ use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
-use App\Repository;
-use App\UOW\UOW;
 use Session;
 
 
 class AdminController extends Controller
 {
   private $repo;
-  private $mapper;
-  private $uow;
     /**
      * Create a new controller instance.
      *
@@ -28,8 +24,6 @@ class AdminController extends Controller
     {
         $this->middleware('auth:admin');
         $this->mapper = new Mapper();
-        $this->repo = new Repository();
-        $this->uow = new UOW($this->mapper);
     }
 
     /**
@@ -54,14 +48,8 @@ class AdminController extends Controller
           $request->input('cpuCores'), $request->input('hddSize'), $request->input('brandName'),
           $request->input('price')
           );
-
-          $this->repo->addDesktopToRepo($desktop);
-
-          $this->uow->registerNew($desktop);
-
-          $this->uow->commit();
-
-          //return redirect('/adminpanel/addNewDesktop');
+          $this->mapper->addDesktopToRepo($desktop);          
+          return redirect('/adminpanel/addNewDesktop');
     }
 
     public function showAdminDesktops()
@@ -189,24 +177,44 @@ class AdminController extends Controller
   //Edit Product
   public function edit($id)
   {
-    /*$this->repo->getSingleDesktop($id);
-    $this->uow->getDesktopById($id);
-    $this->uow->commit();
-    */
-    //return view('admin/adminpanelviews/edit')->with('product', $product);
-    return view('admin/adminpanelviews/edit');
+
+    $product = $this->mapper->getDesktopById($id);
+    //$this->repo->getSingleDesktop($id);
+    //$this->uow->getDesktopById($id);
+    //$this->uow->commit();
+ 
+    return view('admin/adminpanelviews/edit')->with('product', $product);
+    //return view('admin/adminpanelviews/edit');
   }
 
   //Update Product in Database
-  public function update(Request $request, $id)
+  public function update(Request $request)
   {
-     return 'Product has been updated';
+    $this->mapper->getAllDesktops();
+    $product = $this->mapper->getDesktopById($request->oldModel);
+    $product->setAll($request);
+    $this->mapper->setDesktop($product, $request->oldModel);
+
+
+    $this->desktops =  $this->mapper->getAllDesktops();
+     $desktops = $this->desktops;
+
+    return view ('admin/adminpanelviews/adminDesktops', compact('desktops'));
+    //echo var_dump($product);
+    //return ;
+
   }
 
   //Delete Product
   public function delete($id)
   {
-     return $id;
+     //return $id;
+    $this->mapper->getAllDesktops();
+    $this->mapper->deleteDesktop($id);
+    $this->desktops =  $this->mapper->getAllDesktops();
+    $desktops = $this->desktops;
+
+    return view ('admin/adminpanelviews/adminDesktops', compact('desktops'));
   }
 
 }
