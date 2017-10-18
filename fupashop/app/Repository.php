@@ -21,16 +21,16 @@ class Repository
 
 	public function __construct(){
 
-		$this->tablets = array(); 
+		$this->tablets = array();
         $this->desktops = array();
         $this->tvs = array();
         $this->monitors = array();
         $this->laptops = array();
-	
+
 	}
 /*-------------------TABLETS---------------------------*/
 	public function getAllTablets(){
-		
+
 		return $this->tablets;
 	}
 
@@ -43,7 +43,7 @@ class Repository
 	}
 
 	public function getSingleTablet($id){
-		
+
 		foreach($this->tablets as $item){
 			if($item->getModelNumber() == $id)
 				return $item;
@@ -56,7 +56,7 @@ class Repository
 	}
 /*-------------------DESKTOPS---------------------------*/
 	public function getAllDesktops(){
-		
+
 		return $this->desktops;
 	}
 
@@ -69,6 +69,39 @@ class Repository
 		$oldDesktop->setAll($tempArray);
 		//echo var_dump($oldDesktop);
 		//return;
+	}
+
+	public function updateLaptop($newLaptop, $oldModelNumber)
+	{
+		$oldLaptop = Repository::getSingleLaptop($oldModelNumber);
+		$tempArray = array();
+		$tempArray = $newLaptop->getAttributes();
+		$oldLaptop->setAll($tempArray);
+
+	}
+
+	public function updateMonitor($newMonitor, $oldModelNumber)
+	{
+		$oldMonitor = Repository::getSingleMonitor($oldModelNumber);
+		$tempArray = array();
+		$tempArray = $newMonitor->getAttributes();
+		$oldMonitor->setAll($tempArray);
+	}
+
+	public function updateTablet($newTablet, $oldModelNumber)
+	{
+		$oldTablet = Repository::getSingleTablet($oldModelNumber);
+		$tempArray = array();
+		$tempArray = $newTablet->getAttributes();
+		$oldTablet->setAll($tempArray);
+	}
+
+	public function updateTv($newTv, $oldModelNumber)
+	{
+		$oldTv = Repository::getSingleTablet($oldModelNumber);
+		$tempArray = array();
+		$tempArray = $newTv->getAttributes();
+		$oldTv->setAll($tempArray);
 	}
 
 	public function addDesktopToRepo($desktop){
@@ -87,7 +120,7 @@ class Repository
 	}
 /*-------------------MONITORS---------------------------*/
 	public function getAllMonitors(){
-		
+
 		return $this->monitors;
 	}
 
@@ -96,7 +129,7 @@ class Repository
 	}
 
 	public function getSingleMonitor($id){
-		
+
 		foreach($this->monitors as $item){
 			if($item->getModelNumber() == $id)
 				return $item;
@@ -108,7 +141,7 @@ class Repository
 	}
 /*-------------------TVS---------------------------*/
 	public function getAllTvs(){
-		
+
 		return $this->tvs;
 	}
 
@@ -116,7 +149,7 @@ class Repository
 		$this->tvs[] = $tv;
 	}
 	public function getSingleTv($id){
-		
+
 		foreach($this->tvs as $item){
 			if($item->getModelNumber() == $id)
 				return $item;
@@ -128,7 +161,7 @@ class Repository
 	}
 /*-------------------LAPTOPS---------------------------*/
 	public function getAllLaptops(){
-		
+
 		return $this->laptops;
 	}
 
@@ -136,7 +169,7 @@ class Repository
 		$this->laptops[] = $laptop;
 	}
 	public function getSingleLaptop($id){
-		
+
 		foreach($this->laptops as $item){
 			if($item->getModelNumber() == $id)
 				return $item;

@@ -7,14 +7,14 @@ use App\Items\Item;
 class Tablet extends Item
 {
     // Attributes that apply to all items are in superclass Item
-	protected $processor;
-	protected $screenSize;
-	protected $dimensions;
-	protected $ramSize;
-	protected $cpucores;
-	protected $hddSize;
-	protected $operatingSystem;
-	protected $cameraInformation;
+	private $processor;
+	private $screenSize;
+	private $dimensions;
+	private $ramSize;
+	private $cpucores;
+	private $hddSize;
+	private $operatingSystem;
+	private $cameraInformation;
 
     public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
 	{
@@ -55,25 +55,39 @@ class Tablet extends Item
 	public function setBatteryInformation($batteryInformation) { $this->batteryInformation = $batteryInformation; }
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
-
+	public function setAll($new){
+			$this->modelNumber = $new['modelNumber'];
+			$this->processor = $new['processor'];
+			$this->screenSize = $new['screenSize'];
+			$this->dimensions = $new['dimensions'];
+			$this->ramSize = $new['ramSize'];
+			$this->weight = $new['weight'];
+			$this->cpucores = $new['cpucores'];
+			$this->hddSize = $new['hddSize'];
+			$this->batteryInformation = $new['batteryInformation'];
+			$this->brandName = $new['brandName'];
+			$this->operatingSystem = $new['operatingSystem'];
+			$this->cameraInformation = $new['cameraInformation'];
+			$this->price = $new['price'];
+	}
 
 	public function getAttributes()
 	{
 		return
 		[
-			'modelNumber' => $this->$modelNumber,
-			'processor' => $this->$processor,
-			'screenSize' => $this->$screenSize,
-			'dimensions' => $this->$dimensions,
-			'ramSize' => $this->$ramSize,
-			'weight' => $this->$weight,
-			'cpucores' => $this->$cpucores,
-			'hddSize' => $this->$hddSize,
-			'batteryInformation' => $this->$batteryInformation,
-			'brandName' => $this->$brandName,
-			'operatingSystem' => $this->$operatingSystem,
-			'cameraInformation' => $this->$cameraInformation,
-			'price' => $this->$price
+			'modelNumber' => $this->modelNumber,
+			'processor' => $this->processor,
+			'screenSize' => $this->screenSize,
+			'dimensions' => $this->dimensions,
+			'ramSize' => $this->ramSize,
+			'weight' => $this->weight,
+			'cpucores' => $this->cpucores,
+			'hddSize' => $this->hddSize,
+			'batteryInformation' => $this->batteryInformation,
+			'brandName' => $this->brandName,
+			'operatingSystem' => $this->operatingSystem,
+			'cameraInformation' => $this->cameraInformation,
+			'price' => $this->price
 		];
 	}
 }

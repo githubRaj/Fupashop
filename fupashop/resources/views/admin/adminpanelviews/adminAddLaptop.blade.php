@@ -51,11 +51,11 @@
               {{Form::label('operatingSystem', 'Operating System ')}}
               {{Form::text('operatingSystem', '', ['class' => 'form-control'])}}
 
-              {{Form::label('touchFeature	', 'Touch Feature')}}
-              {{Form::text('touchFeature	', '', ['class' => 'form-control'])}}
+              {{Form::label('touchFeature', 'Touch Feature')}}
+              {{Form::text('touchFeature', '', ['class' => 'form-control'])}}
 
-              {{Form::label('cameraInformation	', 'Camera Information')}}
-              {{Form::text('cameraInformation	', '', ['class' => 'form-control'])}}
+              {{Form::label('cameraInformation', 'Camera Information')}}
+              {{Form::text('cameraInformation', '', ['class' => 'form-control'])}}
 
               {{Form::label('price', 'Price')}}
               {{Form::text('price', '', ['class' => 'form-control'])}}

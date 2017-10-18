@@ -76,11 +76,11 @@ Route::get('/adminpanel', function(){
 });
 
 //Edit Product
-Route::get('admin/adminpanelviews/{id}/edit', 'AdminController@edit');
-Route::post('/adminpanel/Desktops', 'AdminController@update');
+Route::get('admin/adminpanelviews/{id}/{productType}/edit', 'AdminController@edit');
+Route::post('/adminpanel/{productType}', 'AdminController@update');
 
 //Delete Product
-Route::get('admin/adminpanelviews/{id}/delete', 'AdminController@delete');
+Route::get('admin/adminpanelviews/{id}/{productType}/delete', 'AdminController@delete');
 
 // Add desktop
 Route::get('/adminpanel/addNewDesktop', 'AdminController@createDesktop');

@@ -43,7 +43,7 @@
                 {{Form::text('screenSize', '',  ['class' => 'form-control'])}}
 
                 {{Form::label('batteryInformation', 'battery Information')}}
-                {{Form::text('pribatteryInformationce', '',  ['class' => 'form-control'])}}
+                {{Form::text('batteryInformation', '',  ['class' => 'form-control'])}}
 
                 {{Form::label('operatingSystem', 'Operating System ')}}
                 {{Form::text('operatingSystem', '',  ['class' => 'form-control'])}}

@@ -62,8 +62,10 @@
                                       <td>{{$tv->getScreenSize()}}</td>
                                       <td>{{$tv->getBrandName()}}</td>
                                       <td>{{$tv->getPrice()}}</td>
-                                      <td><button type="submit" class="btn btn-info">Edit</button> </td>
-                                      <td><button type="submit" class="btn btn-danger">Delete</button></td>
+                                      <td><a href="/admin/adminpanelviews/{{$tv->getModelNumber()}}/Tv/edit" class="btn btn-info">Edit</a></td>
+                                      <td>
+                                        <a href="/admin/adminpanelviews/{{$tv->getModelNumber()}}/Tv/delete" class="btn btn-danger">Delete</a>
+                                      </td>
                                     </tr>
                                   @endforeach
 

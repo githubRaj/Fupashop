@@ -18,16 +18,23 @@ class Monitor extends Item
     public function getSize() { return $this->size; }
 
     public function setSize($size) { $this->size = $size; }
+    public function setAll($new){
+        $this->modelNumber = $new['modelNumber'];
+        $this->size = $new['size'];
+        $this->weight = $new['weight'];
+        $this->brandName = $new['brandName'];
+        $this->price = $new['price'];
+    }
 
     public function getAttributes()
     {
         return
         [
-            'modelNumber' => $modelNumber,
-            'size' => $size,
-            'weight' => $weight,
-            'brandName' => $brandName,
-            'price' => $price,
+            'modelNumber' => $this->modelNumber,
+            'size' => $this->size,
+            'weight' => $this->weight,
+            'brandName' => $this->brandName,
+            'price' => $this->price
         ];
     }
 }

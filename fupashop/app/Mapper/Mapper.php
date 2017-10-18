@@ -27,6 +27,25 @@ class Mapper
 	}
 /*-------------------TABLETS---------------------------*/
 
+public function setTablet($newTablet, $oldModel){
+	$this->repo->updateTablet($newTablet, $oldModel);
+	$this->uow->registerDirty($newTablet);
+	$this->uow->commit();
+}
+
+Public function deleteTablet($tabletID){
+	$tablet = $this->repo->getSingleTablet($tabletID);		//get item
+	$this->repo->removeFromRepo('tablets', $tabletID);	//remove item from repo
+	$this->uow->registerDeleted($tablet);					//delete from db
+	$this->uow->commit();
+}
+
+public function addTabletToRepo($newTablet){
+	$this->repo->addTabletToRepo($newTablet);
+	$this->uow->registerNew($newTablet);
+	$this->uow->commit();
+}
+
 	// changed tablets to illustrate my understanding of the implementation
 	public function getAllTablets()
 	{
@@ -70,6 +89,7 @@ class Mapper
 		$this->uow->registerNew($newDesktop);
         $this->uow->commit();
 	}
+
 
 	public function getAllDesktops(){
 
@@ -123,9 +143,28 @@ class Mapper
 		$this->repo->removeFromRepo('desktops', $desktopID);	//remove item from repo
 		$this->uow->registerDeleted($desktop);					//delete from db
 		$this->uow->commit();
-
 	}
+
 /*-------------------MONITORS---------------------------*/
+
+public function addMonitorToRepo($newMonitor){
+	$this->repo->addMonitorToRepo($newMonitor);
+	$this->uow->registerNew($newMonitor);
+	$this->uow->commit();
+}
+
+public function deleteMonitor($monitorID){
+	$monitor = $this->repo->getSingleMonitor($monitorID);		//get item
+	$this->repo->removeFromRepo('monitors', $monitorID);	//remove item from repo
+	$this->uow->registerDeleted($monitor);					//delete from db
+	$this->uow->commit();
+}
+
+public function setMonitor($newMonitor, $oldModel){
+	$this->repo->updateMonitor($newMonitor, $oldModel);
+	$this->uow->registerDirty($newMonitor);
+	$this->uow->commit();
+}
 
 	public function getAllMonitors()
 	{
@@ -168,6 +207,25 @@ class Mapper
 
 /*-------------------TVS---------------------------*/
 
+public function setTv($newTv, $oldModel){
+	$this->repo->updateTv($newTv, $oldModel);
+	$this->uow->registerDirty($newTv);
+	$this->uow->commit();
+}
+
+public function addTvToRepo($newTv){
+	$this->repo->addTvsToRepo($newTv);
+	$this->uow->registerNew($newTv);
+	$this->uow->commit();
+}
+
+public function deleteTv($tvID){
+	$tv = $this->repo->getSingleTv($tvID);		//get item
+	$this->repo->removeFromRepo('tvs', $tvID);	//remove item from repo
+	$this->uow->registerDeleted($tv);					//delete from db
+	$this->uow->commit();
+}
+
 	public function getAllTvs()
 	{
 
@@ -207,6 +265,19 @@ class Mapper
 
 	}
 /*-------------------LAPTOPS---------------------------*/
+
+public function deleteLaptop($laptopID){
+	$laptop = $this->repo->getSingleLaptop($laptopID);		//get item
+	$this->repo->removeFromRepo('laptops', $laptopID);	//remove item from repo
+	$this->uow->registerDeleted($laptop);					//delete from db
+	$this->uow->commit();
+}
+
+public function setLaptop($newLaptop, $oldModel){
+	$this->repo->updateLaptop($newLaptop, $oldModel);
+	$this->uow->registerDirty($newLaptop);
+	$this->uow->commit();
+}
 
 	public function getLaptops(){
 
@@ -249,6 +320,12 @@ class Mapper
 		}
 		else //doesnt exist
 			return  null;
+	}
+
+	public function addLaptopToRepo($newLaptop){
+		$this->repo->addLaptopToRepo($newLaptop);
+		$this->uow->registerNew($newLaptop);
+		$this->uow->commit();
 	}
 
 /*-------------------FUNCTIONALITY---------------------------*/

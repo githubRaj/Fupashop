@@ -5,17 +5,16 @@ use App\Items\Item;
 
 class Laptop extends Item
 {
-    protected $processor;
-	protected $displaySize;
-	protected $ramSize;
-	protected $cpuCores;
-	protected $hddSize;
-	protected $batteryType;
-	protected $batteryInformation;
-	protected $brandName;
-	protected $operatingSystem;
-	protected $touchFeature;	
-	protected $cameraInformation;
+  private $processor;
+	private $displaySize;
+	private $ramSize;
+	private $cpuCores;
+	private $hddSize;
+	private $batteryType;
+	private $batteryInformation;
+	private $operatingSystem;
+	private $touchFeature;
+	private $cameraInformation;
 
     public function __construct($modelNumber, $processor, $displaySize, $ramSize, $weight, $cpuCores, $hddSize, $batteryType, $batteryInformation, $brandName, $operatingSystem, $touchFeature, $cameraInformation, $price)
     {
@@ -56,26 +55,41 @@ class Laptop extends Item
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setTouchFeature($touchFeature) { $this->touchFeature = $touchFeature; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
-
+  public function setAll($new){
+      $this->modelNumber = $new['modelNumber'];
+      $this->processor = $new['processor'];
+      $this->displaySize = $new['displaySize'];
+      $this->ramSize = $new['ramSize'];
+      $this->weight = $new['weight'];
+      $this->cpuCores = $new['cpuCores'];
+      $this->hddSize = $new['hddSize'];
+      $this->batteryType = $new['batteryType'];
+      $this->batteryInformation = $new['batteryInformation'];
+      $this->brandName = $new['brandName'];
+      $this->operatingSystem = $new['operatingSystem'];
+      $this->touchFeature = $new['touchFeature'];
+      $this->cameraInformation = $new['cameraInformation'];
+      $this->price = $new['price'];
+  }
 
     public function getAttributes()
     {
         return
         [
-            'modelNumber' => $modelNumber,
-            'processor' => $processor,
-            'displaySize' => $displaySize,
-            'ramSize' => $ramSize,
-            'weight' => $weight,
-            'cpuCores' => $cpuCores,
-            'hddSize' => $hddSize,
-            'batteryType' => $batteryType,
-            'batteryInformation' => $batteryInformation,
-            'brandName' => $brandName,
-            'operatingSystem' => $operatingSystem,
-            'touchFeature' => $touchFeature,
-            'price' => $price
+            'modelNumber' => $this->modelNumber,
+            'processor' => $this->processor,
+            'displaySize' => $this->displaySize,
+            'ramSize' => $this->ramSize,
+            'weight' => $this->weight,
+            'cpuCores' => $this->cpuCores,
+            'hddSize' => $this->hddSize,
+            'batteryType' => $this->batteryType,
+            'batteryInformation' => $this->batteryInformation,
+            'brandName' => $this->brandName,
+            'operatingSystem' => $this->operatingSystem,
+            'touchFeature' => $this->touchFeature,
+            'cameraInformation' => $this->cameraInformation,
+            'price' => $this->price
         ];
     }
 }
-

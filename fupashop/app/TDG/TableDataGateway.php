@@ -36,7 +36,7 @@ class TableDataGateway
 
 	public function updateTablet($tablet)
 	{
-		DB::table('tablets')->where('modelNumber', $tablet->modelNumber)->update($tablet->getAttributes());
+		DB::table('tablets')->where('modelNumber', $tablet->getModelNumber())->update($tablet->getAttributes());
 	}
 
 	public function deleteTablet($tablet)
@@ -110,7 +110,7 @@ class TableDataGateway
 
 	public function updateMonitor($monitor)
 	{
-		DB::table('monitors')->where('modelNumber', $monitor->modelNumber)->update($monitor->getAttributes());
+		DB::table('monitors')->where('modelNumber', $monitor->getModelNumber())->update($monitor->getAttributes());
 	}
 
 	public function deleteMonitor($monitor)
@@ -145,7 +145,7 @@ class TableDataGateway
 
 	public function updateTv($tv)
 	{
-		DB::table('tvs')->where('modelNumber', $tv->modelNumber)->update($tv->getAttributes());
+		DB::table('tvs')->where('modelNumber', $tv->getModelNumber())->update($tv->getAttributes());
 	}
 
 	public function deleteTv($tv)
@@ -180,7 +180,7 @@ class TableDataGateway
 
 	public function updateLaptop($laptop)
 	{
-		DB::table('laptops')->where('modelNumber', $laptop->modelNumber)->update($laptop->getAttributes());
+		DB::table('laptops')->where('modelNumber', $laptop->getModelNumber())->update($laptop->getAttributes());
 	}
 
 	public function deleteLaptop($laptop)
