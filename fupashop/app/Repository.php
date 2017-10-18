@@ -98,7 +98,7 @@ class Repository
 
 	public function updateTv($newTv, $oldModelNumber)
 	{
-		$oldTv = Repository::getSingleTablet($oldModelNumber);
+		$oldTv = Repository::getSingleTv($oldModelNumber);
 		$tempArray = array();
 		$tempArray = $newTv->getAttributes();
 		$oldTv->setAll($tempArray);

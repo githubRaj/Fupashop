@@ -113,8 +113,8 @@ class AdminController extends Controller
 
   public function storeTv(Request $request)
   {
-     $tv = new Tv($request->input('modelNumber'), $request->input('dimensions'), $request->input('screenSize'), $request->input('tvType'),
-     $request->input('resolution'), $request->input('weight'), $request->input('brandName'), $request->input('price'));
+     $tv = new Tv($request->input('brandName'), $request->input('dimensions'), $request->input('weight'), $request->input('tvType'),
+     $request->input('modelNumber'), $request->input('price'), $request->input('resolution'), $request->input('screenSize'));
 
      $this->mapper->addTvToRepo($tv);
 

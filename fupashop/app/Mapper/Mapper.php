@@ -257,7 +257,7 @@ public function deleteTv($tvID){
 
 			$item = $tv;
 
-			return new Tv($item->modelNumber, $item->dimensions, $item->screenSize, $item->tvType, $item->resolution, $item->weight, $item->brandName, $item->price);
+			return new Tv($item->brandName, $item->dimensions, $item->weight, $item->tvType, $item->modelNumber, $item->price, $item->resolution, $item->screenSize);
 		}
 		else //doesnt exist
 			return  null;
