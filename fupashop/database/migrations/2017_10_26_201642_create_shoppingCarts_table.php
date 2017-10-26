@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePurchasesTable extends Migration
+class CreateShoppingCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
-            $table->increments('transactionID');
+        Schema::create('shoppingCarts', function (Blueprint $table) {
+            $table->increments('cartID');
             $table->integer('userID')->unsigned();
             $table->string('modelNumber', 20);
             $table->string('serialNumber', 11);
             $table->decimal('price', 10, 2);
-            $table->foreign('userID')->references('id')->on('users');
             $table->timestamps();
+
+            $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('serialNumber')->references('serialNumber')->on('serialNumbers')->onDelete('cascade');
         });
     }
 
@@ -31,6 +33,6 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('shoppingCarts');
     }
 }
