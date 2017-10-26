@@ -83,7 +83,7 @@
                                     </li>
                                 </ul>
                     <li>
-                        <a href="#">
+                        <a href="{{ URL('/cart') }}">
                             <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">
                             </i>
                             CART

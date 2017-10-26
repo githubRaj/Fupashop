@@ -51,7 +51,7 @@ class ProductsController extends Controller
     {
       // Get item from storage
       $item = $this->mapper->findItemByModelNumber($modelNumber, $className);
-      
+
       // If item exists, go to item page, else go to item not found page
       if ($item != null)
       {
@@ -93,7 +93,7 @@ class ProductsController extends Controller
         $filterArray[$filter] = array_unique($filterArray[$filter]);
 
       // Get view wrt class name and pass the item objects and array of filters to it
-      $dirName = $this->getViewDirName($className);      
+      $dirName = $this->getViewDirName($className);
       return view ($dirName . '.index', compact('items','filterArray'));
     }
 
@@ -160,7 +160,7 @@ class ProductsController extends Controller
 
     /*--------------------------------
           TESTING        */
-  
+
     public function getShowcaseArrays()
     {
       $desktops = $this->mapper->findAllItemsByClass(Desktop::class);

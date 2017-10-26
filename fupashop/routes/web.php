@@ -14,7 +14,6 @@
 Route::get('/data', function () {
   $somedata = DB::select('SELECT * FROM tvs');
   return $somedata;
-  //return view('/data')->with('somedata', $somedata);
 });
 
 Auth::routes();
@@ -28,6 +27,11 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> ho
 Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
 
 Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
+
+//Cart Implementation
+Route::get('/cart', ['as' => 'cart', 'uses' => 'CartController@index']);
+Route::post('/cart', 'CartController@deleteFromCart');
+Route::post('/tablets', 'CartController@addToCart');
 
 Route::prefix('monitors')->group(function(){
 	Route::get('/', 'ProductsController@Monitorindex');
