@@ -38,6 +38,9 @@ class ProductsController extends Controller
         case'App\Items\Laptop':
           return 'laptops';
           break;
+        case 'App\Items\SerialNumber':
+          return 'serialnumbers';
+          break;
       }
 
       return null;

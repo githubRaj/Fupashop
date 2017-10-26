@@ -23,10 +23,14 @@ class TableDataGateway
 			case'App\Items\Laptop':
 				return 'laptops';
 				break;
+			case 'App\Items\SerialNumber':
+				return 'serialnumbers';
+				break;
 		}
 
 		return null;
 	}
+
 
 	public function getItemByModelNumber($modelNumber, $className)
 	{
