@@ -81,15 +81,31 @@
 
 			<tbody>
 	@foreach ($items as $tablet)
-		<tr class="{{ $tablet->getBrandName() }}">
-					<tr>
-		<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
-		<td class="brand">{{ $tablet->getBrandName() }}</td>
-		<td class="processor">{{ $tablet->getProcessor() }}</td>
-		<td>{{ $tablet->getHddSize() }}</td>
-		<td class="price">{{ $tablet->getPrice() }}</td>
-		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
-		</tr>
+		@if(!session()->has('itemToLock.'.$tablet->getModelNumber()))
+			@php
+				//IN STOCK
+				$field = 'Buy';
+				$href = "tablets/". $tablet->getModelNumber();
+				$button = "enabled";
+			@endphp
+		@else
+			@php
+				//OUT OF STOCK
+				$field = 'Out Of Stock';
+				$href = "#";
+				$button = "disabled";
+			@endphp
+		@endif
+			<tr class="{{ $tablet->getBrandName() }} ">
+						<tr>
+			<td><a href="{{ $href }}" {{ $button }}>{{ $tablet->getModelNumber() }}</a></td>
+			<td class="brand">{{ $tablet->getBrandName() }}</td>
+			<td class="processor">{{ $tablet->getProcessor() }}</td>
+			<td>{{ $tablet->getHddSize() }}</td>
+			<td class="price">{{ $tablet->getPrice() }}</td>
+			<td><a href="#" class="btn btn-default btn-xs" role="button" {{ $button }}>{{ $field }}</a></td>
+			</tr>
+		
 	@endforeach
 
 				</tbody>
