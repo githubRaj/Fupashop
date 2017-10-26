@@ -26,7 +26,7 @@ class Repository
     $this->itemRepo[SerialNumber::class] = array();
 
    // $tests = Session::get('repo');
-    
+
     //echo $tests;
   }
 
@@ -42,7 +42,7 @@ class Repository
       $this->itemRepo[$class][$modelNumber] = array();
       array_push($this->itemRepo[$class][$modelNumber], $item);
     }
-    
+
 
     //Session::put('repo', $this->itemRepo[$class]);
 	}

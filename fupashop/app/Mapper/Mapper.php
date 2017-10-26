@@ -10,6 +10,7 @@ use App\Items\Monitor;
 use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\SerialNumber;
+use Session;
 
 class Mapper
 {
@@ -22,6 +23,16 @@ class Mapper
 		$this->tdg = new TableDataGateway();
 		$this->repo = new Repository();
 		$this->uow = new UOW($this);
+	}
+
+	public function addToCart( $itemModelNum )
+	{
+		// Get the item via mapper
+		$item = Mapper::findItemByModelNumber( $itemModelNum, 'App\Items\Tablet' );
+		// Get the the cart from the repo via session
+		// And add the item to the cart
+		session()->get('repo')->getCart()->addItemToCart( $item );
+
 	}
 
 	public function createItemInstance($itemAttributes, $className)
@@ -84,7 +95,7 @@ class Mapper
 			$this->repo->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
-		}	
+		}
 	}
 
 	public function eraseItem($item)
@@ -122,7 +133,7 @@ class Mapper
         array_push($objArray, $item);
         $this->repo->addItem($item);
       }
-      
+
       return $objArray;
     }
     else
