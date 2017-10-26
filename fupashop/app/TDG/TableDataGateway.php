@@ -7,184 +7,55 @@ use Illuminate\Support\Facades\DB;
 
 class TableDataGateway
 {
-	// Tablets -- All these methods can be made generic, since the table name is the only thing that is explicitly referenced
-	/*-------------------TABLETS---------------------------*/
-	public function tabletGateway()
+	public function getTableName($className)
 	{
-		return DB::table('tablets');
+		switch($className)
+		{
+			case 'App\Items\Tablet':
+				return 'tablets';
+				break;
+			case 'App\Items\Desktop':
+				return 'desktops';
+				break;
+			case 'App\Items\Monitor':
+				return 'monitors';
+				break;
+			case'App\Items\Laptop':
+				return 'laptops';
+				break;
+		}
+
+		return null;
 	}
 
-	public function getAllTablets()
+	public function getItemByModelNumber($modelNumber, $className)
 	{
-		return DB::table('tablets')->get();
+		$tableName = $this->getTableName($className);
+
+		return DB::table($tableName)->where('modelNumber', $modelNumber)->first();
 	}
 
-	public function getTabletById($modelNumber)
+	public function getAllItemsByClass($className)
 	{
-		return DB::table('tablets')->where('modelNumber', $modelNumber)->first();
+		$tableName = $this->getTableName($className);
+		return DB::table($tableName)->get();
 	}
 
-	public function ifTabletExists($modelNumber)
+	public function insertItem($item)
 	{
-		return DB::table('tablets')->where('modelNumber', $modelNumber)->count();
+		$tableName = $this->getTableName(get_class($item));
+		DB::table($tableName)->insert($item->getAttributes());
 	}
 
-	public function insertTablet($tablet)
+	public function updateItem($item)
 	{
-		DB::table('tablets')->insert($tablet->getAttributes());
+		$tableName = $this->getTableName(get_class($item));
+		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->update($item->getAttributes());
 	}
 
-	public function updateTablet($tablet)
+	public function deleteItem($item)
 	{
-		DB::table('tablets')->where('modelNumber', $tablet->getModelNumber())->update($tablet->getAttributes());
-	}
-
-	public function deleteTablet($tablet)
-	{
-		DB::table('tablets')->where('modelNumber', $tablet->getModelNumber())->delete();
-	}
-/*-------------------DESKTOPS---------------------------*/
-	// TODO : Return confirmation to mapper
-
-	// Desktops etc
-
-	public function desktopGateway()
-	{
-		return DB::table('desktops');
-	}
-
-	public function getAllDesktops()
-	{
-		return DB::table('desktops')->get();
-	}
-
-	public function getDesktopById($modelNumber)
-	{
-		return DB::table('desktops')->where('modelNumber', $modelNumber)->first();
-	}
-
-	public function ifDesktopExists($modelNumber)
-	{
-		return DB::table('desktops')->where('modelNumber', $modelNumber)->count();
-	}
-
-	public function insertDesktop($desktop)
-	{
-		DB::table('desktops')->insert($desktop->getAttributes());
-	}
-
-	public function updateDesktop($desktop)
-	{
-		DB::table('desktops')->where('modelNumber', $desktop->getModelNumber())->update($desktop->getAttributes());
-	}
-
-	public function deleteDesktop($desktop)
-	{
-		DB::table('desktops')->where('modelNumber', $desktop->getModelNumber())->delete();
-	}
-/*-------------------MONITORS---------------------------*/
-	public function monitorGateway()
-	{
-		return DB::table('monitors');
-	}
-
-	public function getAllMonitors()
-	{
-		return DB::table('monitors')->get();
-	}
-
-	public function getMonitorById($modelNumber)
-	{
-		return DB::table('monitors')->where('modelNumber', $modelNumber)->first();
-	}
-
-	public function ifMonitorExists($modelNumber)
-	{
-		return DB::table('monitors')->where('modelNumber', $modelNumber)->count();
-	}
-
-	public function insertMonitor($monitor)
-	{
-		DB::table('monitors')->insert($monitor->getAttributes());
-	}
-
-	public function updateMonitor($monitor)
-	{
-		DB::table('monitors')->where('modelNumber', $monitor->getModelNumber())->update($monitor->getAttributes());
-	}
-
-	public function deleteMonitor($monitor)
-	{
-		DB::table('monitors')->where('modelNumber', $monitor->getModelNumber())->delete();
-	}
-/*-------------------TVS---------------------------*/
-	public function tvGateway()
-	{
-		return DB::table('tvs');
-	}
-
-	public function getAllTvs()
-	{
-		return DB::table('tvs')->get();
-	}
-
-	public function getTvById($modelNumber)
-	{
-		return DB::table('tvs')->where('modelNumber', $modelNumber)->first();
-	}
-
-	public function ifTvExists($modelNumber)
-	{
-		return DB::table('tvs')->where('modelNumber', $modelNumber)->count();
-	}
-
-	public function insertTv($tv)
-	{
-		DB::table('tvs')->insert($tv->getAttributes());
-	}
-
-	public function updateTv($tv)
-	{
-		DB::table('tvs')->where('modelNumber', $tv->getModelNumber())->update($tv->getAttributes());
-	}
-
-	public function deleteTv($tv)
-	{
-		DB::table('tvs')->where('modelNumber', $tv->getModelNumber())->delete();
-	}
-/*-------------------LAPTOPS---------------------------*/
-	public function laptopGateway()
-	{
-		return DB::table('laptops');
-	}
-
-	public function getAllLaptops()
-	{
-		return DB::table('laptops')->get();
-	}
-
-	public function getLaptopById($modelNumber)
-	{
-		return DB::table('laptops')->where('modelNumber', $modelNumber)->first();
-	}
-
-	public function ifLaptopExists($modelNumber)
-	{
-		return DB::table('laptops')->where('modelNumber', $modelNumber)->count();
-	}
-
-	public function insertLaptop($laptop)
-	{
-		DB::table('laptops')->insert($laptop->getAttributes());
-	}
-
-	public function updateLaptop($laptop)
-	{
-		DB::table('laptops')->where('modelNumber', $laptop->getModelNumber())->update($laptop->getAttributes());
-	}
-
-	public function deleteLaptop($laptop)
-	{
-		DB::table('laptops')->where('modelNumber', $laptop->getModelNumber())->delete();
+		$tableName = $this->getTableName(get_class($item));
+		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->delete();
 	}
 }

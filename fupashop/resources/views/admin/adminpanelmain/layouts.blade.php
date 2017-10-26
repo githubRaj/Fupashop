@@ -82,9 +82,6 @@
                                 <a href="{{ url('/adminpanel/addNewLaptop')}}">Add Laptop</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/addNewTv')}}">Add Tv</a>
-                            </li>
-                            <li>
                                 <a href="{{ url('/adminpanel/addNewTablet')}}">Add Tablet</a>
                             </li>
                             <li>
@@ -101,9 +98,6 @@
                             </li>
                             <li>
                                 <a href="{{ url('/adminpanel/Laptops') }}">Laptops</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('/adminpanel/Tvs') }}">Tvs</a>
                             </li>
                             <li>
                                 <a href="{{ url('/adminpanel/Tablets') }}">Tablets</a>

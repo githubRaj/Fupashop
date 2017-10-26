@@ -34,7 +34,7 @@
              	$id=1
              @endphp
 
-              @foreach ($brands as $b)
+              @foreach ($filterArray['brandName'] as $b)
 	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 	      			@php
 	      				$id = $id + 1
@@ -60,7 +60,7 @@
 	      	</tr>
          </thead>
          
-	@foreach ($monitors as $monitor)
+	@foreach ($items as $monitor)
 	<tr class="{{ $monitor->getBrandName() }}">
               <tr>
 		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>

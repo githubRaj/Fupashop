@@ -29,11 +29,6 @@
                 </div>
              <div class="top-bar-left">
                 <ol class="menu">
-                    <li class="{{ Request::is( 'tvs') ? 'active' : '' }}">
-                        <a href="{{ URL::to( 'tvs') }}">
-                            TVS
-                        </a>
-                    </li>
                       <li class="{{ Request::is( 'monitors') ? 'active' : '' }}">
                         <a href="{{ URL::to( 'monitors') }}">
                             MONITORS

@@ -185,7 +185,7 @@ INSERT INTO `tvs` (`brandName`, `dimensions`, `weight`, `tvType`, `modelNumber`,
 
 
 
-INSERT INTO seialnumbers (`modelNumber`,`serialNumber`) VALUES 
+INSERT INTO serialnumbers (`modelNumber`,`serialNumber`) VALUES 
  ('15-BW008CA',9814479373),
  ('15-cc567nr',9484066324),
  ('20H50047US',951682478),

@@ -3,390 +3,166 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Items\Tv;
 use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
-use App\Repository;
-use App\UOW\UOW;
 //gotta check this
- use Session;
- use App\Cart;
+use Session;
+use App\Cart;
 
 class ProductsController extends Controller
 {
     private $mapper;
 
-    //all items will be within Identity Map. This is temporary
-    private $tablets;
-    private $desktops;
-    private $tvs;
-    private $monitors;
-    private $laptops;
-    private $repo;
-    private $uow;
-
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->mapper = new Mapper();
-        $this->tablets = array();
-        $this->desktops = array();
-        $this->tvs = array();
-        $this->monitors = array();
-        $this->laptops = array();
+      $this->middleware('auth');
+      $this->mapper = new Mapper();
     }
 
-
-    /*--------------------------------
-          TVS        */
-    public function Tvindex()
+    public function getViewDirName($className)
     {
-
-      $this->tvs =  $this->mapper->getAllTvs();
-      $tvs = $this->tvs; // cant send using compact without this
-
-      $brands = array();
-      foreach($tvs as $item){
-        $flag = false;
-        foreach($brands as $brand){
-
-          if($brand == $item->getBrandName())
-            $flag = true;
-        }
-        if($flag != true){
-          $brands[] = $item->getBrandName();
-        }
+      switch($className)
+      {
+        case 'App\Items\Tablet':
+          return 'tablets';
+          break;
+        case 'App\Items\Desktop':
+          return 'desktops';
+          break;
+        case 'App\Items\Monitor':
+          return 'monitors';
+          break;
+        case'App\Items\Laptop':
+          return 'laptops';
+          break;
       }
 
-      return view ('tvs.index', compact('tvs','brands'));
-
-
-
-
-
-    // All Items turned to proper objects
+      return null;
     }
 
-
-    public function getTv($id)
+    public function getItem($modelNumber, $className)
     {
-
-      $tv =  $this->mapper->getTvById($id);
-      if($tv != null){  //not an empty object
-          return view ('tvs.info', compact('tv'));
+      // Get item from storage
+      $item = $this->mapper->findItemByModelNumber($modelNumber, $className);
+      
+      // If item exists, go to item page, else go to item not found page
+      if ($item != null)
+      {
+        $dirName = $this->getViewDirName($className);
+        return view ($dirName . '.info', compact('item'));
       }
-      else{
-        //return/redirect user to tv index
+      else
+      {
+        echo 'itemNotFoundError';
+        return;
+          // return view (error.itemNotFound, compact('modelNumber'));
       }
-
-        /*$this->tvs =  $this->mapper->getTvs();
-        foreach($this->tvs as $item){
-          if($item->modelNumber == $id)
-          {
-            $tv = $item;
-
-          }
-        }*/
-    }
-    /*--------------------------------
-          DESKTOPS        */
-
-     public function Desktopindex()
-    {
-
-    	//$desktops = Desktop::all();
-      //$brands = Desktop::all(['brandName'])->unique('brandName');
-
-
-
-    	//return view ('desktops.index', compact('desktops','brands'));
-
-      $this->desktops =  $this->mapper->getAllDesktops();
-// All Items turned to proper objects
-      $desktops = $this->desktops; // cant send using compact without this
-
-      $brands = array();
-      foreach($desktops as $item){
-        $flag = false;
-        foreach($brands as $brand){
-          if($brand == $item->getBrandName())
-            $flag = true;
-        }
-        if($flag != true){
-          $brands[] = $item->getBrandName();
-        }
-      }
-
-      $processors = array();
-      foreach( $desktops as $item ){
-        $flag = false;
-        foreach( $processors as $pro ){
-          if($pro == $item->getProcessor())
-              $flag = true;
-        }
-        if( $flag != true ){
-          $processors[] = $item->getProcessor();
-        }
-      }
-
-      return view ('desktops.index', compact('desktops','brands', 'processors'));
-
     }
 
-    public function getDesktop($id)
+    // Generic index page fetcher. $filters a subset of getAttributes() to be filterable on products page
+    public function getIndex($className, $filters)
     {
+      // Create new array
+      $filterArray = array();
 
+      // Make array 2D and set key names to filters
+      foreach ($filters as $filter)
+        $filterArray[$filter] = array();
 
-        $desktop =  $this->mapper->getDesktopById($id);
-        if($desktop != null){  //not an empty object
-            return view ('desktops.info', compact('desktop'));
-        }
-        else{
-          //return/redirect user to desktop index
-        }
-        /*$this->desktops =  $this->mapper->getDesktops();
-        foreach($this->desktops as $item){
-          if($item->modelNumber == $id)
-          {
-            $desktop = $item;
+      // Fetch all items of a given class
+      $items =  $this->mapper->findAllItemsByClass($className);
 
+      // Populate the 2D array of filter values
+      foreach ($items as $item)
+      {
+        $itemAttributes = $item->getAttributes();
 
-          }
-        }*/
+        foreach ($filters as $filter)
+          array_push($filterArray[$filter], $itemAttributes[$filter]);
+      }
+
+      // Make array of filter values unique (remove duplicates)
+      foreach ($filters as $filter)
+        $filterArray[$filter] = array_unique($filterArray[$filter]);
+
+      // Get view wrt class name and pass the item objects and array of filters to it
+      $dirName = $this->getViewDirName($className);      
+      return view ($dirName . '.index', compact('items','filterArray'));
     }
 
     /*--------------------------------
-          LAPTOPS        */
+          PRODUCT PAGES        */
+
+    public function getDesktop($modelNumber)
+    {
+      return $this->getItem($modelNumber, Desktop::class);
+    }
+
+    public function getLaptop($modelNumber)
+    {
+      return $this->getItem($modelNumber, Laptop::class);
+    }
+
+    public function getMonitor($modelNumber)
+    {
+      return $this->getItem($modelNumber, Monitor::class);
+    }
+
+    public function getTablet($modelNumber)
+    {
+      return $this->getItem($modelNumber, Tablet::class);
+    }
+
+    /*--------------------------------
+          CATEGORY PAGES        */
+
+    public function Desktopindex()
+    {
+      $filters = array();
+      array_push($filters, 'brandName');
+      array_push($filters, 'processor');
+
+      return $this->getIndex(Desktop::class, $filters);
+    }
 
      public function Laptopindex()
     {
+      $filters = array();
+      array_push($filters, 'brandName');
+      array_push($filters, 'processor');
 
-      $this->laptops =  $this->mapper->getAllLaptops();
-      $laptops = $this->laptops; // cant send using compact without this
-
-      $brands = array();
-      foreach( $laptops as $item ){
-        $flag = false;
-        foreach( $brands as $brand ){
-           if($brand == $item->getBrandName())
-              $flag = true;
-        }
-        if( $flag != true ){
-          $brands[] = $item->getBrandName();
-        }
-      }
-
-       $processors = array();
-      foreach( $laptops as $item ){
-        $flag = false;
-        foreach( $processors as $pro ){
-          if($pro == $item->getProcessor() )
-              $flag = true;
-        }
-        if( $flag != true ){
-          $processors[] = $item->getProcessor();
-        }
-      }
-
-      return view ('laptops.index', compact('laptops', 'brands', 'processors'));
+      return $this->getIndex(Laptop::class, $filters);
     }
-
-    public function getLaptop($id)
-    {
-
-
-        $laptop =  $this->mapper->getLaptopById($id);
-        if($laptop != null){  //not an empty object
-            return view ('laptops.info', compact('laptop'));
-        }
-        else{
-          //return/redirect user to tablet index
-        }
-
-      /*
-      $this->laptops =  $this->mapper->getLaptops();
-        foreach($this->laptops as $item){
-          if($item->modelNumber == $id)
-          {
-            $laptop = $item;
-
-
-          }
-        }*/
-    }
-
-    /*--------------------------------
-          MONITORS        */
 
     public function Monitorindex()
     {
-    	$this->monitors =  $this->mapper->getAllMonitors();
-      $monitors = $this->monitors; // cant send using compact without this
+    	$filters = array();
+      array_push($filters, 'brandName');
 
-      $brands = array();
-      foreach( $monitors as $item ){
-        $flag = false;
-        foreach( $brands as $brand ){
-          if($brand == $item->getBrandName()){
-            $flag = true;
-          }
-        }
-        if( $flag != true ){
-          $brands[] = $item->getBrandName();
-        }
-      }
-      return view ('monitors.index', compact('monitors', 'brands'));
+      return $this->getIndex(Monitor::class, $filters);
     }
-
-    public function getMonitor($id)
-    {
-
-
-      $monitor =  $this->mapper->getMonitorById($id);
-        if($monitor != null){  //not an empty object
-          return view ('monitors.info', compact('monitor'));
-        }
-        else{
-          //return/redirect user to tablet index
-        }
-
-      /*$this->monitors =  $this->mapper->getMonitors();
-        foreach($this->monitors as $item){
-          if($item->modelNumber == $id)
-          {
-            $monitor = $item;
-
-
-          }
-        }*/
-    }
-    /*--------------------------------
-              TABLETS
-    */
 
     public function Tabletindex()
     {
-      $tablets = array();
-      $brands = array();
-      $this->tablets =  $this->mapper->getAllTablets();
-      $tablets = $this->tablets; // cant send using compact without this
+      $filters = array();
+      array_push($filters, 'brandName');
+      array_push($filters, 'processor');
 
-      foreach( $this->tablets as $item){
-        $flag = false;
-        foreach( $brands as $brand ){
-
-          if($brand == $item->getBrandName())
-              $flag = true;
-        }
-        if( $flag != true ){
-          $brands[] = $item->getBrandName();
-        }
-      }
-
-      $processors = array();
-      foreach( $tablets as $item ){
-        $flag = false;
-        foreach( $processors as $pro ){
-          if($pro == $item->getProcessor())
-              $flag = true;
-        }
-        if( $flag != true ){
-          $processors[] = $item->getProcessor();
-        }
-      }
-
-      return view ('tablets.index', compact('tablets', 'brands', 'processors'));
-    }
-
-    public function getTablet($id)
-    {
-
-        /*$this->tablets =  $this->mapper->getTablets();
-        foreach($this->tablets as $item){
-          if($item->modelNumber == $id)
-          {
-            $tablet = $item;
-
-
-          }
-        }*/
-
-
-        $tablet =  $this->mapper->getTabletById($id);
-        if($tablet != null){  //not an empty object
-            return view ('tablets.info', compact('tablet'));
-        }
-        else{
-          //return/redirect user to tablet index
-        }
-
-        //$this->repo->addTabletToRepo($tablet);
-
-        //$tablet = $this->repo->getSingleTablets($id);
-
-
-        //$this->uow->registerDeleted($tablet);
-        //$this->repo->removeFromRepo('tablets', $id);
-
-
-
-      //$this->uow->commit();
-    }
-
-    public function makeNewTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
-    {
-      $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
-
-      $this->repo->addTabletToRepo($tablet);
-
-      $this->uow->registerNew($tablet);
-
-      $this->uow->commit();
-    }
-
-    public function setTablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation)
-    {
-      $tablet = new Tablet($modelNumber, $brandName, $price, $weight, $displaySize, $dimensions, $screenSize, $ramSize, $cpucores, $hddSize, $batteryInformation, $operatingSystem, $cameraInformation);
-
-      // $type should either be generic of strongly typed
-      $this->repo->removeFromRepo('tablet', $modelNumber);
-      $this->repo->addTabletToRepo($tablet);
-
-      $this->uow->registerDirty($tablet);
-
-      $this->uow->commit();
-    }
-
-    public function deleteTablet($modelNumber)
-    {
-      // $type should either be generic of strongly typed
-      $this->repo->removeFromRepo('tablet', $modelNumber);
-
-      $this->uow->registerDeleted($tablet);
-
-      $this->uow->commit();
+      return $this->getIndex(Tablet::class, $filters);
     }
 
     /*--------------------------------
           TESTING        */
-
+  
     public function getShowcaseArrays()
     {
-      $this->tablets =  $this->mapper->getAllTablets();
-
-
-      $tablets = $this->tablets; // cant send using compact without this
-
-
-      $this->monitors =  $this->mapper->getAllMonitors();
-      $monitors = $this->monitors; // cant send using compact without this
-     $this->desktops =  $this->mapper->getAllDesktops();
-      $desktops = $this->desktops; // cant send using compact without this
-      $this->laptops =  $this->mapper->getAllLaptops();
-      $laptops = $this->laptops; // cant send using compact without this
+      $desktops = $this->mapper->findAllItemsByClass(Desktop::class);
+      $laptops = $this->mapper->findAllItemsByClass(Laptop::class);
+      $monitors = $this->mapper->findAllItemsByClass(Monitor::class);
+      $tablets = $this->mapper->findAllItemsByClass(Tablet::class);
 
       return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
     }

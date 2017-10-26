@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Items\Tv;
 use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
@@ -93,7 +92,7 @@ class AdminController extends Controller
   }
 
 
-
+/*
   public function createTv()
   {
       return view('admin/adminpanelviews/adminAddTv');
@@ -120,7 +119,7 @@ class AdminController extends Controller
 
     return redirect('/adminpanel/addNewTv');
   }
-
+*/
   public function createTablet()
   {
       return view('admin/adminpanelviews/adminAddTablet');

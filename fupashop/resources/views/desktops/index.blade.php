@@ -38,12 +38,12 @@
             $id=1
           @endphp
 
-          @foreach ($processors as $p)
-          <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
-          @php
-            $id = $id + 1
-          @endphp
-        @endforeach
+          @foreach ($filterArray['processor'] as $p)
+            <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
+            @php
+              $id = $id + 1
+            @endphp
+          @endforeach
       </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
@@ -51,7 +51,7 @@
              	$id=1
              @endphp
 
-              @foreach ($brands as $b)
+              @foreach ($filterArray['brandName'] as $b)
 	      			<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="brands[]" value="{{ $b }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $b }}</font></li>
 	      			@php
 	      				$id = $id + 1
@@ -80,7 +80,7 @@
          </thead>
 
           <tbody>
-	    	@foreach ($desktops as $desktop)
+	    	@foreach ($items as $desktop)
 	        <tr class="{{ $desktop->getBrandName() }}">
               <tr>
 		<td><a href="desktops/{{ $desktop->getModelNumber() }}">{{ $desktop->getModelNumber() }}</a></td>

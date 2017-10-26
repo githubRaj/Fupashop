@@ -55,20 +55,22 @@ class Tablet extends Item
 	public function setBatteryInformation($batteryInformation) { $this->batteryInformation = $batteryInformation; }
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
-	public function setAll($new){
-			$this->modelNumber = $new['modelNumber'];
-			$this->processor = $new['processor'];
-			$this->screenSize = $new['screenSize'];
-			$this->dimensions = $new['dimensions'];
-			$this->ramSize = $new['ramSize'];
-			$this->weight = $new['weight'];
-			$this->cpucores = $new['cpucores'];
-			$this->hddSize = $new['hddSize'];
-			$this->batteryInformation = $new['batteryInformation'];
-			$this->brandName = $new['brandName'];
-			$this->operatingSystem = $new['operatingSystem'];
-			$this->cameraInformation = $new['cameraInformation'];
-			$this->price = $new['price'];
+	
+	public function setAttributes($newAttributes)
+	{
+			$this->modelNumber = $newAttributes['modelNumber'];
+			$this->processor = $newAttributes['processor'];
+			$this->screenSize = $newAttributes['screenSize'];
+			$this->dimensions = $newAttributes['dimensions'];
+			$this->ramSize = $newAttributes['ramSize'];
+			$this->weight = $newAttributes['weight'];
+			$this->cpucores = $newAttributes['cpucores'];
+			$this->hddSize = $newAttributes['hddSize'];
+			$this->batteryInformation = $newAttributes['batteryInformation'];
+			$this->brandName = $newAttributes['brandName'];
+			$this->operatingSystem = $newAttributes['operatingSystem'];
+			$this->cameraInformation = $newAttributes['cameraInformation'];
+			$this->price = $newAttributes['price'];
 	}
 
 	public function getAttributes()

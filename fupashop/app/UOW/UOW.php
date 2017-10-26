@@ -20,7 +20,7 @@ class UOW
   // Add item to newItems
   public function registerNew($item)
   {
-    if (UOW::isNotRegistered($item))
+    if ($this->isNotRegistered($item))
       array_push($this->newItems, $item);
     // else
       // TODO: Error message about already being in newItems so you can't do whatever you want to do
@@ -29,7 +29,7 @@ class UOW
   // Add item to dirtyItems
   public function registerDirty($item)
   {
-    if (UOW::isNotRegistered($item))
+    if ($this->isNotRegistered($item))
       array_push($this->dirtyItems, $item);
     // else
       // TODO: Error message about already being in dirtytems so you can't do whatever you want to do
@@ -38,7 +38,7 @@ class UOW
   // Add item to deletedItems
   public function registerDeleted($item)
   {
-    //if (UOW::isNotRegistered($item))
+    if ($this->isNotRegistered($item))
       array_push($this->deletedItems, $item);
     // else
       // TODO: Error message about already being in deletedItems so you can't do whatever you want to do
@@ -51,7 +51,7 @@ class UOW
 
     foreach ($registeredItems as $registeredItem)
     {
-      if ($registeredItem->modelNumber == $item->modelNumber)
+      if ($registeredItem->getModelNumber() == $item->getModelNumber())
         return false;
     }
 
@@ -72,21 +72,17 @@ class UOW
     foreach ($this->deletedItems as $item)
       $this->mapper->saveDeletedItem($item);
 
-
     // Reset arrays
-    //UOW::resetArrays();
+    $this->resetArrays();
   }
 
   protected function resetArrays()
   {
-    // Clear arrays
-    array_unset($this->newItems);
-    array_unset($this->dirtytems);
-    array_unset($this->deletedtems);
-
-    // Reset arrays
+    // Reinitialize arrays
     $this->newItems = array();
     $this->dirtyItems = array();
     $this->deletedItems = array();
   }
+
+  // Maybe add rollback stuff
 }
