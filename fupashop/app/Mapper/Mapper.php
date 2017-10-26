@@ -9,6 +9,7 @@ use App\Items\Tablet;
 use App\Items\Monitor;
 use App\Items\Desktop;
 use App\Items\Laptop;
+use App\Items\SerialNumber;
 
 class Mapper
 {

@@ -8,6 +8,7 @@ use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
+use App\Items\SerialNumber;
 //gotta check this
 use Session;
 use App\Cart;

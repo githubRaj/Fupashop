@@ -5,6 +5,7 @@ use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
+use App\Items\SerialNumber;
 
 use Session; // Attempt at repo persistence
 
@@ -22,6 +23,7 @@ class Repository
     $this->itemRepo[Desktop::class] = array();
     $this->itemRepo[Monitor::class] = array();
     $this->itemRepo[Laptop::class] = array();
+    $this->itemRepo[SerialNumber::class] = array();
 
    // $tests = Session::get('repo');
     
@@ -40,6 +42,7 @@ class Repository
       $this->itemRepo[$class][$modelNumber] = array();
       array_push($this->itemRepo[$class][$modelNumber], $item);
     }
+    
 
     //Session::put('repo', $this->itemRepo[$class]);
 	}
