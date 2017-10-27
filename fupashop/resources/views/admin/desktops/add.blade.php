@@ -1,4 +1,4 @@
-@extends('admin.adminpanelmain.layouts')
+@extends('admin.layouts')
 
 @section('content')
 <head>
@@ -9,14 +9,14 @@
 <!-- Form Elements -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h2>Add a Tablet</h2>
+    <h2>Add a Desktop</h2>
   </div>
     <div class="panel-body">
       <div class="row">
       <div class="col-lg-6">
           <div role="form">
           <div class="form-group">
-            {!! Form::open(['action' => 'AdminController@storeTablet', 'method' => 'POST']) !!}
+            {!! Form::open(array('route' => array('save', 'desktops'))) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
                 {{Form::text('modelNumber', '', ['class' => 'form-control'])}}
@@ -33,23 +33,11 @@
                 {{Form::label('weight', 'Weight')}}
                 {{Form::text('weight', '', ['class' => 'form-control'])}}
 
-                {{Form::label('cpucores', 'Cpu Cores')}}
-                {{Form::text('cpucores', '', ['class' => 'form-control'])}}
+                {{Form::label('cpuCores', 'Cpu Cores')}}
+                {{Form::text('cpuCores', '', ['class' => 'form-control'])}}
 
                 {{Form::label('hddSize', 'HDD Size')}}
                 {{Form::text('hddSize', '', ['class' => 'form-control'])}}
-
-                {{Form::label('screenSize', 'Screen Size')}}
-                {{Form::text('screenSize', '',  ['class' => 'form-control'])}}
-
-                {{Form::label('batteryInformation', 'battery Information')}}
-                {{Form::text('batteryInformation', '',  ['class' => 'form-control'])}}
-
-                {{Form::label('operatingSystem', 'Operating System ')}}
-                {{Form::text('operatingSystem', '',  ['class' => 'form-control'])}}
-
-                {{Form::label('cameraInformation', 'camera Information')}}
-                {{Form::text('cameraInformation', '',  ['class' => 'form-control'])}}
 
                 {{Form::label('brandName', 'Brand Name')}}
                 {{Form::text('brandName', '',  ['class' => 'form-control'])}}

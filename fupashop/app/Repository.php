@@ -5,7 +5,6 @@ use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
-use App\Items\SerialNumber;
 
 use Session; // Attempt at repo persistence
 
@@ -23,10 +22,9 @@ class Repository
     $this->itemRepo[Desktop::class] = array();
     $this->itemRepo[Monitor::class] = array();
     $this->itemRepo[Laptop::class] = array();
-    $this->itemRepo[SerialNumber::class] = array();
 
    // $tests = Session::get('repo');
-
+    
     //echo $tests;
   }
 
@@ -34,15 +32,14 @@ class Repository
 	public function addItem($item)
 	{
 		$class = get_class($item);
-    $modelNumber = $item->getModelNumber();
+    	$modelNumber = $item->getModelNumber();
 
-    // Add item at index [className][modelNumber]
-  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
-    {
-      $this->itemRepo[$class][$modelNumber] = array();
-      array_push($this->itemRepo[$class][$modelNumber], $item);
-    }
-
+	    // Add item at index [className][modelNumber]
+	  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
+	    {
+	      $this->itemRepo[$class][$modelNumber] = array();
+	      array_push($this->itemRepo[$class][$modelNumber], $item);
+	    }
 
     //Session::put('repo', $this->itemRepo[$class]);
 	}
@@ -53,7 +50,7 @@ class Repository
     $modelNumber = $item->getModelNumber();
 
 		if ($this->itemExists($this->itemRepo[$class], $modelNumber))
-			array_pop($this->itemRepo[$class][$modelNumber], $item);
+			array_pop($this->itemRepo[$class][$modelNumber]);
 	}
 
 	public function updateItem($newItem, $modelNumber)
@@ -61,7 +58,7 @@ class Repository
 		$class = get_class($newItem);
 
 		$oldItem = $this->getItemByModelNumber($modelNumber, $class);
-		$oldItem->setAttributes($newItem->getAttributes());
+		$oldItem[0]->setAttributes($newItem->getAttributes());
 	}
 
 	public function getItemByModelNumber($modelNumber, $className)

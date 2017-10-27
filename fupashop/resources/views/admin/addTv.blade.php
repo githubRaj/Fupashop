@@ -9,35 +9,32 @@
 <!-- Form Elements -->
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h2>Add a Desktop</h2>
+    <h2>Add a TV</h2>
   </div>
     <div class="panel-body">
       <div class="row">
       <div class="col-lg-6">
           <div role="form">
           <div class="form-group">
-            {!! Form::open(['action' => 'AdminController@storeDesktop', 'method' => 'POST']) !!}
+            {!! Form::open(['action' => 'AdminController@storeTv', 'method' => 'POST']) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
                 {{Form::text('modelNumber', '', ['class' => 'form-control'])}}
 
-                {{Form::label('processor', 'Processor')}}
-                {{Form::text('processor', '', ['class' => 'form-control'])}}
+                {{Form::label('tvType', 'TV Type')}}
+                {{Form::text('tvType', '', ['class' => 'form-control'])}}
 
                 {{Form::label('dimensions', 'Dimensions')}}
                 {{Form::text('dimensions', '', ['class' => 'form-control'])}}
 
-                {{Form::label('ramSize', 'Ram Size')}}
-                {{Form::text('ramSize', '', ['class' => 'form-control'])}}
+                {{Form::label('resolution', 'Resolution')}}
+                {{Form::text('resolution', '', ['class' => 'form-control'])}}
 
                 {{Form::label('weight', 'Weight')}}
                 {{Form::text('weight', '', ['class' => 'form-control'])}}
 
-                {{Form::label('cpuCores', 'Cpu Cores')}}
-                {{Form::text('cpuCores', '', ['class' => 'form-control'])}}
-
-                {{Form::label('hddSize', 'HDD Size')}}
-                {{Form::text('hddSize', '', ['class' => 'form-control'])}}
+                {{Form::label('screenSize', 'Screen Size')}}
+                {{Form::text('screenSize', '', ['class' => 'form-control'])}}
 
                 {{Form::label('brandName', 'Brand Name')}}
                 {{Form::text('brandName', '',  ['class' => 'form-control'])}}
