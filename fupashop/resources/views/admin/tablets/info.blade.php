@@ -72,9 +72,9 @@
                                       <td>{{$tablet->getOperatingSystem()}}</td>
                                       <td>{{$tablet->getCameraInformation()}}</td>
                                       <td>{{$tablet->getPrice()}}</td>
-                                      <td><a href="/admin/adminpanelviews/{{$tablet->getModelNumber()}}/Tablet/edit" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/tablets/{{$tablet->getModelNumber()}}" class="btn btn-info">Edit</a></td>
                                       <td>
-                                        <a href="/admin/adminpanelviews/{{$tablet->getModelNumber()}}/Tablet/delete" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/tablets/{{$tablet->getModelNumber()}}" class="btn btn-danger">Delete</a>
                                       </td>
                                     </tr>
                                   @endforeach

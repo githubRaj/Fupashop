@@ -74,9 +74,9 @@
                                       <td>{{$laptop->getTouchFeature()}}</td>
                                       <td>{{$laptop->getCameraInformation()}}</td>
                                       <td>{{$laptop->getPrice()}}</td>
-                                      <td><a href="/admin/adminpanelviews/{{$laptop->getModelNumber()}}/Laptop/edit" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/laptops/{{$laptop->getModelNumber()}}" class="btn btn-info">Edit</a></td>
                                       <td>
-                                        <a href="/admin/adminpanelviews/{{$laptop->getModelNumber()}}/Laptop/delete" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/laptops/{{$laptop->getModelNumber()}}" class="btn btn-danger">Delete</a>
                                       </td>
                                     </tr>
                                   @endforeach
