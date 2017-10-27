@@ -11,18 +11,15 @@
 |
 */
 
-Route::get('/data', function () {
-  $somedata = DB::select('SELECT * FROM tvs');
-  return $somedata;
-  //return view('/data')->with('somedata', $somedata);
-});
-
 Auth::routes();
-Route::prefix('admin')->group(function(){
-	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-	Route::get('/', 'AdminController@index')->name('admin.dashboard');
-});
+
+
+//Cart Implementation
+Route::get('/cart', ['as' => 'cart', 'uses' => 'CartController@index']);
+Route::post('/cart', 'CartController@deleteFromCart');
+Route::post('/tablets', 'CartController@addToCart');
+
+
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> home
 Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
@@ -45,7 +42,6 @@ Route::prefix('tablets')->group(function(){
 	Route::get('/', 'ProductsController@Tabletindex');
 	Route::get('/{modelNumber}', 'ProductsController@getTablet');
 });
-//Route::get('/{itemType}', 'MapperController@tabletMapper');
 
 Route::prefix('laptops')->group(function(){
 	Route::get('/', 'ProductsController@Laptopindex');
@@ -64,50 +60,43 @@ Route::get('/add-to-cart/{id}', [
 
 
 
-//***************admin routes********************
-//Admin Panel
-Route::get('/adminpanel', function(){
-  return view('admin/adminpanelmain/layouts');
+/*----------------------------ADMIN ROUTING------------------------------*/
+
+Route::prefix('admin')->group(function(){
+	/*-------------------LOGIN:FORM VIEW------------------------------------------------*/
+	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+	/*-------------------LOGIN:AUTHENTICATION ROUTING-----------------------------------*/
+	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+	/*-------------------DASHBOARD/PANELVIEW-------------------------------------------*/
+	Route::get('/', 'AdminController@index');
+	/*-------------------MODIFY ITEMS--------------------------------------------------*/
+	//EDIT PRODUCT
+	Route::get('/edit/{productType}/{id}', 'AdminController@editView');
+	Route::post('/{productType}', 'AdminController@update');
+	//DELETE PRODUCT
+	Route::get('/delete/{productType}/{id}', 'AdminController@delete');
+	/*-------------------VIEWS--------------------------------------------------------*/
+	//VIEW DESKTOPS
+	Route::get('/Desktops', 'AdminController@desktopIndex');
+	//VIEW LAPTOPS
+	Route::get('/Laptops', 'AdminController@laptopIndex');
+	//VIEW TABLETS
+	Route::get('/Tablets', 'AdminController@tabletIndex');
+	//VIEW MONITORS
+	Route::get('/Monitors', 'AdminController@monitorIndex');
+	/*-------------------ADD NEW INSTANCE-------------------------------------------*/
+	//ADDING FORM VIEW
+	Route::get('/add/{item}', 'AdminController@creationFormView');
+	//SUBMITTING FORM DATA
+	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
 });
 
-//Edit Product
-Route::get('admin/adminpanelviews/{id}/{productType}/edit', 'AdminController@edit');
-Route::post('/adminpanel/{productType}', 'AdminController@update');
 
-//Delete Product
-Route::get('admin/adminpanelviews/{id}/{productType}/delete', 'AdminController@delete');
 
-// Add desktop
-Route::get('/adminpanel/addNewDesktop', 'AdminController@createDesktop');
-Route::post('/storeDesktop', 'AdminController@storeDesktop');
 
-//show desktops to admin
-Route::get('/adminpanel/Desktops', 'AdminController@showAdminDesktops');
 
-//add laptop
-Route::get('/adminpanel/addNewLaptop', 'AdminController@createLaptop');
-Route::post('/storeLaptop', 'AdminController@storeLaptop');
 
-//show laptops to admin
-Route::get('/adminpanel/Laptops', 'AdminController@showAdminLaptops');
 
-// Add Tv
-Route::get('/adminpanel/addNewTv', 'AdminController@createTv');
-Route::post('/storeTv', 'AdminController@storeTv');
 
-//show TVs to admin
-Route::get('/adminpanel/Tvs', 'AdminController@showAdminTvs');
 
-// Add Tablet
-Route::get('/adminpanel/addNewTablet', 'AdminController@createTablet');
-Route::post('/storeTablet', 'AdminController@storeTablet');
 
-//show Tablets to admin
-Route::get('/adminpanel/Tablets', 'AdminController@showAdminTablets');
-
-// Add Monitor
-Route::get('/adminpanel/addNewMonitor', 'AdminController@createMonitor');
-Route::post('/storeMonitor', 'AdminController@storeMonitor');
-
-//show Monitors to admin
-Route::get('/adminpanel/Monitors', 'AdminController@showAdminMonitors');
