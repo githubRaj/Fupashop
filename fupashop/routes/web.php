@@ -26,6 +26,8 @@ Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
 
 Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
 
+Route::get('/pastOrders', ['as' => 'pastOrders', 'uses' => 'UsersController@pastOrders']);
+
 Route::prefix('monitors')->group(function(){
 	Route::get('/', 'ProductsController@Monitorindex');
 	Route::get('/{modelNumber}', 'ProductsController@getMonitor');
