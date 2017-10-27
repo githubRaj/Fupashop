@@ -1,11 +1,16 @@
 @extends('layout.main')
+@php
+//MUST BE AT TOP OF EVERY BLADE VIEW
+if (!isset($_SESSION)) {
+  session_start();
+	$sessionCart = array();
+  $_SESSION['sessionCart'] = $sessionCart;
+}
+@endphp
 
 
 @section('content')
 
-<!-- Le styles
-<link href="/static/css/bootstrap.css" rel="stylesheet">
-<link href="/static/css/bootstrap.css" rel="stylesheet">-->
 <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
 </style>
 <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
@@ -20,13 +25,9 @@
 	);
 </script>
 
-
-
 </head>
 
 <body>
-
-
 
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -80,6 +81,7 @@
 		 </thead>
 
 			<tbody>
+
 	@foreach ($items as $tablet)
 		@if(!session()->has('itemToLock.'.$tablet->getModelNumber()))
 			@php
@@ -96,6 +98,7 @@
 				$button = "disabled";
 			@endphp
 		@endif
+    {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
 			<tr class="{{ $tablet->getBrandName() }} ">
 						<tr>
 			<td><a href="{{ $href }}" {{ $button }}>{{ $tablet->getModelNumber() }}</a></td>
@@ -103,11 +106,17 @@
 			<td class="processor">{{ $tablet->getProcessor() }}</td>
 			<td>{{ $tablet->getHddSize() }}</td>
 			<td class="price">{{ $tablet->getPrice() }}</td>
-			<td><a href="#" class="btn btn-default btn-xs" role="button" {{ $button }}>{{ $field }}</a></td>
+			<td>{{ Form::submit('Buy') }}</td>
 			</tr>
-		
-	@endforeach
+      {{ Form::hidden('modelNumber', $tablet->getModelNumber()) }}
+      {{ Form::close() }}
 
+	@endforeach
+  @if (session('addAlert') )
+    <div class="alert alert-success">
+        {{ session('addAlert') }}
+    </div>
+  @endif
 				</tbody>
 </table>
 		</div><!--/span-->
@@ -125,6 +134,5 @@
 </body>
 
 <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
-
 </html>
 @endsection

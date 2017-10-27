@@ -1,5 +1,12 @@
 @extends('layout.main')
-
+@php
+//MUST BE AT TOP OF EVERY BLADE VIEW
+if (!isset($_SESSION)) {
+  session_start();
+  $sessionCart = array();
+  $_SESSION['sessionCart'] = $sessionCart;
+}
+@endphp
 
 @section('content')
 <head>

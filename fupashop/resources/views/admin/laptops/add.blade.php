@@ -1,4 +1,4 @@
-@extends('admin.adminpanelmain.layouts')
+@extends('admin.layouts')
 
 @section('content')
 <head>
@@ -16,7 +16,7 @@
         <div class="col-lg-6">
           <div role="form">
             <div class="form-group">
-              {!! Form::open(['action' => 'AdminController@storeLaptop', 'method' => 'POST']) !!}
+              {!! Form::open(array('route' => array('save', 'laptops'))) !!}
 
               {{Form::label('modelNumber', 'Model Number')}}
               {{Form::text('modelNumber', '', ['class' => 'form-control'])}}

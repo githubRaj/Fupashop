@@ -1,4 +1,4 @@
-@extends('admin.adminpanelmain.layouts')
+@extends('admin.layouts')
 
 @section('content')
 
@@ -49,7 +49,7 @@
                                 </thead>
                                 <tbody>
 
-                                  @foreach ($monitors as $monitor)
+                                  @foreach ($items as $monitor)
                                     <tr>
                                       <td>{{$monitor->getModelNumber()}}</td>
                                       <td>{{$monitor->getSize()}}</td>

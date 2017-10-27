@@ -9,7 +9,7 @@
         <!--Fupa table example -->
         <div class=" panel-primary">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i>DESKTOPS
+                <i class="fa fa-bar-chart-o fa-fw"></i>TVS
                 <div class="pull-right">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -39,12 +39,11 @@
                                 <thead>
                                     <tr>
                                       <th>Model Number</th>
-                          		        <th>Processor</th>
                           		        <th>Dimensions</th>
-                          		      	<th>Ram</th>
+                          		      	<th>Tv Type</th>
                                       <th>Weight</th>
-                          		        <th>Cores</th>
-                          		        <th>HDD</th>
+                          		        <th>Resolution</th>
+                          		        <th>ScreenSize</th>
                           		      	<th>Brand</th>
                                       <th>Price</th>
                                       <th>Edit</th>
@@ -53,22 +52,21 @@
                                 </thead>
                                 <tbody>
 
-                                  @foreach ($desktops as $desktop)
+                                  @foreach ($tvs as $tv)
                                     <tr>
-                                      <td>{{$desktop->getModelNumber()}}</td>
-                                      <td>{{$desktop->getProcessor()}}</td>
-                                      <td>{{$desktop->getDimensions()}}</td>
-                                      <td>{{$desktop->getRamSize()}}</td>
-                                      <td>{{$desktop->getWeight()}}</td>
-                                      <td>{{$desktop->getCpuCores()}}</td>
-                                      <td>{{$desktop->getHddSize()}}</td>
-                                      <td>{{$desktop->getBrandName()}}</td>
-                                      <td>{{$desktop->getPrice()}}</td>
-                                      <td><a href="/admin/adminpanelviews/{{$desktop->getModelNumber()}}/Desktop/edit" class="btn btn-info">Edit</a></td>
+                                      <td>{{$tv->getModelNumber()}}</td>
+                                      <td>{{$tv->getDimensions()}}</td>
+                                      <td>{{$tv->getTvType()}}</td>
+                                      <td>{{$tv->getWeight()}}</td>
+                                      <td>{{$tv->getResolution()}}</td>
+                                      <td>{{$tv->getScreenSize()}}</td>
+                                      <td>{{$tv->getBrandName()}}</td>
+                                      <td>{{$tv->getPrice()}}</td>
+                                      <td><a href="/admin/adminpanelviews/{{$tv->getModelNumber()}}/Tv/edit" class="btn btn-info">Edit</a></td>
                                       <td>
-                                        <a href="/admin/adminpanelviews/{{$desktop->getModelNumber()}}/Desktop/delete" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/adminpanelviews/{{$tv->getModelNumber()}}/Tv/delete" class="btn btn-danger">Delete</a>
                                       </td>
-                                  </tr>
+                                    </tr>
                                   @endforeach
 
                                 </tbody>

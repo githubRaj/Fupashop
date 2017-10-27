@@ -1,4 +1,4 @@
-@extends('admin.adminpanelmain.layouts')
+@extends('admin.layouts')
 
 @section('content')
 
@@ -58,7 +58,7 @@
                                 </thead>
                                 <tbody>
 
-                                  @foreach ($laptops as $laptop)
+                                  @foreach ($items as $laptop)
                                     <tr>
                                       <td>{{$laptop->getModelNumber()}}</td>
                                       <td>{{$laptop->getProcessor()}}</td>

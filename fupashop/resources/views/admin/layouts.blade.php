@@ -70,22 +70,22 @@
                         <!--end search section-->
                     </li>
                     <li class="selected">
-                        <a href="/adminpanel"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                        <a href="/admin"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Add a Product<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ url('/adminpanel/addNewDesktop')}}">Add Desktop</a>
+                                <a href="{{ url('/admin/add/desktops')}}">Add Desktop</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/addNewLaptop')}}">Add Laptop</a>
+                                <a href="{{ url('/admin/add/laptops')}}">Add Laptop</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/addNewTablet')}}">Add Tablet</a>
+                                <a href="{{ url('/admin/add/tablets')}}">Add Tablet</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/addNewMonitor')}}">Add Monitor</a>
+                                <a href="{{ url('/admin/add/monitors')}}">Add Monitor</a>
                             </li>
                         </ul>
                         <!-- second-level-items -->
@@ -94,16 +94,16 @@
                         <a href="#"><i class="fa fa-table fa-fw"></i>View Products<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ url('/adminpanel/Desktops') }}">Desktops</a>
+                                <a href="{{ url('/admin/Desktops') }}">Desktops</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/Laptops') }}">Laptops</a>
+                                <a href="{{ url('/admin/Laptops') }}">Laptops</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/Tablets') }}">Tablets</a>
+                                <a href="{{ url('/admin/Tablets') }}">Tablets</a>
                             </li>
                             <li>
-                                <a href="{{ url('/adminpanel/Monitors') }}">Monitors</a>
+                                <a href="{{ url('/admin/Monitors') }}">Monitors</a>
                             </li>
                         </ul>
                         <!-- second-level-items -->

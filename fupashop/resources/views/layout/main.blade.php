@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                      <a href="/adminpanel">
+                      <a href="/admin">
                           Admin Panel
                       </a>
                   </li>
@@ -78,7 +78,7 @@
                                     </li>
                                 </ul>
                     <li>
-                        <a href="#">
+                        <a href="{{ URL('/cart') }}">
                             <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">
                             </i>
                             CART
