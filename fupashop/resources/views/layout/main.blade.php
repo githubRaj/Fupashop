@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                      <a href="/adminpanel">
+                      <a href="/admin">
                           Admin Panel
                       </a>
                   </li>
