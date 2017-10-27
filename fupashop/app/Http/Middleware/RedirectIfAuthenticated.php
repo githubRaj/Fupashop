@@ -22,12 +22,12 @@ class RedirectIfAuthenticated
             switch($guard){
                 case 'admin':
                 if(Auth::guard($guard)->check()){
-                    return redirect()->route('admin.index');
+                    return redirect()->route('admin.dashboard');    //if successfully logged in as admin
                 }
                 break;
                 default:
                 if(Auth::guard($guard)->check()){
-                    return redirect()->route('/');
+                    return redirect()->route('admin.login');    //when you click admin panel
                 }
                 break;
             }
