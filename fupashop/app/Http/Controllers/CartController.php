@@ -50,7 +50,7 @@ class CartController extends Controller
 
         echo var_dump( session()->get('sessionCart'));
 
-        return back();
+        return back()->with('addAlert', 'Item added successfully to cart!');
     }
 
     //Remove an item from cart via model number
@@ -75,7 +75,7 @@ class CartController extends Controller
             $i++;
           }
         }
-        return back();
+        return back()->with('delAlert', 'Item deleted successfully from cart!');
     }
 
     public function updateUserCart()
