@@ -59,11 +59,6 @@
             </div>
             <div class="top-bar-right">
                 <ol class="menu">
-                    <li>
-                        <a href="">
-                            LOGIN
-                        </a>
-                    </li>
                      <li class="dropdown">
                                 <a href="{{ route('myAccount') }}" role="button" aria-expanded="false">
                                     {{ Auth::user()->firstName }} <span class="caret"></span>

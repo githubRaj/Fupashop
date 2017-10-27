@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
 </style>
 <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
-<script type="text/javascript" src={{ asset('/static/js/jquery.js') }}></script>
-<script type="text/javascript" src={{ asset('/static/js/tablesorter.js') }}></script>
+<script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
 <script type="text/javascript">
 	$(document).ready(function()
 	{

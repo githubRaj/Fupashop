@@ -9,7 +9,6 @@
             <br/>
             <br/>
             <br>
-            <a href=""><button class="button large">Start Buying</button></a>
         </section>
         <br/>
         <div class="subheader text-center">
