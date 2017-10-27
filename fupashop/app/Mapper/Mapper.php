@@ -42,6 +42,40 @@ class Mapper
 			case 'App\Items\Laptop':
 				return new Laptop($itemAttributes->modelNumber, $itemAttributes->processor, $itemAttributes->displaySize, $itemAttributes->ramSize, $itemAttributes->weight, $itemAttributes->cpuCores, $itemAttributes->hddSize, $itemAttributes->batteryType, $itemAttributes->batteryInformation, $itemAttributes->brandName, $itemAttributes->operatingSystem, $itemAttributes->touchFeature, $itemAttributes->cameraInformation, $itemAttributes->price);
 				break;
+			case 'App\Items\SerialNumber':
+				return new SerialNumber($itemAttributes->modelNumber, $itemAttributes->serialNumber, $itemAttributes->type, $itemAttributes->purchasable);
+				break;
+		}
+
+		return null;
+	}
+
+	public function findItembySerialNumber($modelNumber, $serialNumber,$className)
+	{
+		
+		$repoItem = $this->repo->getItemBySerialNumber($modelNumber, $serialNumber, $className);
+		if ($repoItem != null)
+		{
+			//found in repoItem
+			//echo var_dump($repoItem);
+			return $repoItem;
+		}
+		else
+		{
+			// look in db
+			$itemAttributes = $this->tdg->getItemBySerialNumber($modelNumber,$serialNumber, $className);
+		//	echo var_dump($itemAttributes);
+			if ($itemAttributes != null)
+			{
+				$item = $this->createItemInstance($itemAttributes, $className);
+				
+				if ($item != null)
+				{
+					$this->repo->addItem($item);
+
+					return $item;
+				}
+			}
 		}
 
 		return null;
@@ -53,14 +87,14 @@ class Mapper
 		if ($repoItem != null)
 		{
 			//found in repoItem
-			echo var_dump($repoItem);
+			//echo var_dump($repoItem);
 			return $repoItem;
 		}
 		else
 		{
 			// look in db
 			$itemAttributes = $this->tdg->getItemByModelNumber($modelNumber, $className);
-			echo var_dump($itemAttributes);
+			//echo var_dump($itemAttributes);
 			if ($itemAttributes != null)
 			{
 				$item = $this->createItemInstance($itemAttributes, $className);

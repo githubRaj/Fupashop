@@ -5,6 +5,7 @@ use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
+use App\Items\SerialNumber;
 
 use Session; // Attempt at repo persistence
 
@@ -33,14 +34,28 @@ class Repository
 	public function addItem($item)
 	{
 		$class = get_class($item);
-    	$modelNumber = $item->getModelNumber();
+		if($class != 'SerialNumber')
+		{
+			$modelNumber = $item->getModelNumber();
+		}
+    	else
+    	{
+    		$serialNumber = $item->getSerialNumber();
+    	}
+    	
 
     // Add item at index [className][modelNumber]
-  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
-    {
-      $this->itemRepo[$class][$modelNumber] = array();
-      array_push($this->itemRepo[$class][$modelNumber], $item);
-    }
+	  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
+	    {
+	      $this->itemRepo[$class][$modelNumber] = array();
+	      array_push($this->itemRepo[$class][$modelNumber], $item);
+	    }
+	    
+	    elseif(!$this->serialItemExists($this->itemRepo[$class], $modelNumber, $serialNumber))
+	    {
+	      $this->itemRepo[$class][$serialNumber] = array();
+	      array_push($this->itemRepo[$class][$serialNumber], $item);
+	    }
 
     //Session::put('repo', $this->itemRepo[$class]);
 	}
@@ -48,7 +63,7 @@ class Repository
 	public function deleteItem($item)
 	{
 		$class = get_class($item);
-    $modelNumber = $item->getModelNumber();
+    	$modelNumber = $item->getModelNumber();
 
 		if ($this->itemExists($this->itemRepo[$class], $modelNumber))
 			array_pop($this->itemRepo[$class][$modelNumber]);
@@ -69,6 +84,13 @@ class Repository
     else
       return null;
 	}
+	public function getItemBySerialNumber($serialNumber, $className)
+	{
+    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
+		  return $this->itemRepo[$className][$serialNumber];
+    else
+      return null;
+	}
 
 	public function getAllItemsByClass($className)
 	{
@@ -76,6 +98,11 @@ class Repository
 	}
 
 	public function itemExists($repoRow, $modelNumber)
+	{
+    // repoRow is $itemRepo[$className] and this returns existence of $itemRepo[$className][$modelNumber]
+		return isset($repoRow[$modelNumber]);// == null;
+	}
+	public function serialItemExists($repoRow, $modelNumber, $serialNumber)
 	{
     // repoRow is $itemRepo[$className] and this returns existence of $itemRepo[$className][$modelNumber]
 		return isset($repoRow[$modelNumber]);// == null;

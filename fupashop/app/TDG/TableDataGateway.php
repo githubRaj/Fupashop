@@ -31,11 +31,14 @@ class TableDataGateway
 		return null;
 	}
 
-	public function getItemBySerialNumber($serialNumber, $className)
+	public function getItemBySerialNumber($modelNumber, $serialNumber, $className)
 	{
 		$tableName = $this->getTableName($className);
 
-		return DB::table($tableName)->where('serialNumber', $serialNumber)->first();
+		return DB::table($tableName)->whereColumn([
+                    ['modelNumber', '=', $modelNumber],
+                    ['serialNumber', '=', $serialNumber]
+                ])->get();
 	}
 
 
