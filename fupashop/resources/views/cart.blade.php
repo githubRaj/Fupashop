@@ -44,7 +44,11 @@ if (!isset($_SESSION)) {
           <th>Option </th>
    			</tr>
    	</thead>
-
+    @if (session('delAlert') )
+      <div class="alert alert-success">
+          {{ session('delAlert') }}
+      </div>
+    @endif
    	<tbody>
 
     @if ( !empty( $tablets ) )

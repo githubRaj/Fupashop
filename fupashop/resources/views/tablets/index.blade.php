@@ -112,7 +112,11 @@ if (!isset($_SESSION)) {
       {{ Form::close() }}
 
 	@endforeach
-
+  @if (session('addAlert') )
+    <div class="alert alert-success">
+        {{ session('addAlert') }}
+    </div>
+  @endif
 				</tbody>
 </table>
 		</div><!--/span-->
@@ -130,6 +134,5 @@ if (!isset($_SESSION)) {
 </body>
 
 <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
-
 </html>
 @endsection
