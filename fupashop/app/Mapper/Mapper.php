@@ -9,7 +9,6 @@ use App\Items\Tablet;
 use App\Items\Monitor;
 use App\Items\Desktop;
 use App\Items\Laptop;
-use App\Items\SerialNumber;
 use Session;
 
 class Mapper
@@ -51,10 +50,6 @@ class Mapper
 			case 'App\Items\Laptop':
 				return new Laptop($itemAttributes->modelNumber, $itemAttributes->processor, $itemAttributes->displaySize, $itemAttributes->ramSize, $itemAttributes->weight, $itemAttributes->cpuCores, $itemAttributes->hddSize, $itemAttributes->batteryType, $itemAttributes->batteryInformation, $itemAttributes->brandName, $itemAttributes->operatingSystem, $itemAttributes->touchFeature, $itemAttributes->cameraInformation, $itemAttributes->price);
 				break;
-			case 'App\Items\SerialNumber':
-				return new SerialNumber($itemAttributes->modelNumber, $itemAttributes->serialNumber, $itemAttributes->type, $itemAttributes->purchasable);
-				break;
-
 		}
 
 		return null;
@@ -65,21 +60,23 @@ class Mapper
 		$repoItem = $this->repo->getItemByModelNumber($modelNumber, $className);
 		if ($repoItem != null)
 		{
-			//found in repo
+			//found in repoItem
+			echo var_dump($repoItem);
 			return $repoItem;
 		}
 		else
 		{
 			// look in db
 			$itemAttributes = $this->tdg->getItemByModelNumber($modelNumber, $className);
-
+			echo var_dump($itemAttributes);
 			if ($itemAttributes != null)
 			{
 				$item = $this->createItemInstance($itemAttributes, $className);
-
+				
 				if ($item != null)
 				{
 					$this->repo->addItem($item);
+
 					return $item;
 				}
 			}
@@ -95,7 +92,7 @@ class Mapper
 			$this->repo->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
-		}
+		}	
 	}
 
 	public function eraseItem($item)
@@ -110,7 +107,7 @@ class Mapper
 
 	public function makeNewItem($itemAttributes, $className)
 	{
-    $item = createItemInstance($itemAttributes, $className);
+    $item = $this->createItemInstance($itemAttributes, $className);
 
 		$this->repo->addItem($item);
 		$this->uow->registerNew($item);
@@ -133,7 +130,7 @@ class Mapper
         array_push($objArray, $item);
         $this->repo->addItem($item);
       }
-
+      
       return $objArray;
     }
     else
