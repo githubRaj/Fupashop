@@ -65,14 +65,14 @@ if (!isset($_SESSION)) {
 					</div>
 				</div>
 
-				<h1> {{ $tablet->getModelNumber() }} </h1>
+				<h1> {{ $item->getModelNumber() }} </h1>
 				<div class="catalog-detail-basic">
 					<h1 class="name" itemprop="name">Product Quicksheet</h1>
 					<p>
-						Brand: {{ $tablet->getBrandName() }} <br>
-						Screen: {{ $tablet->getScreenSize() }} inches<br>
-						Processor: {{ $tablet->getProcessor() }} <br>
-						OS: {{ $tablet->getOperatingSystem() }} <br>
+						Brand: {{ $item->getBrandName() }} <br>
+						Screen: {{ $item->getScreenSize() }} inches<br>
+						Processor: {{ $item->getProcessor() }} <br>
+						OS: {{ $item->getOperatingSystem() }} <br>
 					</p>
 				</div>
 				<div class="catalog-detail-basket" data-reqstock="1" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
@@ -94,7 +94,7 @@ if (!isset($_SESSION)) {
 			from 1		</span>
 
 								<span class="value">
-									${{ $tablet->getPrice() }}
+									${{ $item->getPrice() }}
 								</span>
 							</div>
 						</div>
@@ -166,47 +166,47 @@ if (!isset($_SESSION)) {
 						      <tbody>
 						        <tr>
 						          <td>Brand</td>
-						          <td> {{ $tablet->getBrandName() }} </td>
+						          <td> {{ $item->getBrandName() }} </td>
 						        </tr>
 						        <tr>
 						          <td>Processor</td>
-						          <td>{{ $tablet->getProcessor() }}</td>
+						          <td>{{ $item->getProcessor() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Screen Size</td>
-						          <td>{{ $tablet->getScreenSize() }} inch</td>
+						          <td>{{ $item->getScreenSize() }} inch</td>
 						        </tr>
 						        <tr>
 						          <td>Dimensions</td>
-						          <td>{{ $tablet->getDimensions() }}</td>
+						          <td>{{ $item->getDimensions() }}</td>
 						        </tr>
 						        <tr>
 						          <td>RAM</td>
-						          <td>{{ $tablet->getRamSize() }}</td>
+						          <td>{{ $item->getRamSize() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Weight</td>
-						          <td>{{ $tablet->getWeight() }} grams</td>
+						          <td>{{ $item->getWeight() }} grams</td>
 						        </tr>
 						        <tr>
 						          <td>CPU Cores</td>
-						          <td>{{ $tablet->getCpucores() }}</td>
+						          <td>{{ $item->getCpucores() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Storage Size</td>
-						          <td>{{ $tablet->getHddSize() }}</td>
+						          <td>{{ $item->getHddSize() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Battery Information</td>
-						          <td>{{ $tablet->getBatteryInformation() }}</td>
+						          <td>{{ $item->getBatteryInformation() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Operating System</td>
-						          <td>{{ $tablet->getOperatingSystem() }}</td>
+						          <td>{{ $item->getOperatingSystem() }}</td>
 						        </tr>
 						        <tr>
 						          <td>Camera</td>
-						          <td>{{ $tablet->getCameraInformation() }}</td>
+						          <td>{{ $item->getCameraInformation() }}</td>
 						        </tr>
 						      </tbody>
 						    </table>
