@@ -39,8 +39,6 @@ Route::prefix('desktops')->group(function(){
 });
 
 Route::prefix('tablets')->group(function(){
-
-
 	Route::get('/', 'ProductsController@Tabletindex');
 	Route::get('/{modelNumber}', 'ProductsController@getTablet');
 });

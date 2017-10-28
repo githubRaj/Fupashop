@@ -50,6 +50,37 @@ class Mapper
 		return null;
 	}
 
+		public function findSerialNumbersByModelNumber($modelNumber,$className)
+	{
+		
+		$repoItem = $this->repo->getItemByModelNumber($modelNumber, $className);
+		if ($repoItem != null)
+		{
+			//found in repoItem
+			//echo var_dump($repoItem);
+			return $repoItem;
+		}
+		else
+		{
+			// look in db
+			$itemAttributes = $this->tdg->getSerialNumbersByModelNumber($modelNumber, $className);
+		//	echo var_dump($itemAttributes);
+			if ($itemAttributes != null)
+			{
+				$item = $this->createItemInstance($itemAttributes, $className);
+				
+				if ($item != null)
+				{
+					$this->repo->addItem($item);
+
+					return $item;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public function findItembySerialNumber($modelNumber, $serialNumber,$className)
 	{
 		

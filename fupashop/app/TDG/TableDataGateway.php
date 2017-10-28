@@ -41,6 +41,13 @@ class TableDataGateway
                 ])->get();
 	}
 
+	public function getSerialNumbersByModelNumber($modelNumber, $className)
+	{
+		$tableName = $this->getTableName($className);
+
+		return DB::table($tableName)->where('modelNumber', $modelNumber)->get();
+	}
+
 
 	public function getItemByModelNumber($modelNumber, $className)
 	{

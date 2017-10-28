@@ -39,12 +39,31 @@ class ProductsController extends Controller
         case'App\Items\Laptop':
           return 'laptops';
           break;
-        case 'App\Items\SerialNumber':
-          return 'serialnumbers';
+       // case 'App\Items\SerialNumber':
+      //    return 'serialnumbers';
           break;
       }
 
       return null;
+    }
+
+     public function getSerialNumberItem($modelNumber,$serialNumber, $className)
+    {
+      // Get item from storage
+      $item = $this->mapper->findItembySerialNumber($modelNumber, $serialNumber, $className);
+
+      // If item exists, go to item page, else go to item not found page
+      if ($item != null)
+      {
+        $dirName = $this->getViewDirName($className);
+        return view ($dirName . '.info', compact('item'));
+      }
+      else
+      {
+        echo 'itemNotFoundError';
+        return;
+          // return view (error.itemNotFound, compact('modelNumber'));
+      }
     }
 
     public function getItem($modelNumber, $className)
