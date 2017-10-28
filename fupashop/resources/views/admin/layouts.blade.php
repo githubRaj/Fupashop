@@ -73,7 +73,7 @@
                         <a href="/admin"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Add a Product<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Add Product<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{ url('/admin/add/desktops')}}">Add Desktop</a>
@@ -107,6 +107,23 @@
                             </li>
                         </ul>
                         <!-- second-level-items -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-table fa-fw"></i>Serial Numbers<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ url('/admin/addSerial')}}">Add Serial</a>
+                            </li>
+                            <!--<li>
+                                <a href="{{ url('/admin/addSerial/laptops')}}">Add Laptop Serial</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/admin/addSerial/tablets')}}">Add Tablet Serial</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/admin/addSerial/monitors')}}">Add Monitor Serial</a>
+                            </li>-->
+                        </ul>
                     </li>
                 </ul>
                 <!-- end side-menu -->

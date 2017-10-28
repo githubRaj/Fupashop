@@ -89,14 +89,10 @@ Route::prefix('admin')->group(function(){
 	Route::get('/add/{item}', 'AdminController@creationFormView');
 	//SUBMITTING FORM DATA
 	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
+
+  //Serial Number Add Form
+  Route::get('/addSerial', 'AdminController@CreateSerialForm');
+
 });
-
-
-
-
-
-
-
-
-
-
+  //Sumbit Serial Number
+Route::post('/saveSerial', 'AdminController@SaveSerial');

@@ -58,7 +58,7 @@ class AdminController extends Controller
 
 /*================================================================
                         START - GET VIEWS
-================================================================*/            
+================================================================*/
   public function desktopIndex()
   {
     return $this->getIndex(Desktop::class);
@@ -89,7 +89,7 @@ class AdminController extends Controller
     }
 /*================================================================
                         END - GET VIEWS
-================================================================*/ 
+================================================================*/
      //VIEW OF ADDING NEW ITEMS
     public function creationFormView($item){
       return view('admin.'.$item.'.add');
@@ -103,7 +103,7 @@ class AdminController extends Controller
            return 'App\Items\Laptop';
         case 'tablets':
            return 'App\Items\Tablet';
-        case 'monitors': 
+        case 'monitors':
           return 'App\Items\Monitor';
         default:
           # code...
@@ -113,7 +113,7 @@ class AdminController extends Controller
 
     //SAVE TO REPO
     public function saveNewItem(Request $request, $item){
-      
+
       $this->mapper->makeNewItem($request, $this->getClassName($item));
       return redirect('/admin');   //<----- should be direct to a page stating success or fail. temporary redirect
     }
@@ -131,9 +131,9 @@ class AdminController extends Controller
   {
       $className = $this->getClassName($productType);
       $this->mapper->findAllItemsByClass($className);
-      
+
       $item = $this->mapper->findItemByModelNumber($request->oldModel, $className);
-    
+
       $item[0]->setAttributes($request->all());
 
       $this->mapper->setItem($item[0], $request->modelNumber);
@@ -153,4 +153,22 @@ class AdminController extends Controller
 
       return view ('admin.'.$productType.'.info', compact('items'));
   }
+
+  public function CreateSerialForm()
+  {
+
+     $className = $this->getClassName('desktops');
+     $desktopModelNumbers =  $this->mapper->findAllItemsByClass($className);
+
+     $className = $this->getClassName('laptops');
+     $laptopModelNumbers =  $this->mapper->findAllItemsByClass($className);
+
+     return view('admin/SerialNumbers/add', compact('desktopModelNumbers', 'laptopModelNumbers'));
+  }
+
+  public function SaveSerial(Request $request)
+  {
+     return redirect('admin/addSerial');
+  }
+
 }
