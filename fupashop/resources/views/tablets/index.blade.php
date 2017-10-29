@@ -29,11 +29,17 @@ if (!isset($_SESSION)) {
 
 <body>
 
+<!-- Sidebar -->
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span3">
 			<div class="well sidebar-nav">
-	<ul id="filter1" class="nav nav-list">
+
+         <ul id="filter1" class="nav nav-list">  
+
+          <ul class="nav-header">Advance Search</ul>
+              <input type="text" id="searchInput" value="Search.." title="Search">
+               
 			<li class="nav-header">Processors</li>
 				 @php
 					$id=1
@@ -67,6 +73,9 @@ if (!isset($_SESSION)) {
 	</ul>
 			</div><!--/.well -->
 		</div><!--/span-->
+
+
+<!-- Main Content -->		
 		<div class="span9">
 <table id="myTable" class="tablesorter table table-hover">
 	<thead>
@@ -80,7 +89,7 @@ if (!isset($_SESSION)) {
 			</tr>
 		 </thead>
 
-			<tbody>
+			<tbody id="fbody">
 
 	@foreach ($items as $tablet)
 		@if(!session()->has('itemToLock.'.$tablet->getModelNumber()))
