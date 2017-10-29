@@ -112,9 +112,9 @@
                         <a href="#"><i class="fa fa-table fa-fw"></i>Serial Numbers<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ url('/admin/addSerial')}}">Add Serial</a>
+                                <a href="{{ url('/admin/addSerial/desktops')}}">Add Desktop Serial</a>
                             </li>
-                            <!--<li>
+                            <li>
                                 <a href="{{ url('/admin/addSerial/laptops')}}">Add Laptop Serial</a>
                             </li>
                             <li>
@@ -122,7 +122,7 @@
                             </li>
                             <li>
                                 <a href="{{ url('/admin/addSerial/monitors')}}">Add Monitor Serial</a>
-                            </li>-->
+                            </li>
                         </ul>
                     </li>
                 </ul>

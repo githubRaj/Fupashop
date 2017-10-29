@@ -154,21 +154,40 @@ class AdminController extends Controller
       return view ('admin.'.$productType.'.info', compact('items'));
   }
 
-  public function CreateSerialForm()
+  public function CreateSerialForm($productType)
   {
+    if($productType == 'desktops')
+    {
+        $type = 'desktop';
+        $className = $this->getClassName($productType);
+        $modelNumbers =  $this->mapper->findAllItemsByClass($className);
+   }
+   else if($productType == 'laptops')
+   {
+       $type = 'laptop';
+       $className = $this->getClassName($productType);
+       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
+   }
+   else if($productType == 'tablets')
+   {
+       $type = 'tablet';
+       $className = $this->getClassName($productType);
+       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
+   }
+   else if($productType == 'monitors')
+   {
+       $type = 'monitor';
+       $className = $this->getClassName($productType);
+       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
+   }
 
-     $className = $this->getClassName('desktops');
-     $desktopModelNumbers =  $this->mapper->findAllItemsByClass($className);
-
-     $className = $this->getClassName('laptops');
-     $laptopModelNumbers =  $this->mapper->findAllItemsByClass($className);
-
-     return view('admin/SerialNumbers/add', compact('desktopModelNumbers', 'laptopModelNumbers'));
+     return view('admin/SerialNumbers/add', compact('modelNumbers', 'type'));
   }
 
   public function SaveSerial(Request $request)
   {
-     return redirect('admin/addSerial');
+     $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
+     return redirect('admin');
   }
 
 }

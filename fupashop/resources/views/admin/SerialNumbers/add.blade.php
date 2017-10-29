@@ -18,32 +18,20 @@
       <div class="form-group">
       {!! Form::open(['action' => 'AdminController@SaveSerial', 'method' => 'POST']) !!}
 
-            <!--{{Form::label('modelNumber', 'Model Number')}}
-            {{Form::select('modelNumber', array('L' => 'Large', 'S' => 'Small'), 'default')}}-->
-
-              {{Form::label('typeLabel', 'Product Type')}}
-              <select id="type"  name="type" class="form-control">
-                 <option value="desktops">Desktop</option>
-                 <option value="laptops">Laptop</option>
-                 <option value="tablets">Tablet</option>
-                 <option value="monitors">Monitor</option>
-              </select>
-
+            {{Form::label('typeLabel', 'Product Type')}}
+            {{Form::text('type', $type, ['class' => 'form-control', 'readonly'])}}
 
             {{Form::label('modelNubmerLabel', 'Model Number')}}
             <select id="modelNumber"  name="modelNumber" class="form-control">
-            @foreach($desktopModelNumbers as $modelNumber)
+            @foreach($modelNumbers as $modelNumber)
                <option value="{{ $modelNumber->getModelNumber() }}">{{ $modelNumber->getModelNumber() }}</option>
             @endforeach
             </select>
 
-            <!--@foreach($laptopModelNumbers as $laptopModelNumber)
-              {{$laptopModelNumber->getModelNumber()}}
-            @endforeach-->
-
             {{Form::label('serialNumber', 'Serial Number')}}
             {{Form::text('serialNumber', '', ['class' => 'form-control'])}}
 
+            {{ Form::hidden('purchasable', '1') }}
 
           <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>
         {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}

@@ -91,7 +91,7 @@ Route::prefix('admin')->group(function(){
 	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
 
   //Serial Number Add Form
-  Route::get('/addSerial', 'AdminController@CreateSerialForm');
+  Route::get('/addSerial/{productType}', 'AdminController@CreateSerialForm');
 
 });
   //Sumbit Serial Number
