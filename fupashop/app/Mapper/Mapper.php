@@ -53,18 +53,11 @@ class Mapper
 		return null;
 	}
 
-	public function setStockByModelNumber($modelNumber, $className)
+	public function getStockByModelNumber($modelNumber, $className)
 	{
 		
 		$repoItem = session()->get('repo')->getQuantityByModel($modelNumber, $className);
-		$repoItem = null;
-		if ($repoItem != null)
-		{
-			//found in repoItem
-			//echo var_dump($repoItem);
-			return $repoItem;
-		}
-		else
+		if ($repoItem == null)
 		{
 			// look in db
 			$models = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
@@ -72,45 +65,47 @@ class Mapper
 		   //return;
 			if ($models != null)
 			{
-				$serialName = 'App\Items\SerialNumber';
-				$newItem = $this->findItemByModelNumber($modelNumber, $className);
-				$newItem->setStock(sizeof($models));
-				$this->setItem($newItem, $modelNumber);
-				/*Single Model to many Serial*/
-				for ($i=0; $i < sizeof($models) ; $i++) 
-				{ 
-					$item = $this->createItemInstance($models[$i], $serialName);
-					$this->repo->addItem($item);					
-				}
+				$this->setSerialNumbersInRepo($modelNumber, $className, $models);
 			}
 		}
 
 		return null;
 	}
 
+	public function setSerialNumbersInRepo($modelNumber, $className, $models){
+		$serialName = 'App\Items\SerialNumber';
+		$newItem = $this->findItemByModelNumber($modelNumber, $className);
+		$newItem[0]->setStock(sizeof($models));
+		$this->setItem($newItem, $modelNumber);
+		/*Single Model to many Serial*/
+		for ($i=0; $i < sizeof($models) ; $i++) 
+		{ 
+			$item = $this->createItemInstance($models[$i], $serialName);
+			session()->get('repo')->addItem($item);					
+		}
+	}
+
 	public function findItembySerialNumber($modelNumber, $serialNumber,$className)
-	{
+	{$serialName = 'App\Items\SerialNumber';
 		
-		$repoItem = $this->repo->getItemBySerialNumber($modelNumber, $serialNumber, $className);
+		$repoItem = session()->get('repo')->getItemBySerialNumber($modelNumber, $serialName);
 		if ($repoItem != null)
 		{
-			//found in repoItem
-			//echo var_dump($repoItem);
 			return $repoItem;
 		}
 		else
 		{
 			// look in db
-			$itemAttributes = $this->tdg->getItemBySerialNumber($modelNumber,$serialNumber, $className);
-		//	echo var_dump($itemAttributes);
+			$itemAttributes = $this->tdg->getItemBySerialNumber($modelNumber,$serialNumber);
+			
+			
+			
 			if ($itemAttributes != null)
 			{
-				$item = $this->createItemInstance($itemAttributes, $className);
-				
+				$item = $this->createItemInstance($itemAttributes, $serialName);
 				if ($item != null)
 				{
-					$this->repo->addItem($item);
-
+					session()->get('repo')->addItem($item);
 					return $item;
 				}
 			}
@@ -121,7 +116,7 @@ class Mapper
 
 	public function findItemByModelNumber($modelNumber, $className)
 	{
-		$repoItem = $this->repo->getItemByModelNumber($modelNumber, $className);
+		$repoItem = session()->get('repo')->getItemByModelNumber($modelNumber, $className);
 		if ($repoItem != null)
 		{
 			//found in repoItem
@@ -139,7 +134,7 @@ class Mapper
 				
 				if ($item != null)
 				{
-					$this->repo->addItem($item);
+					session()->get('repo')->addItem($item);
 
 					return $item;
 				}
@@ -151,9 +146,9 @@ class Mapper
 
 	public function setItem($newItem, $modelNumber)
 	{
-		if ($this->findItemByModelNumber($modelNumber, get_class($newItem)) != null)
+		if ($this->findItemByModelNumber($modelNumber, get_class($newItem[0])) != null)
 		{
-			$this->repo->updateItem($newItem, $modelNumber);
+			session()->get('repo')->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
 		}	
@@ -163,7 +158,7 @@ class Mapper
 	{
 		if ($item != null)
 		{
-			$this->repo->deleteItem($item);
+			session()->get('repo')->deleteItem($item);
 			$this->uow->registerDeleted($item);
 			$this->uow->commit();
 		}
@@ -171,9 +166,9 @@ class Mapper
 
 	public function makeNewItem($itemAttributes, $className)
 	{
-    $item = $this->createItemInstance($itemAttributes, $className);
+    	$item = $this->createItemInstance($itemAttributes, $className);
 
-		$this->repo->addItem($item);
+		session()->get('repo')->addItem($item);
 		$this->uow->registerNew($item);
 		$this->uow->commit();
 	}
@@ -192,7 +187,7 @@ class Mapper
         $item = $this->createItemInstance($itemAttributes, $className);
 
         array_push($objArray, $item);
-        $this->repo->addItem($item);
+        session()->get('repo')->addItem($item);
       }
       
       return $objArray;

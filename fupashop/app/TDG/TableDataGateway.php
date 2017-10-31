@@ -31,14 +31,10 @@ class TableDataGateway
 		return null;
 	}
 
-	public function getItemBySerialNumber($modelNumber, $serialNumber, $className)
+	public function getItemBySerialNumber($modelNumber, $serialNumber)
 	{
-		$tableName = $this->getTableName($className);
-
-		return DB::table($tableName)->whereColumn([
-                    ['modelNumber', '=', $modelNumber],
-                    ['serialNumber', '=', $serialNumber]
-                ])->get();
+		
+		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->where('serialNumber', $serialNumber)->first();
 	}
 
 	public function getSerialNumbersByModelNumber($modelNumber)
@@ -63,19 +59,21 @@ class TableDataGateway
 	}
 
 	public function insertItem($item)
-	{
+	{	$item = $item[0];
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->insert($item->getAttributes());
 	}
 
 	public function updateItem($item)
 	{
+		$item = $item[0];
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->update($item->getAttributes());
 	}
 
 	public function deleteItem($item)
 	{
+		$item = $item[0];
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->delete();
 	}

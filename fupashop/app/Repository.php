@@ -57,10 +57,10 @@ class Repository
 
 	public function updateItem($newItem, $modelNumber)
 	{
-		$class = get_class($newItem);
+		$class = get_class($newItem[0]);
 
 		$oldItem = $this->getItemByModelNumber($modelNumber, $class);
-		$oldItem[0]->setAttributes($newItem->getAttributes());
+		$oldItem[0]->setAttributes($newItem[0]->getAttributes());
 	}
 
 	public function getItemByModelNumber($modelNumber, $className)
@@ -73,17 +73,19 @@ class Repository
 
 	public function getItemBySerialNumber($serialNumber, $className)
 	{
-    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
-		  return $this->itemRepo[$className][$serialNumber];
-    else
-      return null;
+	    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
+	    {
+	    	return $this->itemRepo[$className][$serialNumber];
+		} 
+	    else
+	      return null;
 	}
 
 	public function getQuantityByModel($modelNumber, $className)
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
 		{
-			return $this->itemRepo[$className][$modelNumber]->getStock();
+			return $this->itemRepo[$className][$modelNumber][0]->getStock();
 		}
     else
       return null;
@@ -98,11 +100,6 @@ class Repository
 	{
     // repoRow is $itemRepo[$className] and this returns existence of $itemRepo[$className][$modelNumber]
 		return isset($repoRow[$modelNumber]);// == null;
-	}
-	public function serialItemExists($repoRow, $serialNumber)
-	{
-    // repoRow is $itemRepo[$className] and this returns existence of $itemRepo[$className][$modelNumber]
-		return isset($repoRow[$serialNumber]);// == null;
 	}
 
 	public function classArrayEmpty($className)

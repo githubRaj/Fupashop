@@ -51,7 +51,6 @@ class ProductsController extends Controller
     {
       // Get item from storage
       $item = $this->mapper->findItembySerialNumber($modelNumber, $serialNumber, $className);
-
       // If item exists, go to item page, else go to item not found page
       if ($item != null)
       {
@@ -70,10 +69,10 @@ class ProductsController extends Controller
     {
       // Get item from storage
       
-      $this->mapper->setStockByModelNumber($modelNumber, $className);
-      $item = $this->mapper->findItemByModelNumber($modelNumber, $className);
-      echo var_dump($item[0]->getStock());
-      return;
+      $this->mapper->getStockByModelNumber($modelNumber, $className);
+      $tempItem = $this->mapper->findItemByModelNumber($modelNumber, $className);
+      $item = $tempItem[0];
+      $this->getSerialNumberItem($modelNumber,'VtL3atvfYZ', $className);
       // If item exists, go to item page, else go to item not found page
       if ($item != null)
       {
