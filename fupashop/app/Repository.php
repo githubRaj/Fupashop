@@ -33,28 +33,14 @@ class Repository
 	// Parameter $item as an instantiated Item subclass object
 	public function addItem($item)
 	{
-		$class = get_class($item);
-		if($class != 'SerialNumber')
-		{
-			$modelNumber = $item->getModelNumber();
-		}
-    	else
-    	{
-    		$serialNumber = $item->getSerialNumber();
-    	}
-    	
+		$class = get_class($item);	
+		$modelNumber = $item->getModelNumber();
 
     // Add item at index [className][modelNumber]
 	  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
 	    {
 	      $this->itemRepo[$class][$modelNumber] = array();
 	      array_push($this->itemRepo[$class][$modelNumber], $item);
-	    }
-	    
-	    elseif(!$this->serialItemExists($this->itemRepo[$class], $serialNumber))
-	    {
-	      $this->itemRepo[$class][$serialNumber] = array();
-	      array_push($this->itemRepo[$class][$serialNumber], $item);
 	    }
 
     //Session::put('repo', $this->itemRepo[$class]);
@@ -97,12 +83,7 @@ class Repository
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
 		{
-			$quantity = 0;
-		 	foreach ($model as $model) 
-		 	{
-		 		$quantity ++;	
-		 	}
-		 	return $quantity;
+			return $this->itemRepo[$className][$modelNumber]->getStock();
 		}
     else
       return null;

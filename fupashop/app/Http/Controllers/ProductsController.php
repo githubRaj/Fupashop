@@ -69,8 +69,11 @@ class ProductsController extends Controller
     public function getItem($modelNumber, $className)
     {
       // Get item from storage
+      
+      $this->mapper->setStockByModelNumber($modelNumber, $className);
       $item = $this->mapper->findItemByModelNumber($modelNumber, $className);
-
+      echo var_dump($item[0]->getStock());
+      return;
       // If item exists, go to item page, else go to item not found page
       if ($item != null)
       {

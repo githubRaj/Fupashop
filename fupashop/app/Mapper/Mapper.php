@@ -24,6 +24,7 @@ class Mapper
 		$this->tdg = new TableDataGateway();
 		$this->repo = new Repository();
 		$this->uow = new UOW($this);
+		session()->put('repo', $this->repo);
 	}
 
 	public function createItemInstance($itemAttributes, $className)
@@ -43,6 +44,8 @@ class Mapper
 				return new Laptop($itemAttributes->modelNumber, $itemAttributes->processor, $itemAttributes->displaySize, $itemAttributes->ramSize, $itemAttributes->weight, $itemAttributes->cpuCores, $itemAttributes->hddSize, $itemAttributes->batteryType, $itemAttributes->batteryInformation, $itemAttributes->brandName, $itemAttributes->operatingSystem, $itemAttributes->touchFeature, $itemAttributes->cameraInformation, $itemAttributes->price);
 				break;
 			case 'App\Items\SerialNumber':
+			//	echo var_dump($itemAttributes);
+				//return;
 				return new SerialNumber($itemAttributes->modelNumber, $itemAttributes->serialNumber, $itemAttributes->type, $itemAttributes->purchasable);
 				break;
 		}
@@ -50,10 +53,11 @@ class Mapper
 		return null;
 	}
 
-		public function findSerialNumbersByModelNumber($modelNumber,$className)
+	public function setStockByModelNumber($modelNumber, $className)
 	{
 		
-		$repoItem = $this->repo->getItemByModelNumber($modelNumber, $className);
+		$repoItem = session()->get('repo')->getQuantityByModel($modelNumber, $className);
+		$repoItem = null;
 		if ($repoItem != null)
 		{
 			//found in repoItem
@@ -63,17 +67,20 @@ class Mapper
 		else
 		{
 			// look in db
-			$itemAttributes = $this->tdg->getSerialNumbersByModelNumber($modelNumber, $className);
-		//	echo var_dump($itemAttributes);
-			if ($itemAttributes != null)
+			$models = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
+		  //	echo var_dump();
+		   //return;
+			if ($models != null)
 			{
-				$item = $this->createItemInstance($itemAttributes, $className);
-				
-				if ($item != null)
-				{
-					$this->repo->addItem($item);
-
-					return $item;
+				$serialName = 'App\Items\SerialNumber';
+				$newItem = $this->findItemByModelNumber($modelNumber, $className);
+				$newItem->setStock(sizeof($models));
+				$this->setItem($newItem, $modelNumber);
+				/*Single Model to many Serial*/
+				for ($i=0; $i < sizeof($models) ; $i++) 
+				{ 
+					$item = $this->createItemInstance($models[$i], $serialName);
+					$this->repo->addItem($item);					
 				}
 			}
 		}

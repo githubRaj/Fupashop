@@ -41,11 +41,11 @@ class TableDataGateway
                 ])->get();
 	}
 
-	public function getSerialNumbersByModelNumber($modelNumber, $className)
+	public function getSerialNumbersByModelNumber($modelNumber)
 	{
-		$tableName = $this->getTableName($className);
+		//$tableName = $this->getTableName($className);
 
-		return DB::table($tableName)->where('modelNumber', $modelNumber)->get();
+		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->get();
 	}
 
 

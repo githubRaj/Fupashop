@@ -15,6 +15,7 @@ class Tablet extends Item
 	private $hddSize;
 	private $operatingSystem;
 	private $cameraInformation;
+	private $stock;
 
     public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
 	{
@@ -31,6 +32,7 @@ class Tablet extends Item
 		$this->operatingSystem = $operatingSystem;
 		$this->cameraInformation = $cameraInformation;
 		$this->price = $price;
+		$this->stock = 0;
 	}
 
 
@@ -43,6 +45,7 @@ class Tablet extends Item
 	public function getBatteryInformation() { return $this->batteryInformation; }
 	public function getOperatingSystem() { return $this->operatingSystem; }
 	public function getCameraInformation() { return $this->cameraInformation; }
+	public function getStock(){ return $this->stock; }
 
 
 	// Setters
@@ -55,6 +58,7 @@ class Tablet extends Item
 	public function setBatteryInformation($batteryInformation) { $this->batteryInformation = $batteryInformation; }
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
+	public function setStock($stock) { $this->stock = $stock; }
 	
 	public function setAttributes($newAttributes)
 	{
