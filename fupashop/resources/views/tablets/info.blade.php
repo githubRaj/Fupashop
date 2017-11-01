@@ -46,7 +46,7 @@ if (!isset($_SESSION)) {
 				<div class="card-body">
 					<h3 class="card-title">{{ $item->getBrandName() }} {{ $item->getModelNumber() }}</h3>
 					<h4>${{ $item->getPrice() }}</h4>
-					<p >
+					<p class="card-text">
 						Brand: {{ $item->getBrandName() }} <br>
 						Screen: {{ $item->getScreenSize() }} inches<br>
 						Processor: {{ $item->getProcessor() }} <br>
@@ -84,7 +84,7 @@ if (!isset($_SESSION)) {
 							</tr>
 							<tr>
 								<td>Screen Size</td>
-								<td>{{ $item->getScreenSize() }} inch</td>
+								<td>{{ $item->getScreenSize() }} inches</td>
 							</tr>
 							<tr>
 								<td>Dimensions</td>
