@@ -72,7 +72,7 @@ if (!isset($_SESSION)) {
         <div class="cart-totals-value">$0.00</div>
       </div>
       <div class="_column checkout">
-        <button class="_btn checkout-btn entypo-forward">Checkout</button>
+        <a href="cart/checkout" style="color: black;"><button class="_btn checkout-btn entypo-forward">Checkout</button></a>
       </div>
     </footer>
 

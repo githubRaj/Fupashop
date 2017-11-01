@@ -58,6 +58,11 @@ Route::get('/add-to-cart/{id}', [
 	'as' => 'product@addToCart',
 ]);
 
+//Transaction page
+Route::get('cart/checkout', function(){
+    return view('checkout');
+});
+
 
 
 /*----------------------------ADMIN ROUTING------------------------------*/
