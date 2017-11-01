@@ -15,6 +15,7 @@ class Laptop extends Item
 	private $operatingSystem;
 	private $touchFeature;
 	private $cameraInformation;
+    private $stock;
 
     public function __construct($modelNumber, $processor, $displaySize, $ramSize, $weight, $cpuCores, $hddSize, $batteryType, $batteryInformation, $brandName, $operatingSystem, $touchFeature, $cameraInformation, $price)
     {
@@ -32,6 +33,7 @@ class Laptop extends Item
         $this->touchFeature = $touchFeature;
         $this->cameraInformation = $cameraInformation;
         $this->price = $price;
+        $this->stock = 0;
     }
 
 
@@ -45,6 +47,7 @@ class Laptop extends Item
 	public function getOperatingSystem() { return $this->operatingSystem; }
 	public function getTouchFeature() { return $this->touchFeature; }
 	public function getCameraInformation() { return $this->cameraInformation; }
+    public function getStock(){ return $this->stock; }
 
 	public function setProcessor($processor) { $this->processor = $processor; }
 	public function setDisplaySize($displaySize) { $this->displaySize = $displaySize; }
@@ -55,6 +58,7 @@ class Laptop extends Item
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setTouchFeature($touchFeature) { $this->touchFeature = $touchFeature; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
+    public function setStock($stock) { $this->stock = $stock; }
   
   public function setAttributes($newAttributes)
   {
@@ -71,7 +75,7 @@ class Laptop extends Item
       $this->operatingSystem = $newAttributes['operatingSystem'];
       $this->touchFeature = $newAttributes['touchFeature'];
       $this->cameraInformation = $newAttributes['cameraInformation'];
-      $this->price = $newsetAttributes['price'];
+      $this->price = $newAttributes['price'];
   }
 
   public function getAttributes()

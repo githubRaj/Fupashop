@@ -5,6 +5,7 @@ use App\Items\Item;
 class Monitor extends Item
 {
     private $size;
+    private $stock;
 
     public function __construct($modelNumber, $size, $weight, $brandName, $price)
     {
@@ -13,11 +14,14 @@ class Monitor extends Item
         $this->weight = $weight;
         $this->brandName = $brandName;
         $this->price = $price;
+        $this->stock = 0;
     }
 
     public function getSize() { return $this->size; }
+    public function getStock(){ return $this->stock; }
 
     public function setSize($size) { $this->size = $size; }
+    public function setStock($stock) { $this->stock = $stock; }
    
     public function setAttributes($newAttributes)
     {
