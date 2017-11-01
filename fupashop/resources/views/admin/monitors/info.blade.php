@@ -45,6 +45,7 @@
                                       <th>Price</th>
                                       <th>Edit</th>
                                       <th>Delete</th>
+                                      <th>Serial</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,6 +61,7 @@
                                       <td>
                                         <a href="/admin/delete/monitors/{{$monitor->getModelNumber()}}" class="btn btn-danger">Delete</a>
                                       </td>
+                                        <td><a href="/admin/viewSerial/{{$monitor->getModelNumber()}}" class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 

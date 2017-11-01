@@ -90,6 +90,9 @@ Route::prefix('admin')->group(function(){
 	//SUBMITTING FORM DATA
 	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
 
+	//View Serials
+  Route::get('/viewSerial/{modelNumber}', 'AdminController@viewSerial');
+
   //Serial Number Add Form
   Route::get('/addSerial/{productType}', 'AdminController@CreateSerialForm');
 

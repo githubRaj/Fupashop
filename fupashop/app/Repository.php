@@ -26,14 +26,14 @@ class Repository
     $this->itemRepo[SerialNumber::class] = array();
 
    // $tests = Session::get('repo');
-    
+
     //echo $tests;
   }
 
 	// Parameter $item as an instantiated Item subclass object
 	public function addItem($item)
 	{
-		$class = get_class($item);	
+		$class = get_class($item);
 		$modelNumber = $item->getModelNumber();
 
     // Add item at index [className][modelNumber]
@@ -76,7 +76,7 @@ class Repository
 	    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
 	    {
 	    	return $this->itemRepo[$className][$serialNumber];
-		} 
+		}
 	    else
 	      return null;
 	}

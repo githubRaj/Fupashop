@@ -33,7 +33,7 @@ class TableDataGateway
 
 	public function getItemBySerialNumber($modelNumber, $serialNumber)
 	{
-		
+
 		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->where('serialNumber', $serialNumber)->first();
 	}
 

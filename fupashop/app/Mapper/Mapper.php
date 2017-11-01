@@ -55,7 +55,7 @@ class Mapper
 
 	public function getStockByModelNumber($modelNumber, $className)
 	{
-		
+
 		$repoItem = session()->get('repo')->getQuantityByModel($modelNumber, $className);
 		if ($repoItem == null)
 		{
@@ -72,22 +72,34 @@ class Mapper
 		return null;
 	}
 
+	public function serialNumbersByModelNumber($modelNumber)
+	{
+		 $serialNumbers = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
+		 return $serialNumbers;
+	}
+
+	public function findSerialNumbersByModelNumber($modelNumber)
+	{
+		 $serialNumbers = session()->get('repo')->getSerialNumbersByModelNumber($modelNumber);
+		 return $serialNumbers;
+	}
+
 	public function setSerialNumbersInRepo($modelNumber, $className, $models){
 		$serialName = 'App\Items\SerialNumber';
 		$newItem = $this->findItemByModelNumber($modelNumber, $className);
 		$newItem[0]->setStock(sizeof($models));
 		$this->setItem($newItem, $modelNumber);
 		/*Single Model to many Serial*/
-		for ($i=0; $i < sizeof($models) ; $i++) 
-		{ 
+		for ($i=0; $i < sizeof($models) ; $i++)
+		{
 			$item = $this->createItemInstance($models[$i], $serialName);
-			session()->get('repo')->addItem($item);					
+			session()->get('repo')->addItem($item);
 		}
 	}
 
 	public function findItembySerialNumber($modelNumber, $serialNumber,$className)
 	{$serialName = 'App\Items\SerialNumber';
-		
+
 		$repoItem = session()->get('repo')->getItemBySerialNumber($modelNumber, $serialName);
 		if ($repoItem != null)
 		{
@@ -97,9 +109,9 @@ class Mapper
 		{
 			// look in db
 			$itemAttributes = $this->tdg->getItemBySerialNumber($modelNumber,$serialNumber);
-			
-			
-			
+
+
+
 			if ($itemAttributes != null)
 			{
 				$item = $this->createItemInstance($itemAttributes, $serialName);
@@ -131,7 +143,7 @@ class Mapper
 			if ($itemAttributes != null)
 			{
 				$item = $this->createItemInstance($itemAttributes, $className);
-				
+
 				if ($item != null)
 				{
 					session()->get('repo')->addItem($item);
@@ -151,7 +163,7 @@ class Mapper
 			session()->get('repo')->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
-		}	
+		}
 	}
 
 	public function eraseItem($item)
@@ -189,7 +201,7 @@ class Mapper
         array_push($objArray, $item);
         session()->get('repo')->addItem($item);
       }
-      
+
       return $objArray;
     }
     else

@@ -26,7 +26,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/admin">
                     Fupa Technology
                 </a>
             </div>
@@ -49,7 +49,7 @@
                                 <img src="assets/img/user.jpg" alt="">
                             </div>
                             <div class="user-info">
-                                <div>Fupa <strong>Admin</strong></div>
+                                <div><strong>{{Auth::user()->firstName}} {{Auth::user()->lastName}}</strong></div>
                                 <div class="user-text-online">
                                     <span class="user-circle-online btn btn-success btn-circle "></span>&nbsp;Online
                                 </div>
@@ -91,7 +91,7 @@
                         <!-- second-level-items -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i>View Products<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-table fa-fw"></i>View Products/Serials<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{ url('/admin/Desktops') }}">Desktops</a>
@@ -109,7 +109,7 @@
                         <!-- second-level-items -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i>Serial Numbers<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-table fa-fw"></i>Add Serial Number<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{ url('/admin/addSerial/desktops')}}">Add Desktop Serial</a>
@@ -147,7 +147,7 @@
                 <!-- Welcome -->
                 <div class="col-lg-12">
                     <div class="alert alert-info">
-                        <i class="fa fa-folder-open"></i><b>&nbsp;Hello ! </b>Welcome <b>Fupa Admin </b></i>
+                        <i class="fa fa-folder-open"></i><b>&nbsp;Hello ! </b>Welcome <b>{{Auth::user()->firstName}} {{Auth::user()->lastName}} </b></i>
                     </div>
                 </div>
                 <!--end  Welcome -->

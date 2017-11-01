@@ -33,7 +33,7 @@
 
             {{ Form::hidden('purchasable', '1') }}
 
-          <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>
+          <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>  <br><br><br>
         {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
         {!! Form::close() !!}

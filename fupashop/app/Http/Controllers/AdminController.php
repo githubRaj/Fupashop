@@ -154,6 +154,7 @@ class AdminController extends Controller
       return view ('admin.'.$productType.'.info', compact('items'));
   }
 
+  //Create form for Serial Numbers
   public function CreateSerialForm($productType)
   {
     if($productType == 'desktops')
@@ -184,10 +185,18 @@ class AdminController extends Controller
      return view('admin/SerialNumbers/add', compact('modelNumbers', 'type'));
   }
 
+  //Submit Serial Number
   public function SaveSerial(Request $request)
   {
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
      return redirect('admin');
+  }
+
+  //View Serial Numbers
+  public function viewSerial($modelNumber)
+  {
+    $serialNumbers = $this->mapper->serialNumbersByModelNumber($modelNumber);
+    return view('admin/SerialNumbers/info', compact('serialNumbers'));
   }
 
 }
