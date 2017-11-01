@@ -73,7 +73,7 @@ Route::prefix('admin')->group(function(){
 	/*-------------------LOGIN:AUTHENTICATION ROUTING-----------------------------------*/
 	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 	/*-------------------DASHBOARD/PANELVIEW-------------------------------------------*/
-	Route::get('/', 'AdminController@index');
+	Route::get('/', 'AdminController@index')->name('admin.dashboard');
 	/*-------------------MODIFY ITEMS--------------------------------------------------*/
 	//EDIT PRODUCT
 	Route::get('/edit/{productType}/{id}', 'AdminController@editView');
