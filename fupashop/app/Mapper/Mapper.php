@@ -80,7 +80,7 @@ class Mapper
 
 	public function findSerialNumbersByModelNumber($modelNumber)
 	{
-		 $serialNumbers = session()->get('repo')->getSerialNumbersByModelNumber($modelNumber);
+		 $serialNumbers = session()->get('repo')->getAllSerialNumbersByModelNumber($modelNumber);
 		 return $serialNumbers;
 	}
 
@@ -95,9 +95,19 @@ class Mapper
 			$item = $this->createItemInstance($models[$i], $serialName);
 			session()->get('repo')->addItem($item);
 		}
+		return;
 	}
 
-	public function findItembySerialNumber($modelNumber, $serialNumber,$className)
+	public function updateSerialNumberAsUnpurchasableInRepo( $snObject )
+	{
+		// snObject is the newly updated object to put back into the db
+		if ( $snObject != null )
+		{
+			$this->setItemBySerialNumber( $snObject, $snObject->getModelNumber(), $snObject->getSerialNumber() );
+		}
+	}
+
+	public function findItembySerialNumber($modelNumber, $serialNumber)
 	{$serialName = 'App\Items\SerialNumber';
 
 		$repoItem = session()->get('repo')->getItemBySerialNumber($modelNumber, $serialName);
@@ -161,6 +171,16 @@ class Mapper
 		if ($this->findItemByModelNumber($modelNumber, get_class($newItem[0])) != null)
 		{
 			session()->get('repo')->updateItem($newItem, $modelNumber);
+			$this->uow->registerDirty($newItem);
+			$this->uow->commit();
+		}
+	}
+
+	public function setItemBySerialNumber( $newItem, $modelNumber, $serialNumber )
+	{
+		if ($this->findItembySerialNumber( $modelNumber, $serialNumber ) != null )
+		{
+			session()->get('repo')->updateItemBySerialNumber( $newItem, $modelNumber, $serialNumber );
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
 		}

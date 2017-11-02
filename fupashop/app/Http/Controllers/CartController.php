@@ -14,6 +14,8 @@ use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
+use App\Items\SerialNumber;
+
 use App\Mapper\Mapper;
 
 class CartController extends Controller
@@ -49,6 +51,12 @@ class CartController extends Controller
         $item = $this->mapper->findItemByModelNumber( $itemModelNum, 'App\Items\Tablet' );
         Session::push('sessionCart', $item );
         CartController::updateTotalsAndTax();
+
+        // Sync the repo Cart
+        session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
+        CartController::setFirstAvailableSNUnpurchasable( $itemModelNum );
+
+        return;
         return back()->with('addAlert', 'Item added successfully to cart!');
     }
 
@@ -77,6 +85,7 @@ class CartController extends Controller
           }
         }
         CartController::updateTotalsAndTax();
+        session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
         return back()->with('delAlert', 'Item deleted successfully from cart!');
     }
 
@@ -120,7 +129,8 @@ class CartController extends Controller
         $runningTotal = 0;
         foreach( session('sessionCart') as $item )
         {
-          $runningTotal = $runningTotal + $item->getPrice();
+          $actualItem = $item[0];
+          $runningTotal = $runningTotal + $actualItem->getPrice();
         }
       }
       session()->put( 'cartSubtotal', $runningTotal);
@@ -145,11 +155,29 @@ class CartController extends Controller
       return null;
     }
 
-    public function getSerialNumberOfItem( $item )
+    // Syncs the Session variable cart with the cart object
+    // inside the Repository
+    public function updateCartInRepo()
     {
-      //To Be Added with Bonobo Chan's function
-      //Mockup below
-      //$serialNum = $this->mapper->findItemBySerialNumber( $item->getSerialNumber(), $item->getClassName() );
+      session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
     }
 
+    public function setFirstAvailableSNUnpurchasable( $modelNum )
+    {
+      //
+      $this->mapper->getStockByModelNumber( $modelNum, Tablet::class );
+      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum );
+      $itemToPushBackIntoRepo = null;
+      foreach ( $queryArray as $item )
+      {
+        if ($item->getPurchasable() == true)
+        {
+          $itemToPushBackIntoRepo = $item;
+          $itemToPushBackIntoRepo->setPurchasable(false);
+          break;
+        }
+      }
+      //FUNCTION TO PUSH THE ITEM BACK INTO REPO
+      $this->mapper->updateSerialNumberAsUnpurchasableInRepo( $itemToPushBackIntoRepo );
+    }
 }

@@ -66,9 +66,27 @@ class TableDataGateway
 
 	public function updateItem($item)
 	{
-		$item = $item[0];
+		if (is_array( $item ) )
+		{
+			$item = $item[0];
+		}
+		$class = get_class($item);
+
+		$attrName;
+		$attrValue;
+		switch ($class) {
+			case 'App\Items\SerialNumber':
+				$attrName = 'serialNumber';
+				$attrValue = $item->getSerialNumber();
+				break;
+
+			default:
+				$attrName = 'modelNumber';
+				$attrValue = $item->getModelNumber();
+				break;
+		}
 		$tableName = $this->getTableName(get_class($item));
-		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->update($item->getAttributes());
+		DB::table($tableName)->where( $attrName, $attrValue )->update($item->getAttributes());
 	}
 
 	public function deleteItem($item)

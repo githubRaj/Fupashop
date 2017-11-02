@@ -6,13 +6,14 @@ use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Items\SerialNumber;
+use App\Cart;
 
 use Session; // Attempt at repo persistence
 
 class Repository
 {
   private $itemRepo;  // 2D array of items
-
+  private $cart;
 	public function __construct()
 	{
     // First dimension / Primary key: ::class
@@ -27,6 +28,8 @@ class Repository
 
    // $tests = Session::get('repo');
 
+    //Initialize
+    $this->cart = new Cart();
     //echo $tests;
   }
 
@@ -34,13 +37,18 @@ class Repository
 	public function addItem($item)
 	{
 		$class = get_class($item);
-		$modelNumber = $item->getModelNumber();
-
+    if ( $class == SerialNumber::class )
+    {
+      $position = $item->getSerialNumber();
+    }
+    else {
+      $position = $item->getModelNumber();
+    }
     // Add item at index [className][modelNumber]
-	  	if (!$this->itemExists($this->itemRepo[$class], $modelNumber))
-	    {
-	      $this->itemRepo[$class][$modelNumber] = array();
-	      array_push($this->itemRepo[$class][$modelNumber], $item);
+	   if (!$this->itemExists($this->itemRepo[$class], $position))
+	     {
+	      $this->itemRepo[$class][$position] = array();
+	      array_push($this->itemRepo[$class][$position], $item);
 	    }
 
     //Session::put('repo', $this->itemRepo[$class]);
@@ -63,6 +71,14 @@ class Repository
 		$oldItem[0]->setAttributes($newItem[0]->getAttributes());
 	}
 
+  public function updateItemBySerialNumber( $newItem, $modelNumber, $serialNumber )
+  {
+    $class = get_class( $newItem);
+
+    $oldItem = $this->getItemBySerialNumber( $serialNumber, $class );
+    $oldItem[0]->setAttributes($newItem->getAttributes());
+  }
+
 	public function getItemByModelNumber($modelNumber, $className)
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
@@ -80,6 +96,20 @@ class Repository
 	    else
 	      return null;
 	}
+
+  public function getAllSerialNumbersByModelNumber( $modelNumber )
+  {
+    $items = $this->itemRepo[SerialNumber::class];
+    $tempArray = array();
+    foreach( $items as $item )
+    {
+      if ($item[0]->getModelNumber() == $modelNumber )
+      {
+        $tempArray[] = $item[0];
+      }
+    }
+    return $tempArray;
+  }
 
 	public function getQuantityByModel($modelNumber, $className)
 	{
@@ -106,4 +136,9 @@ class Repository
 	{
 		return empty($this->itemRepo[$className]);
 	}
+
+  public function getCart()
+  {
+    return $this->cart;
+  }
 }
