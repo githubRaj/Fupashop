@@ -19,7 +19,7 @@
       {!! Form::open(['action' => 'AdminController@SaveSerial', 'method' => 'POST']) !!}
 
             {{Form::label('typeLabel', 'Product Type')}}
-            {{Form::text('type', $type, ['class' => 'form-control', 'readonly'])}}
+            {{Form::text('type', $productType, ['class' => 'form-control', 'readonly'])}}
 
             {{Form::label('modelNubmerLabel', 'Model Number')}}
             <select id="modelNumber"  name="modelNumber" class="form-control">

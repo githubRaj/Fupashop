@@ -42,6 +42,8 @@ class SerialNumber
 	{
 		return
 		[
+			'modelNumber' => $this->modelNumber,
+			'serialNumber' => $this->serialNumber,
 			'type' => $this->type,
 			'purchasable' => $this->purchasable
 		];

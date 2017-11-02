@@ -47,8 +47,8 @@ class Repository
     // Add item at index [className][modelNumber]
 	   if (!$this->itemExists($this->itemRepo[$class], $position))
 	     {
-	      $this->itemRepo[$class][$position] = array();
-	      array_push($this->itemRepo[$class][$position], $item);
+	       //$this->itemRepo[$class][$position] = array();
+	       $this->itemRepo[$class][$position] = $item;
 	    }
 
     //Session::put('repo', $this->itemRepo[$class]);
@@ -57,10 +57,16 @@ class Repository
 	public function deleteItem($item)
 	{
 		$class = get_class($item);
-    	$modelNumber = $item->getModelNumber();
+    if ( $class == SerialNumber::class )
+    {
+      $position = $item->getSerialNumber();
+    }
+    else {
+      $position = $item->getModelNumber();
+    }
 
-		if ($this->itemExists($this->itemRepo[$class], $modelNumber))
-			array_pop($this->itemRepo[$class][$modelNumber]);
+		if ($this->itemExists($this->itemRepo[$class], $position))
+			unset($this->itemRepo[$class][$position]);
 	}
 
 	public function updateItem($newItem, $modelNumber)
@@ -82,7 +88,7 @@ class Repository
 	public function getItemByModelNumber($modelNumber, $className)
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
-		  return $this->itemRepo[$className][$modelNumber][0];	// need [0] to fix array issue. this will return item instead of array of item
+		  return $this->itemRepo[$className][$modelNumber]; // need [0] to fix array issue. this will return item instead of array of item
     else
       return null;
 	}
@@ -91,7 +97,7 @@ class Repository
 	{
 	    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
 	    {
-	    	return $this->itemRepo[$className][$serialNumber][0];
+	    	return $this->itemRepo[$className][$serialNumber]; // need [0] to fix array issue. this will return item instead of array of item
 		}
 	    else
 	      return null;
@@ -103,9 +109,9 @@ class Repository
     $tempArray = array();
     foreach( $items as $item )
     {
-      if ($item[0]->getModelNumber() == $modelNumber )
+      if ($item->getModelNumber() == $modelNumber )
       {
-        $tempArray[] = $item[0];
+        $tempArray[] = $item;
       }
     }
     return $tempArray;
@@ -115,7 +121,7 @@ class Repository
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
 		{
-			return $this->itemRepo[$className][$modelNumber][0]->getStock();
+			return $this->itemRepo[$className][$modelNumber]->getStock();
 		}
     else
       return null;

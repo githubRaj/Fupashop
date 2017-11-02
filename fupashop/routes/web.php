@@ -80,6 +80,7 @@ Route::prefix('admin')->group(function(){
 	Route::post('/{productType}', 'AdminController@update');
 	//DELETE PRODUCT
 	Route::get('/delete/{productType}/{id}', 'AdminController@delete');
+	Route::post('/delete/{productType}/{id}', 'AdminController@delete');
 	/*-------------------VIEWS--------------------------------------------------------*/
 	//VIEW DESKTOPS
 	Route::get('/Desktops', 'AdminController@desktopIndex');
@@ -96,7 +97,7 @@ Route::prefix('admin')->group(function(){
 	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
 
 	//View Serials
-  Route::get('/viewSerial/{modelNumber}', 'AdminController@viewSerial');
+  Route::get('/viewSerial/{productType}/{modelNumber}', 'AdminController@viewSerial');
 
   //Serial Number Add Form
   Route::get('/addSerial/{productType}', 'AdminController@CreateSerialForm');

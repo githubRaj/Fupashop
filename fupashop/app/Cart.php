@@ -102,7 +102,7 @@ class Cart
         {
           if ( $item )
           {
-            $actualItem = $item[0];
+            $actualItem = $item;
             $cartTotal = $cartTotal + $actualItem->getPrice();
           }
         }

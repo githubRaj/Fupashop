@@ -8,6 +8,7 @@ use App\Items\Laptop;
 use App\Items\Monitor;
 use App\Items\Tablet;
 use App\Mapper\Mapper;
+use App\Items\SerialNumber;
 use Session;
 
 
@@ -105,6 +106,8 @@ class AdminController extends Controller
            return 'App\Items\Tablet';
         case 'monitors':
           return 'App\Items\Monitor';
+        case 'serialNumbers':
+          return 'App\Items\SerialNumber';
         default:
           # code...
           break;
@@ -134,68 +137,52 @@ class AdminController extends Controller
 
       $item = $this->mapper->findItemByModelNumber($request->oldModel, $className);
 
-      $item[0]->setAttributes($request->all());
+      $item->setAttributes($request->all());
 
-      $this->mapper->setItem($item[0], $request->modelNumber);
+      $this->mapper->setItem($item, $request->modelNumber);
       $items =  $this->mapper->findAllItemsByClass($className);
 
       return view ('admin.'.$productType.'.info', compact('items'));
   }
 
   //Delete Product
-  public function delete($productType, $id)
+  public function delete($productType, $id, Request $request)
   {
       $className = $this->getClassName($productType);
       $this->mapper->findAllItemsByClass($className);
-      $item = $this->mapper->findItemByModelNumber($id, $className);
-      $this->mapper->eraseItem($item[0]);
-      $items =  $this->mapper->findAllItemsByClass($className);
 
-      return view ('admin.'.$productType.'.info', compact('items'));
+      if($className == SerialNumber::class){
+        $item = $this->mapper->findItembySerialNumber($id, $request->serialNumber);
+      }
+      else{
+        $item = $this->mapper->findItemByModelNumber($id, $className);
+      }
+      $this->mapper->eraseItem($item);
+      return back();
+
   }
 
   //Create form for Serial Numbers
   public function CreateSerialForm($productType)
   {
-    if($productType == 'desktops')
-    {
-        $type = 'desktop';
-        $className = $this->getClassName($productType);
-        $modelNumbers =  $this->mapper->findAllItemsByClass($className);
-   }
-   else if($productType == 'laptops')
-   {
-       $type = 'laptop';
-       $className = $this->getClassName($productType);
-       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
-   }
-   else if($productType == 'tablets')
-   {
-       $type = 'tablet';
-       $className = $this->getClassName($productType);
-       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
-   }
-   else if($productType == 'monitors')
-   {
-       $type = 'monitor';
-       $className = $this->getClassName($productType);
-       $modelNumbers =  $this->mapper->findAllItemsByClass($className);
-   }
+     $className = $this->getClassName($productType);
+     $modelNumbers =  $this->mapper->findAllItemsByClass($className);
 
-     return view('admin/SerialNumbers/add', compact('modelNumbers', 'type'));
+     return view('admin/SerialNumbers/add', compact('modelNumbers', 'productType'));
   }
 
   //Submit Serial Number
   public function SaveSerial(Request $request)
   {
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
-     return redirect('admin');
+     return redirect('admin'); //<----TODO redirect properly
   }
 
   //View Serial Numbers
-  public function viewSerial($modelNumber)
+  public function viewSerial($productType,$modelNumber)
   {
-    $serialNumbers = $this->mapper->serialNumbersByModelNumber($modelNumber);
+    $className = $this->getClassName($productType);
+    $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($modelNumber, $className);
     return view('admin/SerialNumbers/info', compact('serialNumbers'));
   }
 

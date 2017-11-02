@@ -23,16 +23,25 @@
                             <table class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
-                                      <th>SerialNumer</th>
+                                      <th>Serial Number</th>
+                                      <th>Purchasable</th>
                                       <th>Delete</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     @foreach($serialNumbers as $serialNumber)
                                       <tr><td>
-                                        {{$serialNumber->serialNumber}}
+                                        {{$serialNumber->getSerialNumber()}}
                                         </td>
-                                      <td><a href="/admin/delete/serials/{{$serialNumber->serialNumber}}" class="btn btn-danger">Delete</a></td>
+                                        <td>{{$serialNumber->getPurchasable()}}</td>
+                                      <td>
+                                        {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
+                                            {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
+                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                        {{ Form::close() }}
+                                        <!--<a href="/admin/delete/serials/{{$serialNumber->getModelNumber()}}" class="btn btn-danger">Delete</a></td>
+                                        -->
+                                      </td>
                                     @endforeach
                                     </tr>
                                   </tbody>

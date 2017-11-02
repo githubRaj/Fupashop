@@ -72,16 +72,24 @@ class Mapper
 		return null;
 	}
 
-	public function serialNumbersByModelNumber($modelNumber)
-	{
-		 $serialNumbers = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
-		 return $serialNumbers;
-	}
-
-	public function findSerialNumbersByModelNumber($modelNumber)
+	public function findSerialNumbersByModelNumber($modelNumber, $className)
 	{
 		 $serialNumbers = session()->get('repo')->getAllSerialNumbersByModelNumber($modelNumber);
-		 return $serialNumbers;
+		 if ($serialNumbers != null)
+		{
+			return $serialNumbers;
+		}
+		else  //get serial numbers from database
+		{
+			$models = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
+		 //	echo var_dump();
+			//return;
+		 if ($models != null)
+		 {
+			 $this->setSerialNumbersInRepo($modelNumber, $className, $models);
+		 }
+		}
+		 return session()->get('repo')->getAllSerialNumbersByModelNumber($modelNumber);
 	}
 
 	public function setSerialNumbersInRepo($modelNumber, $className, $models){

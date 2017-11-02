@@ -79,7 +79,7 @@
                                       <td>
                                         <a href="/admin/delete/laptops/{{$laptop->getModelNumber()}}" class="btn btn-danger">Delete</a>
                                       </td>
-                                        <td><a href="/admin/viewSerial/{{$laptop->getModelNumber()}}" class="btn btn-info">Serials</a></td>
+                                        <td><a href="/admin/viewSerial/laptops/{{$laptop->getModelNumber()}}" class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 

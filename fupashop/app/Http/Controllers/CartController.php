@@ -68,7 +68,7 @@ class CartController extends Controller
         {
           if ( $item )
           {
-            if ( $itemModelNum == $item[0]->getModelNumber() )
+            if ( $itemModelNum == $item->getModelNumber() )
             {
               // Unset that particular index of local tmp cart
               unset($localCart[$i]);
@@ -128,7 +128,7 @@ class CartController extends Controller
       {
         foreach( session('sessionCart') as $item )
         {
-          $actualItem = $item[0];
+          $actualItem = $item;
           $runningTotal = $runningTotal + $actualItem->getPrice();
         }
       }
@@ -165,7 +165,7 @@ class CartController extends Controller
     {
       //
       $this->mapper->getStockByModelNumber( $modelNum, Tablet::class );
-      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum );
+      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum, Tablet::class );
       $itemToPushBackIntoRepo = null;
       foreach ( $queryArray as $item )
       {
@@ -184,7 +184,7 @@ class CartController extends Controller
     {
       //
       $this->mapper->getStockByModelNumber( $modelNum, Tablet::class );
-      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum );
+      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum, Tablet::class );
       $itemToPushBackIntoRepo = null;
       foreach ( $queryArray as $item )
       {

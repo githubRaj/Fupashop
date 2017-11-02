@@ -156,11 +156,11 @@ if (!isset($_SESSION)) {
     @if ( isset( $tablet ) )
     {{ Form::open(['action' => ['CartController@deleteFromCart'], 'method' => 'POST']) }}
     <tr>
-   		<td><a href="tablets/{{ $tablet[0]->getModelNumber() }}">{{ $tablet[0]->getModelNumber() }}</a></td>
+   		<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
       <td> 1 </td>
       <td>{{ Form::submit('Remove') }}</td>
     </tr>
-    {{ Form::hidden('modelNumberToDel', $tablet[0]->getModelNumber()  ) }}
+    {{ Form::hidden('modelNumberToDel', $tablet->getModelNumber()  ) }}
     {{ Form::close() }}
     @endif
    	@endforeach

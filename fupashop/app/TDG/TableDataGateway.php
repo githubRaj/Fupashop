@@ -59,7 +59,7 @@ class TableDataGateway
 	}
 
 	public function insertItem($item)
-	{	$item = $item[0];
+	{	$item = $item;
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->insert($item->getAttributes());
 	}
@@ -91,7 +91,7 @@ class TableDataGateway
 
 	public function deleteItem($item)
 	{
-		$item = $item[0];
+		$item = $item;
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->where('modelNumber', $item->getModelNumber())->delete();
 	}
