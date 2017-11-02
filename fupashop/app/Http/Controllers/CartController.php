@@ -55,8 +55,6 @@ class CartController extends Controller
         // Sync the repo Cart
         session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
         CartController::setFirstAvailableSNUnpurchasable( $itemModelNum );
-
-        return;
         return back()->with('addAlert', 'Item added successfully to cart!');
     }
 
@@ -70,7 +68,7 @@ class CartController extends Controller
         {
           if ( $item )
           {
-            if ( $itemModelNum == $item->getModelNumber() )
+            if ( $itemModelNum == $item[0]->getModelNumber() )
             {
               // Unset that particular index of local tmp cart
               unset($localCart[$i]);
@@ -86,6 +84,7 @@ class CartController extends Controller
         }
         CartController::updateTotalsAndTax();
         session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
+        CartController::setFirstAvailableSNPurchasable( $itemModelNum );
         return back()->with('delAlert', 'Item deleted successfully from cart!');
     }
 
@@ -124,9 +123,9 @@ class CartController extends Controller
     // Update the cart subtotal
     public function updateTotalsAndTax()
     {
+      $runningTotal = 0 ;
       if ( null != ( session('sessionCart') ) )
       {
-        $runningTotal = 0;
         foreach( session('sessionCart') as $item )
         {
           $actualItem = $item[0];
@@ -178,6 +177,25 @@ class CartController extends Controller
         }
       }
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
-      $this->mapper->updateSerialNumberAsUnpurchasableInRepo( $itemToPushBackIntoRepo );
+      $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
+    }
+
+    public function setFirstAvailableSNPurchasable( $modelNum )
+    {
+      //
+      $this->mapper->getStockByModelNumber( $modelNum, Tablet::class );
+      $queryArray = $this->mapper->findSerialNumbersByModelNumber( $modelNum );
+      $itemToPushBackIntoRepo = null;
+      foreach ( $queryArray as $item )
+      {
+        if ($item->getPurchasable() == false)
+        {
+          $itemToPushBackIntoRepo = $item;
+          $itemToPushBackIntoRepo->setPurchasable(true);
+          break;
+        }
+      }
+      //FUNCTION TO PUSH THE ITEM BACK INTO REPO
+      $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }
 }

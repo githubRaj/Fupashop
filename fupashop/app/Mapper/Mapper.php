@@ -98,7 +98,7 @@ class Mapper
 		return;
 	}
 
-	public function updateSerialNumberAsUnpurchasableInRepo( $snObject )
+	public function updateSerialNumberInRepo( $snObject )
 	{
 		// snObject is the newly updated object to put back into the db
 		if ( $snObject != null )

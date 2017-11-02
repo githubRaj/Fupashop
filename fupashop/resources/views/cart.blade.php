@@ -9,6 +9,8 @@ if (!isset($_SESSION)) {
 @endphp
 
 @section('content')
+
+<!---
 <head>
   <meta charset="UTF-8">
   <title>Shopping Cart</title>
@@ -17,7 +19,7 @@ if (!isset($_SESSION)) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/utf-latest.min.css'>
   <link rel="stylesheet" href="{{ asset('/assets/css/stylecart.css') }}">
-   
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
 </head>
@@ -72,7 +74,7 @@ if (!isset($_SESSION)) {
         <div class="cart-totals-value">$0.00</div>
       </div>
       <div class="_column checkout">
-        <a href="cart/checkout" style="color: black;"><button class="_btn checkout-btn entypo-forward">Checkout</button></a>
+        <button class="_btn checkout-btn entypo-forward">Checkout</button>
       </div>
     </footer>
 
@@ -82,6 +84,7 @@ if (!isset($_SESSION)) {
   <script  src="{{ asset('/assets/js/index.js') }}"></script>
 </body>
 
+-->
 
 
 
@@ -105,8 +108,6 @@ if (!isset($_SESSION)) {
 
 
 
-
-<!--
 
 <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
 </style>
@@ -132,7 +133,7 @@ if (!isset($_SESSION)) {
  <p>
 
    @php
-   $tablets = session('sessionCart');
+   $items = session('sessionCart');
    @endphp
    <table id="myTable" class="tablesorter table table-hover">
    	<thead>
@@ -149,17 +150,17 @@ if (!isset($_SESSION)) {
     @endif
    	<tbody>
 
-    @if ( !empty( $tablets ) )
+    @if ( !empty( $items ) )
 
-   	@foreach ($tablets as $tablet)
+   	@foreach ($items as $tablet)
     @if ( isset( $tablet ) )
     {{ Form::open(['action' => ['CartController@deleteFromCart'], 'method' => 'POST']) }}
     <tr>
-   		<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
+   		<td><a href="tablets/{{ $tablet[0]->getModelNumber() }}">{{ $tablet[0]->getModelNumber() }}</a></td>
       <td> 1 </td>
       <td>{{ Form::submit('Remove') }}</td>
     </tr>
-    {{ Form::hidden('modelNumberToDel', $tablet->getModelNumber()  ) }}
+    {{ Form::hidden('modelNumberToDel', $tablet[0]->getModelNumber()  ) }}
     {{ Form::close() }}
     @endif
    	@endforeach
@@ -168,13 +169,28 @@ if (!isset($_SESSION)) {
    </tbody>
    </table>
 
+   <table>
+     <thead>
+       <tr>
+         <th> Subtotal </th>
+         <th> Taxes (15%) </th>
+         <th> Total </th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td> {{ session()->get('cartSubtotal') }} </td>
+         <td> {{session()->get('cartTax')}} </td>
+         <td> {{session()->get('cartTotal')}} </td>
+       </tr>
+   </table>
  </p>
 </body>
 
 <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
 
 </html>
--->
+
 
 @endsection
 
@@ -187,7 +203,7 @@ if (!isset($_SESSION)) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/utf-latest.min.css'>
   <link rel="stylesheet" href="
-   
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
 </head>
