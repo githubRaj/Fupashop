@@ -3,8 +3,6 @@
 namespace App;
 
 use App\Items\Item;
-use App\Items\Tablet;
-use App\Mapper\Mapper;
 use Auth;
 
 class Cart
@@ -37,16 +35,35 @@ class Cart
     }
 
     //MAIN FUNCTIONS//
+
+    // ================================================== //
+    // ====THIS IS THE MAIN FUNCTION OF THIS CLASS ====== //
+    // ================================================== //
+    // FUNCTION: SYNCS THE CART OBJECT IN REPO WITH THE
+    // SESSION VARIABLE SESSIONCART. TO BE CALLED EACH TIME
+    // CLIENT CLICKS ADD TO CART
+    public function syncCart( $sessionCartArray )
+    {
+      // Init a new array
+      $cartToSync = array();
+      // Add all sessionCartItems into this array
+      $qtyCount = 0;
+      foreach( $sessionCartArray as $itemToAdd )
+      {
+        array_push( $cartToSync, $itemToAdd );
+        $qtyCount++;
+      }
+      // Set this new array as the current CartArray
+      $this->cartItems = $cartToSync;
+      // Update the total price of the cart
+      Cart::updateTotalPrice();
+      // Update the total qty of the cart
+      $this->totalQty = $qtyCount;
+    }
+
     //Add item to cart object
     public function addItemToCart( $item ){
-      // First, obtain the $item object via it's model number
       $this->cartItems[] = $item;
-      //array_push( $this->cartItems, $item );
-
-      //echo 'In the Cart.php: ';
-      //var_dump( $this->cartItems );
-      //TODO: handle temporary removal from db via tdg
-      // ->SET $item->purchaseable = false
       Cart::updateTotalPrice();
     }
 
@@ -58,7 +75,7 @@ class Cart
         $i = 0;
         foreach ( $this->cartItems as $item )
         {
-          if ( isset( $item ) )
+          if ( $item )
           {
             if ( $item->getModelNumber() == $itemModelNum )
             {
@@ -85,7 +102,8 @@ class Cart
         {
           if ( $item )
           {
-            $cartTotal = $cartTotal + $item->getPrice();
+            $actualItem = $item[0];
+            $cartTotal = $cartTotal + $actualItem->getPrice();
           }
         }
         $this->totalPrice = $cartTotal;
@@ -93,11 +111,29 @@ class Cart
     }
 
     //Check if cart is empty
-    public function isEmpty(){
+    public function isEmpty()
+    {
         if ( !empty( $this->cartItems ) )
         {
           return false;
         }
         return true;
+    }
+
+    // DEBUG: Print cart debugging function
+    public function printCart()
+    {
+      if ( !(isEmpty() ) )
+      {
+        foreach( $this->cartItems as $item )
+        {
+          echo $item->getModelNumber();
+          echo "\r" ;
+        }
+      }
+      else
+      {
+        echo "Cart is empty in Cart.php";
+      }
     }
 }
