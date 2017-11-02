@@ -87,7 +87,7 @@ class Mapper
 	public function setSerialNumbersInRepo($modelNumber, $className, $models){
 		$serialName = 'App\Items\SerialNumber';
 		$newItem = $this->findItemByModelNumber($modelNumber, $className);
-		$newItem[0]->setStock(sizeof($models));
+		$newItem->setStock(sizeof($models));
 		$this->setItem($newItem, $modelNumber);
 		/*Single Model to many Serial*/
 		for ($i=0; $i < sizeof($models) ; $i++)
@@ -168,7 +168,7 @@ class Mapper
 
 	public function setItem($newItem, $modelNumber)
 	{
-		if ($this->findItemByModelNumber($modelNumber, get_class($newItem[0])) != null)
+		if ($this->findItemByModelNumber($modelNumber, get_class($newItem)) != null)
 		{
 			session()->get('repo')->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);

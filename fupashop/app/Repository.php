@@ -65,10 +65,10 @@ class Repository
 
 	public function updateItem($newItem, $modelNumber)
 	{
-		$class = get_class($newItem[0]);
+		$class = get_class($newItem);
 
 		$oldItem = $this->getItemByModelNumber($modelNumber, $class);
-		$oldItem[0]->setAttributes($newItem[0]->getAttributes());
+		$oldItem->setAttributes($newItem->getAttributes());
 	}
 
   public function updateItemBySerialNumber( $newItem, $modelNumber, $serialNumber )
@@ -76,13 +76,13 @@ class Repository
     $class = get_class( $newItem);
 
     $oldItem = $this->getItemBySerialNumber( $serialNumber, $class );
-    $oldItem[0]->setAttributes($newItem->getAttributes());
+    $oldItem->setAttributes($newItem->getAttributes());
   }
 
 	public function getItemByModelNumber($modelNumber, $className)
 	{
     if ($this->itemExists($this->itemRepo[$className], $modelNumber))
-		  return $this->itemRepo[$className][$modelNumber];
+		  return $this->itemRepo[$className][$modelNumber][0];	// need [0] to fix array issue. this will return item instead of array of item
     else
       return null;
 	}
@@ -91,7 +91,7 @@ class Repository
 	{
 	    if ($this->itemExists($this->itemRepo[$className], $serialNumber))
 	    {
-	    	return $this->itemRepo[$className][$serialNumber];
+	    	return $this->itemRepo[$className][$serialNumber][0];
 		}
 	    else
 	      return null;

@@ -70,8 +70,8 @@ class ProductsController extends Controller
       // Get item from storage
       
       $this->mapper->getStockByModelNumber($modelNumber, $className);
-      $tempItem = $this->mapper->findItemByModelNumber($modelNumber, $className);
-      $item = $tempItem[0];                                                         //<---- new repo by Jeff forces Items pulled into an array. must use index 0
+      $item = $this->mapper->findItemByModelNumber($modelNumber, $className);
+      
       //$this->getSerialNumberItem($modelNumber,'VtL3atvfYZ', $className);          // <---- test to see if you can pull serial number
       // If item exists, go to item page, else go to item not found page
       if ($item != null)
