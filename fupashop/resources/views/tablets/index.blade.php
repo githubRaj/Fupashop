@@ -40,18 +40,9 @@ if (!isset($_SESSION)) {
           <ul class="nav-header">Advance Search</ul>
               <input type="text" id="searchInput" value="Search.." title="Search">
 
-			<li class="nav-header">Processors</li>
-				 @php
-					$id=1
-				 @endphp
-
-					@foreach ($filterArray['processor'] as $p)
-					<li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
-					@php
-						$id = $id + 1
-					@endphp
-				@endforeach
-	</ul>
+			<li class="nav-header">Quick Search</li>
+				 
+		</ul>
 	<ul id="filters" class="nav nav-list">
 			<li class="nav-header">Manufacturer</li>
 				 @php

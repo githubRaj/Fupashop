@@ -9,7 +9,7 @@ if (!isset($_SESSION)) {
 @endphp
 
 @section('content')
-
+<head>
     <!-- Le styles
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">-->
@@ -18,21 +18,15 @@ if (!isset($_SESSION)) {
     <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-    <script type="text/javascript">
-      $(document).ready(function()
-      {
-
-      $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-      }
-      );
+        <script type="text/javascript">
+$(function(){
+  $("#myTable").tablesorter();
+});
     </script>
-
-
-
   </head>
 
-  <body>
 
+  <body>
 
 <!-- Sidebar -->
     <div class="container-fluid">
@@ -41,24 +35,13 @@ if (!isset($_SESSION)) {
           <div class="well sidebar-nav">
          <ul id="filter1" class="nav nav-list">
 
-          <ul class="nav-header">Advance Search</ul>
+        <ul class="nav-header">Advance Search</ul>
       <input type="text" id="searchInput" value="Search.." title="Search">
+        </ul>
 
-
-          <li class="nav-header">Processors</li>
-          @php
-            $id=1
-          @endphp
-
-          @foreach ($filterArray['processor'] as $p)
-            <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
-            @php
-              $id = $id + 1
-            @endphp
-          @endforeach
-      </ul>
 
 	    <ul id="filters" class="nav nav-list">
+        <ul class="nav-header">Quick Search</ul>
               <li class="nav-header">Manufacturer</li>
              @php
              	$id=1
@@ -80,47 +63,50 @@ if (!isset($_SESSION)) {
           </div><!--/.well -->
         </div><!--/span-->
 
+
 <!-- Main Section -->
+
         <div class="span9">
-	  <table id="myTable" class="tablesorter table table-hover">
+	  <table id="myTable" class="tablesorter">
 	    <thead>
-            <tr>
-				<th>Model</th>
+          <tr>
+				    <th>Model</th>
 		      	<th>Brand</th>
 		        <th>Processor</th>
 		        <th>Cores</th>
 		      	<th>Price</th>
             <th>Option</th>
-	      	</tr>
-         </thead>
-
+	       </tr>
+      </thead>
 
     <tbody id="fbody">
 	    	@foreach ($items as $desktop)
         {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
-	        <tr class="{{ $desktop->getBrandName() }}"><tr>
-		<td><a href="desktops/{{ $desktop->getModelNumber() }}">{{ $desktop->getModelNumber() }}</a></td>
-		<td class="brand">{{ $desktop->getBrandName() }}</td>
-		<td class="processor">{{ $desktop->getProcessor() }}</td>
-		<td>{{ $desktop->getCpucores() }}</td>
-		<td class="price">{{ $desktop->getPrice() }}</td>
-		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+	       <tr class="{{ $desktop->getBrandName() }}">
+		        <td><a href="desktops/{{ $desktop->getModelNumber() }}">{{ $desktop->getModelNumber() }}</a></td>
+		        <td class="brand">{{ $desktop->getBrandName() }}</td>
+		        <td class="processor">{{ $desktop->getProcessor() }}</td>
+		        <td>{{ $desktop->getCpucores() }}</td>
+		        <td class="price">{{ $desktop->getPrice() }}</td>
+		        <td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
 	      </tr>
+
         {{ Form::hidden('modelNumber', $desktop->getModelNumber()) }}
         {{ Form::hidden('class', "desktops") }}
         {{ Form::close() }}
-
 	      @endforeach
+
         @if (session('addAlert') )
           <div class="alert alert-success">
               {{ session('addAlert') }}
           </div>
         @endif
-      </tbody>
+    </tbody>
 	  </table>
+
+
         </div><!--/span-->
       </div><!--/row-->
-
 
       <hr>
 
@@ -132,6 +118,8 @@ if (!isset($_SESSION)) {
 
 
   </body>
+
+
 
   <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
 

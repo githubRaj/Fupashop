@@ -19,12 +19,12 @@ if (!isset($_SESSION)) {
     <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
     <script type="text/javascript">
-      $(document).ready(function()
+      /**$(document).ready(function()
       {
 
       $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
       }
-      );
+      );**/
     </script>
 
 
@@ -45,18 +45,9 @@ if (!isset($_SESSION)) {
           <ul class="nav-header">Advance Search</ul>
             <input type="text" id="searchInput" value="Search.." title="Search">
 
-            <li class="nav-header">Processors</li>
-            @php
-              $id=1
-            @endphp
-
-          @foreach ($filterArray['processor'] as $p)
-          <li>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="processors[]" value="{{ $p }}" id="id000{{$id}}"/><font size="3">&nbsp;{{ $p }}</font></li>
-          @php
-            $id = $id + 1
-          @endphp
-        @endforeach
-      </ul>
+            <li class="nav-header">Quick Search</li>
+        
+         </ul>
 	    <ul id="filters" class="nav nav-list">
               <li class="nav-header">Manufacturer</li>
              @php
@@ -84,12 +75,12 @@ if (!isset($_SESSION)) {
 	  <table id="myTable" class="tablesorter table table-hover">
 	    <thead>
             <tr>
-				<th>Model</th>
-		      	<th>Brand</th>
-		        <th>Processor</th>
-		        <th>Display</th>
-		      	<th>Price</th>
-            <th>Option</th>
+  				    <th>Model</th>
+  		      	<th>Brand</th>
+  		        <th>Processor</th>
+  		        <th>Display</th>
+  		      	<th>Price</th>
+              <th>Option</th>
 	      	</tr>
          </thead>
 
@@ -97,7 +88,7 @@ if (!isset($_SESSION)) {
 	    	@foreach ($items as $laptop)
         {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
 	        <tr class="{{ $laptop->getBrandName() }}">
-              <tr>
+              
 		<td><a href="laptops/{{ $laptop->getModelNumber() }}">{{ $laptop->getModelNumber() }}</a></td>
 		<td class="brand">{{ $laptop->getBrandName() }}</td>
 		<td class="processor">{{ $laptop->getProcessor() }}</td>
@@ -126,8 +117,6 @@ if (!isset($_SESSION)) {
       </footer>
 
     </div><!--/.fluid-container-->
-
-
   </body>
 
   <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
