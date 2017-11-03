@@ -6,6 +6,7 @@ class Monitor extends Item
 {
     private $size;
     private $stock;
+    protected $categoryStr = "monitors";
 
     public function __construct($modelNumber, $size, $weight, $brandName, $price)
     {
@@ -22,7 +23,7 @@ class Monitor extends Item
 
     public function setSize($size) { $this->size = $size; }
     public function setStock($stock) { $this->stock = $stock; }
-   
+
     public function setAttributes($newAttributes)
     {
         $this->modelNumber = $newAttributes['modelNumber'];

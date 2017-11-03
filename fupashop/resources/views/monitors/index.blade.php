@@ -38,7 +38,7 @@ if (!isset($_SESSION)) {
         <div class="span3">
           <div class="well sidebar-nav">
 
-         <ul id="filter1" class="nav nav-list">  
+         <ul id="filter1" class="nav nav-list">
 
           <ul class="nav-header">Advance Search</ul>
               <input type="text" id="searchInput" value="Search.." title="Search">
@@ -75,19 +75,28 @@ if (!isset($_SESSION)) {
             <th>Option</th>
 	      	</tr>
          </thead>
-       
-       <tbody id="fbody">  
+
+       <tbody id="fbody">
 	@foreach ($items as $monitor)
+  {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
 	<tr class="{{ $monitor->getBrandName() }}">
               <tr>
 		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>
 		<td class="brand">{{ $monitor->getBrandName() }}</td>
 		<td>{{ $monitor->getSize() }}</td>
 		<td class="price">{{ $monitor->getPrice() }}</td>
-		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
+		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
 	      </tr>
-	@endforeach
+        {{ Form::hidden('modelNumber', $monitor->getModelNumber()) }}
+        {{ Form::hidden('class', "monitors") }}
+        {{ Form::close() }}
 
+  @endforeach
+  @if (session('addAlert') )
+    <div class="alert alert-success">
+        {{ session('addAlert') }}
+    </div>
+  @endif
 	</tbody>
 	  </table>
         </div><!--/span-->
