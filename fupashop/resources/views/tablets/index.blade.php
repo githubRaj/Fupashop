@@ -35,11 +35,11 @@ if (!isset($_SESSION)) {
 		<div class="span3">
 			<div class="well sidebar-nav">
 
-         <ul id="filter1" class="nav nav-list">  
+         <ul id="filter1" class="nav nav-list">
 
           <ul class="nav-header">Advance Search</ul>
               <input type="text" id="searchInput" value="Search.." title="Search">
-               
+
 			<li class="nav-header">Processors</li>
 				 @php
 					$id=1
@@ -75,7 +75,7 @@ if (!isset($_SESSION)) {
 		</div><!--/span-->
 
 
-<!-- Main Content -->		
+<!-- Main Content -->
 		<div class="span9">
 <table id="myTable" class="tablesorter table table-hover">
 	<thead>
@@ -118,6 +118,7 @@ if (!isset($_SESSION)) {
 			<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
 			</tr>
       {{ Form::hidden('modelNumber', $tablet->getModelNumber()) }}
+      {{ Form::hidden('class', "tablets") }}
       {{ Form::close() }}
 
 	@endforeach

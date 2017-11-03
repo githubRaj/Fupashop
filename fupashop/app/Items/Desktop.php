@@ -10,7 +10,8 @@ class Desktop extends Item
 	private $ramSize;
 	private $cpuCores;
 	private $hddSize;
-    private $stock;
+  private $stock;
+	protected $categoryStr = "desktops";
 
 	public function __construct($modelNumber, $processor, $dimensions, $ramSize, $weight, $cpuCores, $hddSize, $brandName, $price)
 	{
@@ -23,7 +24,7 @@ class Desktop extends Item
 		$this->hddSize = $hddSize;
 		$this->brandName = $brandName;
 		$this->price = $price;
-        $this->stock = 0;
+    $this->stock = 0;
 	}
 
     public function getProcessor() { return $this->processor; }
@@ -39,7 +40,7 @@ class Desktop extends Item
     public function setCpuCores($cpuCores) { $this->cpuCores = $cpuCores; }
     public function setHddSize($hddSize) { $this->hddSize = $hddSize; }
     public function setStock($stock) { $this->stock = $stock; }
-    
+
     public function setAttributes($newAttributes)
     {
         $this->modelNumber = $newAttributes['modelNumber'];

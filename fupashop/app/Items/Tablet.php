@@ -16,6 +16,7 @@ class Tablet extends Item
 	private $operatingSystem;
 	private $cameraInformation;
 	private $stock;
+	protected $categoryStr = "tablets";
 
     public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)
 	{
@@ -59,7 +60,7 @@ class Tablet extends Item
 	public function setOperatingSystem($operatingSystem) { $this->operatingSystem = $operatingSystem; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
 	public function setStock($stock) { $this->stock = $stock; }
-	
+
 	public function setAttributes($newAttributes)
 	{
 			$this->modelNumber = $newAttributes['modelNumber'];

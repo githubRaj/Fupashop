@@ -40,11 +40,11 @@ if (!isset($_SESSION)) {
       <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
-         <ul id="filter1" class="nav nav-list">  
+         <ul id="filter1" class="nav nav-list">
 
           <ul class="nav-header">Advance Search</ul>
             <input type="text" id="searchInput" value="Search.." title="Search">
-     
+
             <li class="nav-header">Processors</li>
             @php
               $id=1
@@ -95,6 +95,7 @@ if (!isset($_SESSION)) {
 
           <tbody id="fbody">
 	    	@foreach ($items as $laptop)
+        {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
 	        <tr class="{{ $laptop->getBrandName() }}">
               <tr>
 		<td><a href="laptops/{{ $laptop->getModelNumber() }}">{{ $laptop->getModelNumber() }}</a></td>
@@ -102,10 +103,17 @@ if (!isset($_SESSION)) {
 		<td class="processor">{{ $laptop->getProcessor() }}</td>
 		<td>{{ $laptop->getDisplaySize() }}</td>
 		<td class="price">{{ $laptop->getPrice() }}</td>
-		<td><a href="" class="btn btn-default btn-xs" role="button">BUY</a></td>
+		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
 	      </tr>
+        {{ Form::hidden('modelNumber', $laptop->getModelNumber()) }}
+        {{ Form::hidden('class', "laptops") }}
+        {{ Form::close() }}
 	      @endforeach
-
+        @if (session('addAlert') )
+          <div class="alert alert-success">
+              {{ session('addAlert') }}
+          </div>
+        @endif
             </tbody>
 	  </table>
         </div><!--/span-->

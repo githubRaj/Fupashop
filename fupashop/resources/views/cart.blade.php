@@ -152,15 +152,15 @@ if (!isset($_SESSION)) {
 
     @if ( !empty( $items ) )
 
-   	@foreach ($items as $tablet)
-    @if ( isset( $tablet ) )
+   	@foreach ($items as $item)
+    @if ( isset( $item ) )
     {{ Form::open(['action' => ['CartController@deleteFromCart'], 'method' => 'POST']) }}
     <tr>
-   		<td><a href="tablets/{{ $tablet->getModelNumber() }}">{{ $tablet->getModelNumber() }}</a></td>
+   		<td><a href="{{ $item->getCategoryStr() }}/{{ $item->getModelNumber() }}">{{ $item->getModelNumber() }}</a></td>
       <td> 1 </td>
       <td>{{ Form::submit('Remove') }}</td>
     </tr>
-    {{ Form::hidden('modelNumberToDel', $tablet->getModelNumber()  ) }}
+    {{ Form::hidden('modelNumberToDel', $item->getModelNumber()  ) }}
     {{ Form::close() }}
     @endif
    	@endforeach

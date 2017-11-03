@@ -15,7 +15,8 @@ class Laptop extends Item
 	private $operatingSystem;
 	private $touchFeature;
 	private $cameraInformation;
-    private $stock;
+  private $stock;
+  protected $categoryStr = "tablets";
 
     public function __construct($modelNumber, $processor, $displaySize, $ramSize, $weight, $cpuCores, $hddSize, $batteryType, $batteryInformation, $brandName, $operatingSystem, $touchFeature, $cameraInformation, $price)
     {
@@ -59,7 +60,7 @@ class Laptop extends Item
 	public function setTouchFeature($touchFeature) { $this->touchFeature = $touchFeature; }
 	public function setCameraInformation($cameraInformation) { $this->cameraInformation = $cameraInformation; }
     public function setStock($stock) { $this->stock = $stock; }
-  
+
   public function setAttributes($newAttributes)
   {
       $this->modelNumber = $newAttributes['modelNumber'];
