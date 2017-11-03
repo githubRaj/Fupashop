@@ -51,6 +51,7 @@ if (!isset($_SESSION)) {
 						Screen: {{ $item->getScreenSize() }} inches<br>
 						Processor: {{ $item->getProcessor() }} <br>
 						OS: {{ $item->getOperatingSystem() }} <br>
+						Quantity: {{ $item->getStock() }}<br>
 					</p>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ if (!isset($_SESSION)) {
 
 @section('content')
 
-<!---
+
 <head>
   <meta charset="UTF-8">
   <title>Shopping Cart</title>
@@ -26,65 +26,74 @@ if (!isset($_SESSION)) {
 
 <body>
   <div class="main">
-  <h1>Shopping cart</h1>
-  <h2 class="sub-heading">Free shipping from $100!</h2>
+  <h1>My Cart</h1>
 
-  <section class="shopping-cart">
-    <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
+    @php
+      $items = session('sessionCart');
+    @endphp
+  <br>
+      @if (session('delAlert') )
+        <div class="alert alert-success">
+          {{ session('delAlert') }}
+        </div>
+      @endif
+    <section class="shopping-cart">
+      <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
+      @if ( !empty( $items ) )
 
-      <script id="shopping-cart--list-item-template" type="text/template">
-        <li class="_grid shopping-cart--list-item">
-          <div class="_column product-image">
-            <img class="product-image--img" src="" alt="Item image" />
-          </div>
-          <div class="_column product-info">
-            <h4 class="product-name">product name here</h4>
-            <p class="product-desc">product description here</p>
-            <div class="price product-single-price">price here</div>
-          </div>
-          <div class="_column product-modifiers" data-product-price="priceHere">
-            <div class="_grid">
-              <button class="_btn _column product-subtract">&minus;</button>
-              <div class="_column product-qty">0</div>
-              <button class="_btn _column product-plus">&plus;</button>
-            </div>
-            <button class="_btn entypo-trash product-remove">Remove</button>
-            <div class="price product-total-price">$0.00</div>
-          </div>
-        </li>
-      </script>
+        @foreach ($items as $item)
+          @if ( isset( $item ) )
+            {{ Form::open(['action' => ['CartController@deleteFromCart'], 'method' => 'POST']) }}
+              <li class="_grid shopping-cart--list-item">
+                <div class="_column product-image">
+                  <img class="product-image--img" src="" alt="Item image" />
+                </div>
+                <div class="_column product-info">
+                  <h4 class="product-name"><a href="{{ $item->getCategoryStr() }}/{{ $item->getModelNumber() }}">{{ $item->getModelNumber() }}</a></h4>
+                  <div class="price product-single-price">{{ $item->getPrice() }}</div>
+                </div>
+                <div class="_column product-modifiers" data-product-price="priceHere">
+                  <div class="_grid">
+                    <button class="_btn _column product-subtract">&minus;</button>
+                    <div class="_column product-qty">1</div>
+                    <button class="_btn _column product-plus">&plus;</button>
+                  </div>
+                  <button class="_btn entypo-trash product-remove">Remove</button>
+                  <div class="price product-total-price">${{ $item->getPrice() }}</div>
+                </div>
+              </li>
+            {{ Form::hidden('modelNumberToDel', $item->getModelNumber()  ) }}
+            {{ Form::close() }}
+          @endif
+        @endforeach
 
-    </ol>
-
+      @endif
+      </ol>
     <footer class="_grid cart-totals">
       <div class="_column subtotal" id="subtotalCtr">
         <div class="cart-totals-key">Subtotal</div>
-        <div class="cart-totals-value">$0.00</div>
-      </div>
-      <div class="_column shipping" id="shippingCtr">
-        <div class="cart-totals-key">Shipping</div>
-        <div class="cart-totals-value">$0.00</div>
+        <div class="cart-totals-value">${{ session()->get('cartSubtotal') }}</div>
       </div>
       <div class="_column taxes" id="taxesCtr">
-        <div class="cart-totals-key">Taxes (6%)</div>
-        <div class="cart-totals-value">$0.00</div>
+        <div class="cart-totals-key">Taxes (15%)</div>
+        <div class="cart-totals-value">${{session()->get('cartTax')}}</div>
       </div>
       <div class="_column total" id="totalCtr">
         <div class="cart-totals-key">Total</div>
-        <div class="cart-totals-value">$0.00</div>
+        <div class="cart-totals-value">${{session()->get('cartTotal')}}</div>
       </div>
       <div class="_column checkout">
-        <button class="_btn checkout-btn entypo-forward">Checkout</button>
+        <a href="cart/checkout" ><button class="_btn checkout-btn entypo-forward">Checkout</button></a>
       </div>
     </footer>
 
-  </section>
+    </section>
+
 </div>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js'></script>
   <script  src="{{ asset('/assets/js/index.js') }}"></script>
 </body>
 
--->
 
 
 
@@ -105,6 +114,7 @@ if (!isset($_SESSION)) {
 
 
 
+<!--
 
 
 
@@ -184,7 +194,8 @@ if (!isset($_SESSION)) {
          <td> {{session()->get('cartTotal')}} </td>
        </tr>
    </table>
- </p>
+ </p
+ <a href="cart/checkout"><button class="_btn checkout-btn entypo-forward">Checkout</button></a>
 </body>
 
 <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>

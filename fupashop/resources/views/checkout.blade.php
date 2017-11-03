@@ -16,32 +16,42 @@
     <body>
     <div class="container">
 
+        @php
+            $items = session('sessionCart');
+        @endphp
+
         <h1>Transaction</h1><hr>
         <table class="table table-striped table-hover table-bordered">
             <tbody>
             <tr>
-                <th>Item</th>
+                <th>Item Model</th>
                 <th>QTY</th>
                 <th>Unit Price</th>
                 <th>Total Price</th>
             </tr>
-            <tr>
-                <td>Awesome Product</td>
-                <td>1</td>
-                <td>£250.00</td>
-                <td>£250.00</td>
-            </tr>
+            @if ( !empty( $items ) )
+                @foreach ($items as $item)
+                    @if ( isset( $item ) )
+                        <tr>
+                            <td>{{ $item->getModelNumber() }}</td>
+                            <td>1</td>
+                            <td>${{ $item->getPrice() }}</td>
+                            <td>${{ $item->getPrice() }}</td> <!--Should be getTotalItemPrice which is the price of one item multiplied by the quantity demanded-->
+                        </tr>
+                    @endif
+                @endforeach
+            @endif
             <tr>
                 <th colspan="3"><span class="pull-right">Sub Total</span></th>
-                <th>£250.00</th>
+                <th>${{ session()->get('cartSubtotal') }}</th>
             </tr>
             <tr>
-                <th colspan="3"><span class="pull-right">VAT 20%</span></th>
-                <th>£50.00</th>
+                <th colspan="3"><span class="pull-right">TAX 15%</span></th>
+                <th>${{session()->get('cartTax')}}</th>
             </tr>
             <tr>
                 <th colspan="3"><span class="pull-right">Total</span></th>
-                <th>£300.00</th>
+                <th>${{session()->get('cartTotal')}} </th>
             </tr>
             </tbody>
         </table>
