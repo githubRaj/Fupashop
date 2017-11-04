@@ -8,12 +8,14 @@ use Auth;
 class Cart
 {
     private $cartItems;
+    private $cartSerials;
     private $totalQty;
     private $totalPrice;
 
     public function __construct()
     {
         $this->cartItems = array();
+        $this->cartSerials = array();
         $this->totalQty = 0;
         $this->totalPrice = 0;
     }
@@ -67,6 +69,30 @@ class Cart
       Cart::updateTotalPrice();
     }
 
+    public function addSerialToSerialCart( $snObject )
+    {
+      array_push( $this->cartSerials, $snObject ) ;
+    }
+
+    public function deleteSerialFromSerialCartBySerialNumber( $serialNumber )
+    {
+      if ( !empty($this->cartSerials) )
+      {
+        $i = 0;
+        foreach( $this->cartSerials as $serial )
+        {
+          if ( $serial->getSerialNumber() == $serialNumber )
+          {
+            unset($this->cartSerials[$i]);
+            break;
+          }
+          $i++;
+        }
+      }
+      else {
+        echo "Cart Serials is empty";
+      }
+    }
     //Remove existing item in Cart
     public function removeItemFromCartById($itemModelNum)
     {

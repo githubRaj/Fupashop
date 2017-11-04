@@ -11,6 +11,7 @@ use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\SerialNumber;
 use Session;
+use Auth;
 
 
 class Mapper
@@ -51,6 +52,50 @@ class Mapper
 		}
 
 		return null;
+	}
+
+	public function createTransactionInTable( $cartItems )
+	{
+		foreach( $cartItems as $item )
+		{
+			$targetSerial = null;
+			$className = get_class( $item );
+			$modelNum = $item->getModelNumber();
+			$possibleSerials = $this->findSerialNumbersByModelNumber( $modelNum, $className );
+			$idx = 0;
+			foreach( $possibleSerials as $entry )
+			{
+				if ( $entry->getPurchasable() == false )
+				{
+					$targetSerial = $possibleSerials[$idx];
+					break;
+				}
+				else
+				{
+					$idx++;
+				}
+			}
+			if ( $targetSerial != null )
+			{
+				//Now that we have the target serial object, add this to trxn table
+				$uid = Auth::id();
+				$modelNumber = $targetSerial->getModelNumber();
+				$serialNumber = $targetSerial->getSerialNumber();
+				$price;
+				foreach( session()->get('sessionCart') as $item )
+				{
+					if ( $item->getModelNumber() == $targetSerial->getModelNumber() )
+					{
+						$price = $item->getPrice();
+					}
+				}
+				$this->tdg->addTransaction( $uid, $modelNumber, $serialNumber, $price );
+			}
+			else
+			{
+				echo "No Corresponding Serial Number Found for chosen item.";
+			}
+		}
 	}
 
 	public function getStockByModelNumber($modelNumber, $className)
