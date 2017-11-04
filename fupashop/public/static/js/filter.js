@@ -159,7 +159,7 @@ $("#filter1 :checkbox" ).click(function() {
 // Search Text Query
 $("#searchInput").keyup(function () {
     //split the current value of searchInput
-    var data = this.value.toUpperCase().split(" ");
+    var data = this.value.toUpperCase().split(", ");
     //create a jquery object of the rows
     var jo = $("#fbody").find("tr");
     if (this.value == "") {
@@ -192,3 +192,8 @@ $("#searchInput").keyup(function () {
 });
 
 
+$(document).ready(function() 
+	{ 
+    	$("#myTable").tablesorter({sortList: [[3,1],[2,0]]}); 
+ 	} 
+ );
