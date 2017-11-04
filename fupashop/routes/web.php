@@ -17,9 +17,8 @@ Auth::routes();
 //Cart Implementation
 Route::get('/cart', ['as' => 'cart', 'uses' => 'CartController@index']);
 Route::post('/cart', 'CartController@deleteFromCart');
+Route::post('/', 'CartController@checkout');
 Route::post('/tablets', 'CartController@addToCart');
-
-
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> home
 Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase

@@ -194,8 +194,10 @@ if (!isset($_SESSION)) {
          <td> {{session()->get('cartTotal')}} </td>
        </tr>
    </table>
- </p
- <a href="cart/checkout"><button class="_btn checkout-btn entypo-forward">Checkout</button></a>
+ </p>
+ {{ Form::open(['action' => ['CartController@checkout'], 'method' => 'POST']) }}
+  {{ Form::submit('Checkout') }}
+ {{ Form::close() }}
 </body>
 
 <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>

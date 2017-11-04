@@ -119,6 +119,25 @@ class CartController extends Controller
         return back()->with( 'delAlert', 'Item deleted successfully from cart!' );
     }
 
+    // Finalize the checkout of the Cart
+    public function checkout()
+    {
+      //First, we have to add the items from cart into the transaction history table
+      $this->mapper->createTransactionInTable( session()->get('sessionCart') );
+
+      //Clear the session cart and sync with repo Cart
+      session()->forget( 'sessionCart' );
+      $newCart = array();
+      session()->put( 'sessionCart', $newCart );
+
+      // update the totals and tax values in the Session ( 0, 0 , 0)
+      CartController::updateTotalsAndTax();
+
+      // sync the sessionCart with the repo cart AKA EMPTY IT
+      session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart') );
+      return back()->with( 'delAlert', 'Checkout complete');
+    }
+
     // Getter for cart grand total
     public function getTotal()
     {
@@ -207,6 +226,14 @@ class CartController extends Controller
           break;
         }
       }
+      if ( session()->get('sessionSerials') == null )
+      {
+        session()->put('sessionSerials', array() );
+      }
+
+      session()->push('sessionSerials', $itemToPushBackIntoRepo);
+      session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
+
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }
@@ -225,6 +252,9 @@ class CartController extends Controller
           break;
         }
       }
+
+      session()->get('repo')->getCart()->deleteSerialFromSerialCartBySerialNumber(
+                                         $itemToPushBackIntoRepo->getSerialNumber() );
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }

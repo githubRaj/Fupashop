@@ -58,8 +58,17 @@ class TableDataGateway
 		return DB::table($tableName)->get();
 	}
 
+	public function addTransaction( $uid, $modelNumber, $serialNumber, $price )
+	{
+		$tableName = "purchases";
+		$created = date('Y-m-d H:i:s');
+		DB::table($tableName)->insert([ 'userID' => $uid , 'modelNumber' => $modelNumber,
+																		'serialNumber' => $serialNumber, 'price' => $price,
+																		'created_at' => $created, 'updated_at' => $created]);
+	}
+
 	public function insertItem($item)
-	{	
+	{
 		$tableName = $this->getTableName(get_class($item));
 		DB::table($tableName)->insert($item->getAttributes());
 	}
