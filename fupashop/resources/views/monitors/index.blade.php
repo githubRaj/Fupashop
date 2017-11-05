@@ -18,14 +18,7 @@ if (!isset($_SESSION)) {
     <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-    <script type="text/javascript">
-      $(document).ready(function()
-      {
 
-      $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-      }
-      );
-    </script>
   </head>
 
 
@@ -65,40 +58,39 @@ if (!isset($_SESSION)) {
 
 <!-- Main Content -->
         <div class="span9">
-	  <table id="myTable" class="tablesorter table table-hover">
+	  <table id="myTable" class="tablesorter">
 	    <thead>
             <tr>
-		      	<th>Model Number</th>
+		      	<th class="sorter-false">Model Number</th>
 		        <th>Brand</th>
 		        <th>Size</th>
 		      	<th>Price</th>
-            <th>Option</th>
+            <th class="sorter-false">Option</th>
 	      	</tr>
          </thead>
 
        <tbody id="fbody">
-	@foreach ($items as $monitor)
-  {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
-	<tr class="{{ $monitor->getBrandName() }}">
-              <tr>
-		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>
-		<td class="brand">{{ $monitor->getBrandName() }}</td>
-		<td>{{ $monitor->getSize() }}</td>
-		<td class="price">{{ $monitor->getPrice() }}</td>
-		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
-	      </tr>
-        {{ Form::hidden('modelNumber', $monitor->getModelNumber()) }}
-        {{ Form::hidden('class', "monitors") }}
-        {{ Form::close() }}
+          	@foreach ($items as $monitor)
+            {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
+          	<tr class="{{ $monitor->getBrandName() }}">           
+          		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>
+          		<td class="brand">{{ $monitor->getBrandName() }}</td>
+          		<td>{{ $monitor->getSize() }}</td>
+          		<td class="price">{{ $monitor->getPrice() }}</td>
+          		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+          	 </tr>
+                  {{ Form::hidden('modelNumber', $monitor->getModelNumber()) }}
+                  {{ Form::hidden('class', "monitors") }}
+                  {{ Form::close() }}
 
-  @endforeach
-  @if (session('addAlert') )
-    <div class="alert alert-success">
-        {{ session('addAlert') }}
-    </div>
-  @endif
-	</tbody>
-	  </table>
+            @endforeach
+            @if (session('addAlert') )
+              <div class="alert alert-success">
+                  {{ session('addAlert') }}
+              </div>
+            @endif
+	     </tbody>
+	</table>
         </div><!--/span-->
       </div><!--/row-->
 

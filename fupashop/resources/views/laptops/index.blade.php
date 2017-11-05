@@ -9,7 +9,7 @@ if (!isset($_SESSION)) {
 @endphp
 
 @section('content')
-
+  <head>
     <!-- Le styles
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/bootstrap.css" rel="stylesheet">-->
@@ -18,18 +18,6 @@ if (!isset($_SESSION)) {
     <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-    <script type="text/javascript">
-      /**$(document).ready(function()
-      {
-
-      $("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-      }
-      );**/
-    </script>
-
-
-
-
   </head>
 
   <body>
@@ -72,15 +60,15 @@ if (!isset($_SESSION)) {
 
 <!-- Main Content -->
         <div class="span9">
-	  <table id="myTable" class="tablesorter table table-hover">
+	  <table id="myTable" class="tablesorter">
 	    <thead>
             <tr>
-  				    <th>Model</th>
+  				    <th class="sorter-false">Model</th>
   		      	<th>Brand</th>
   		        <th>Processor</th>
   		        <th>Display</th>
   		      	<th>Price</th>
-              <th>Option</th>
+              <th class="sorter-false">Option</th>
 	      	</tr>
          </thead>
 

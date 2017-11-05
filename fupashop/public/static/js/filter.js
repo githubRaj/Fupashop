@@ -192,8 +192,5 @@ $("#searchInput").keyup(function () {
 });
 
 
-$(document).ready(function() 
-	{ 
-    	$("#myTable").tablesorter({sortList: [[3,1],[2,0]]}); 
- 	} 
- );
+// Table Sorting 
+$("#myTable").tablesorter();

@@ -11,20 +11,12 @@ if (!isset($_SESSION)) {
 
 @section('content')
 
+<head>
 <link rel="stylesheet" href="{{ asset('/static/css/bootstrap.css') }}"/>
 </style>
 <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
 <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-
-	$("#myTable").tablesorter({sortList:[[0,0],[2,1]], widgets:'zebra'});
-	}
-	);
-</script>
-
 </head>
 
 <body>
@@ -68,19 +60,19 @@ if (!isset($_SESSION)) {
 
 <!-- Main Content -->
 		<div class="span9">
-<table id="myTable" class="tablesorter table table-hover">
+<table id="myTable" class="tablesorter">
 	<thead>
 			<tr>
-				<th>Model</th>
+				<th class="sorter-false">Model</th>
 				<th>Brand</th>
 				<th>Processor</th>
 				<th>HDD</th>
 				<th>Price</th>
-				<th>Option</th>
+				<th class="sorter-false">Option</th>
 			</tr>
-		 </thead>
+	</thead>
 
-			<tbody id="fbody">
+	<tbody id="fbody">
 
 	@foreach ($items as $tablet)
 		@if(!session()->has('itemToLock.'.$tablet->getModelNumber()))
@@ -99,14 +91,13 @@ if (!isset($_SESSION)) {
 			@endphp
 		@endif
     {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
-			<tr class="{{ $tablet->getBrandName() }} ">
-						<tr>
-			<td><a href="{{ $href }}" {{ $button }}>{{ $tablet->getModelNumber() }}</a></td>
-			<td class="brand">{{ $tablet->getBrandName() }}</td>
-			<td class="processor">{{ $tablet->getProcessor() }}</td>
-			<td>{{ $tablet->getHddSize() }}</td>
-			<td class="price">{{ $tablet->getPrice() }}</td>
-			<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+			<tr class="{{ $tablet->getBrandName() }} ">		
+				<td><a href="{{ $href }}" {{ $button }}>{{ $tablet->getModelNumber() }}</a></td>
+				<td class="brand">{{ $tablet->getBrandName() }}</td>
+				<td class="processor">{{ $tablet->getProcessor() }}</td>
+				<td>{{ $tablet->getHddSize() }}</td>
+				<td class="price">{{ $tablet->getPrice() }}</td>
+				<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
 			</tr>
       {{ Form::hidden('modelNumber', $tablet->getModelNumber()) }}
       {{ Form::hidden('class', "tablets") }}
@@ -118,8 +109,9 @@ if (!isset($_SESSION)) {
         {{ session('addAlert') }}
     </div>
   @endif
-				</tbody>
+	</tbody>
 </table>
+
 		</div><!--/span-->
 	</div><!--/row-->
 

@@ -18,11 +18,6 @@ if (!isset($_SESSION)) {
     <link href="{{ asset('/static/css/bootstrap-responsive.css') }}" rel="stylesheet">
     <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
-        <script type="text/javascript">
-$(function(){
-  $("#myTable").tablesorter();
-});
-    </script>
   </head>
 
 
@@ -63,19 +58,18 @@ $(function(){
           </div><!--/.well -->
         </div><!--/span-->
 
-
 <!-- Main Section -->
 
         <div class="span9">
 	  <table id="myTable" class="tablesorter">
 	    <thead>
           <tr>
-				    <th>Model</th>
+				    <th class="sorter-false">Model</th>
 		      	<th>Brand</th>
 		        <th>Processor</th>
 		        <th>Cores</th>
 		      	<th>Price</th>
-            <th>Option</th>
+            <th class="sorter-false">Option</th>
 	       </tr>
       </thead>
 
@@ -104,7 +98,6 @@ $(function(){
     </tbody>
 	  </table>
 
-
         </div><!--/span-->
       </div><!--/row-->
 
@@ -116,10 +109,7 @@ $(function(){
 
     </div><!--/.fluid-container-->
 
-
   </body>
-
-
 
   <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
 
