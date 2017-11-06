@@ -97,7 +97,7 @@ if (!isset($_SESSION)) {
 				<td class="processor">{{ $tablet->getProcessor() }}</td>
 				<td>{{ $tablet->getHddSize() }}</td>
 				<td class="price">{{ $tablet->getPrice() }}</td>
-				<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+				<td>{{ Form::submit($field , array('class' => 'btn btn-default btn-xs', $button)) }}</td>
 			</tr>
       {{ Form::hidden('modelNumber', $tablet->getModelNumber()) }}
       {{ Form::hidden('class', "tablets") }}

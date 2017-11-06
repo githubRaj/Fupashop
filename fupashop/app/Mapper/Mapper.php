@@ -116,7 +116,17 @@ class Mapper
 
 		return null;
 	}
-
+	public function initializeItemStock($item, $className){
+		$serialNumbers = session()->get('repo')->getAllSerialNumbersByModelNumber($item->getModelNumber());
+		if ($serialNumbers == null)
+		{
+			$models = $this->tdg->getSerialNumbersByModelNumber($item->getModelNumber());
+			 if ($models != null)
+			 {
+				 $this->setSerialNumbersInRepo($item->getModelNumber(), $className, $models);
+			 }
+		}
+	}
 	public function findSerialNumbersByModelNumber($modelNumber, $className)
 	{
 		 $serialNumbers = session()->get('repo')->getAllSerialNumbersByModelNumber($modelNumber);
