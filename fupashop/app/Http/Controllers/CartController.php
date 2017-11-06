@@ -41,6 +41,9 @@ class CartController extends Controller
      */
     public function index()
     {
+        if ( !empty(session()->get('sessionCart') ) ){
+          CartController::checkCartItemsTimings();
+        }
         return view( 'cart' );
     }
 
@@ -108,6 +111,12 @@ class CartController extends Controller
               $request->session()->forget( 'sessionCart' );
               // Set it to the updated one without the spec'd item
               $request->session()->put( 'sessionCart', $updatedLocalCart );
+
+              $cartSerials = $request->session()->get('sessionSerials');
+              unset( $cartSerials[$i] );
+              $updatedSerialsCart = array_values( $cartSerials );
+              $request->session()->forget( 'sessionSerials' );
+              $request->session()->put( 'sessionSerials', $updatedSerialsCart );
               break;
             }
             $i++;
@@ -211,6 +220,24 @@ class CartController extends Controller
       session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart' ) );
     }
 
+    // Function to release items from cart back to inventory after 3 minutes
+    // To be called everytime user clicks "cart"
+    public function checkCartItemsTimings()
+    {
+      //Get an array of every serial number in cart as Strings
+      $snStrings = array();
+      foreach ( session()->get( 'sessionSerials' ) as $item )
+      {
+        array_push( $snStrings, $item->getSerialNumber() );
+      }
+      //Pass the serials through mapper
+      if ( !empty( $snStrings ) )
+      {
+        $this->mapper->checkCartTimingsBySN( $snStrings );
+      }
+      CartController::updateTotalsAndTax();
+    }
+
     public function setFirstAvailableSNUnpurchasable( $modelNum, $className )
     {
       //Need to get the $item first and get its type
@@ -234,6 +261,9 @@ class CartController extends Controller
       session()->push('sessionSerials', $itemToPushBackIntoRepo);
       session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
 
+      //Add $itemToPushBackIntoRepo into a shoppingCarts
+      $this->mapper->addSerialToShoppingCartTable( $itemToPushBackIntoRepo );
+
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }
@@ -255,6 +285,7 @@ class CartController extends Controller
 
       session()->get('repo')->getCart()->deleteSerialFromSerialCartBySerialNumber(
                                          $itemToPushBackIntoRepo->getSerialNumber() );
+
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }

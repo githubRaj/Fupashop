@@ -44,6 +44,25 @@ class TableDataGateway
 		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->get();
 	}
 
+	public function getTimeStampBySerialNumber( $serialNumber )
+	{
+		$tableName = "shoppingCarts";
+		$timestamp = DB::table($tableName)->where('serialNumber', $serialNumber)->value('created_at');
+		return $timestamp;
+	}
+
+	public function deleteFromShoppingCartsTable( $serialNumber )
+	{
+		$tableName = "shoppingCarts";
+		DB::table($tableName)->where('serialNumber', '=', $serialNumber )->delete();
+	}
+
+	public function updatePurchasableField( $serialNumber, $val )
+	{
+		$tableName = "serialNumbers";
+		DB::table($tableName)->where('serialNumber', $serialNumber)
+												 ->update([ 'purchasable' => $val ]);
+	}
 
 	public function getItemByModelNumber($modelNumber, $className)
 	{
@@ -61,6 +80,16 @@ class TableDataGateway
 	public function addTransaction( $uid, $modelNumber, $serialNumber, $price )
 	{
 		$tableName = "purchases";
+		$created = date('Y-m-d H:i:s');
+		DB::table($tableName)->insert([ 'userID' => $uid , 'modelNumber' => $modelNumber,
+																		'serialNumber' => $serialNumber, 'price' => $price,
+																		'created_at' => $created, 'updated_at' => $created]);
+	}
+
+	public function addSerialToCartTable( $uid, $modelNumber, $serialNumber,
+																				$price  )
+	{
+		$tableName = "shoppingCarts";
 		$created = date('Y-m-d H:i:s');
 		DB::table($tableName)->insert([ 'userID' => $uid , 'modelNumber' => $modelNumber,
 																		'serialNumber' => $serialNumber, 'price' => $price,

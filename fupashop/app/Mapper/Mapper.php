@@ -283,6 +283,70 @@ class Mapper
     }
   }
 
+	public function addSerialToShoppingCartTable( $itemToAddToCartTable )
+	{
+		$uid = Auth::id();
+		$modelNumber = $itemToAddToCartTable->getModelNumber();
+		$serialNumber = $itemToAddToCartTable->getSerialNumber();
+		$price;
+		foreach( session()->get('sessionCart') as $item )
+		{
+			if ( $item->getModelNumber() == $modelNumber )
+			{
+				$price = $item->getPrice();
+			}
+		}
+		$this->tdg->addSerialToCartTable( $uid, $modelNumber, $serialNumber,
+	 																		$price );
+	}
+
+	public function checkCartTimingsBySN( $snStrings )
+	{
+		$currentTime = date('Y-m-d H:i:s');
+		foreach( $snStrings as $sn )
+		{
+			$addedTime = $this->tdg->getTimeStampBySerialNumber( $sn );
+			$to_time = strtotime($currentTime);
+			$from_time = strtotime($addedTime);
+			// If the diff between time added to cart and current is greater than X
+			if ( ( round( abs( $to_time - $from_time ) / 60, 2) ) > 1 /*1 minute timeout */ )
+			{
+				$sessionSerials = Session::get( 'sessionSerials' );
+				$modelNum;
+				$i = 0;
+				foreach( $sessionSerials as $snObject )
+				{
+					if ( $snObject->getSerialNumber() == $sn )
+					{
+						// Handle the sessionSerials
+						$modelNum = $snObject->getModelNumber();
+						unset( $sessionSerials[$i] );
+						$updatedSessionSerials = array_values( $sessionSerials );
+						session()->forget( 'sessionSerials' );
+						session()->put( 'sessionSerials' , $updatedSessionSerials );
+						// Now handle sessionCart
+						$localCart = session()->get('sessionCart');
+						unset( $localCart[$i] );
+						$updatedLocalCart = array_values( $localCart );
+						session()->forget('sessionCart');
+						session()->put( 'sessionCart', $updatedLocalCart );
+						// Now sync sessionCart with the one inside repo
+						session()->get('repo')->getCart()->syncCart( session()->get('sessionCart'));
+						// Now handle removal from shoppingCart table
+						$this->tdg->deleteFromShoppingCartsTable( $sn );
+						// Now change the entry to purchasable in serialNumbers Table
+						$this->tdg->updatePurchasableField( $sn, true );
+					}
+					$i++;
+				}
+			}
+		}
+	}
+
+	public function setPurchasable( $serial, $val ){
+		$this->tdg->updatePurchasableField( $serial->getSerialNumber(), $val) ;
+	}
+
 	public function saveNewItem($item)
 	{
 		$this->tdg->insertItem($item);
