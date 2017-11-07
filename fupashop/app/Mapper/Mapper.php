@@ -328,6 +328,7 @@ class Mapper
 			{
 				$sessionSerials = Session::get( 'sessionSerials' );
 				$modelNum;
+				$className = null;
 				$i = 0;
 				foreach( $sessionSerials as $snObject )
 				{
@@ -341,16 +342,28 @@ class Mapper
 						session()->put( 'sessionSerials' , $updatedSessionSerials );
 						// Now handle sessionCart
 						$localCart = session()->get('sessionCart');
+						$className = get_class($localCart[$i]);
 						unset( $localCart[$i] );
 						$updatedLocalCart = array_values( $localCart );
 						session()->forget('sessionCart');
 						session()->put( 'sessionCart', $updatedLocalCart );
 						// Now sync sessionCart with the one inside repo
 						session()->get('repo')->getCart()->syncCart( session()->get('sessionCart'));
-						// Now handle removal from shoppingCart table
+						// Now handle removal from shoppingCart table	
 						$this->tdg->deleteFromShoppingCartsTable( $sn );
 						// Now change the entry to purchasable in serialNumbers Table
-						$this->tdg->updatePurchasableField( $sn, true );
+
+						//$this->tdg->updatePurchasableField( $sn, true );
+						$serialObject = session()->get('repo')->getItemBySerialNumber($sn, SerialNumber::class);
+						$serialObject->setPurchasable(true);
+						session()->get('repo')->updateItemBySerialNumber($serialObject, $serialObject->getModelNumber(), $sn );
+						$this->uow->registerDirty($serialObject);
+						$this->uow->commit();
+						$item = session()->get('repo')->getItemByModelNumber($serialObject->getModelNumber(), $className);
+						$item->incrementStock();
+						$this->setItem($item,$item->getModelNumber());
+						
+
 					}
 					$i++;
 				}

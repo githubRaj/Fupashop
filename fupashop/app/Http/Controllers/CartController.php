@@ -76,17 +76,20 @@ class CartController extends Controller
         $itemModelNum = $request->modelNumber;
         $classDirName = CartController::getViewDirName( $request->class );
 
-        $item = $this->mapper->findItemByModelNumber( $itemModelNum, $classDirName );
         if ( sizeof( session()->get('sessionCart') ) >= 7 )
         {
           return back()->with('addAlert', 'Maximum 7 items allowed in cart');
         }
+
+        $item = $this->mapper->findItemByModelNumber( $itemModelNum, $classDirName );
         Session::push('sessionCart', $item );
         CartController::updateTotalsAndTax();
 
         // Sync the repo Cart
         session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
         CartController::setFirstAvailableSNUnpurchasable( $itemModelNum, get_class( $item ) );
+        $item->decrementStock();
+        $this->mapper->setItem($item, $item->getModelNumber());
         return back()->with( 'addAlert', 'Item added successfully to cart!');
     }
 
@@ -226,9 +229,12 @@ class CartController extends Controller
     {
       //Get an array of every serial number in cart as Strings
       $snStrings = array();
-      foreach ( session()->get( 'sessionSerials' ) as $item )
-      {
-        array_push( $snStrings, $item->getSerialNumber() );
+      if(session()->exists( 'sessionSerials' )){
+        foreach ( session()->get( 'sessionSerials' ) as $item )
+        {
+          if($item != null)
+            array_push( $snStrings, $item->getSerialNumber() );
+        }
       }
       //Pass the serials through mapper
       if ( !empty( $snStrings ) )
@@ -246,8 +252,10 @@ class CartController extends Controller
       $itemToPushBackIntoRepo = null;
       foreach ( $queryArray as $item )
       {
+        
         if ( $item->getPurchasable() == true )
         {
+          
           $itemToPushBackIntoRepo = $item;
           $itemToPushBackIntoRepo->setPurchasable( false );
           break;
@@ -257,15 +265,16 @@ class CartController extends Controller
       {
         session()->put('sessionSerials', array() );
       }
+      
+        session()->push('sessionSerials', $itemToPushBackIntoRepo);
+        session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
 
-      session()->push('sessionSerials', $itemToPushBackIntoRepo);
-      session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
+        //Add $itemToPushBackIntoRepo into a shoppingCarts
+        $this->mapper->addSerialToShoppingCartTable( $itemToPushBackIntoRepo );
 
-      //Add $itemToPushBackIntoRepo into a shoppingCarts
-      $this->mapper->addSerialToShoppingCartTable( $itemToPushBackIntoRepo );
-
-      //FUNCTION TO PUSH THE ITEM BACK INTO REPO
-      $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
+        //FUNCTION TO PUSH THE ITEM BACK INTO REPO
+        $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
+      
     }
 
     public function setFirstAvailableSNPurchasable( $modelNum, $className )
