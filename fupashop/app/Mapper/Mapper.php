@@ -151,14 +151,18 @@ class Mapper
 	public function setSerialNumbersInRepo($modelNumber, $className, $models){
 		$serialName = 'App\Items\SerialNumber';
 		$newItem = $this->findItemByModelNumber($modelNumber, $className);
-		$newItem->setStock(sizeof($models));
-		$this->setItem($newItem, $modelNumber);
+		
 		/*Single Model to many Serial*/
+		$stock = 0;
 		for ($i=0; $i < sizeof($models) ; $i++)
 		{
+			if($models[$i]->purchasable == 1)
+				$stock+=1;
 			$item = $this->createItemInstance($models[$i], $serialName);
 			session()->get('repo')->addItem($item);
 		}
+		$newItem->setStock($stock);
+		$this->setItem($newItem, $modelNumber);
 		return;
 	}
 
