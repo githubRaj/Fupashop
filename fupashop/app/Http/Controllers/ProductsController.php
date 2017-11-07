@@ -103,15 +103,17 @@ class ProductsController extends Controller
       foreach ($items as $item)
       {
         $itemAttributes = $item->getAttributes();
-
+        
+        
         $this->mapper->initializeItemStock($item, $className);
-        //$this->mapper->findItembySerialNumber($item->modelNumber, $serialNumber, $className);
-        echo $item->getStock();
-        if($item->getStock() == 0){
+        if($this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock() == 0){
 
           session()->put('itemToLock.'.$item->getModelNumber(),true);
         }
-        
+        elseif(session()->exists('itemToLock.'.$item->getModelNumber()))
+        {
+          session()->forget('itemToLock.'.$item->getModelNumber());  
+        }
 
         foreach ($filters as $filter)
           array_push($filterArray[$filter], $itemAttributes[$filter]);

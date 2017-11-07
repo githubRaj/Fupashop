@@ -15,7 +15,7 @@ class Tablet extends Item
 	private $hddSize;
 	private $operatingSystem;
 	private $cameraInformation;
-	private $stock;
+	protected $stock;
 	protected $categoryStr = "tablets";
 
     public function __construct($modelNumber, $processor, $screenSize, $dimensions, $ramSize, $weight, $cpucores, $hddSize, $batteryInformation, $brandName, $operatingSystem, $cameraInformation, $price)

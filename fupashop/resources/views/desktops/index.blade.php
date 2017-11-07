@@ -75,6 +75,21 @@ if (!isset($_SESSION)) {
 
     <tbody id="fbody">
 	    	@foreach ($items as $desktop)
+          @if(!session()->has('itemToLock.'.$desktop->getModelNumber()))
+              @php
+                //IN STOCK
+                $field = 'Buy';
+                $href = "tablets/". $desktop->getModelNumber();
+                $button = "enabled";
+              @endphp
+            @else
+              @php
+                //OUT OF STOCK
+                $field = 'Out Of Stock';
+                $href = "#";
+                $button = "disabled";
+              @endphp
+            @endif
         {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
 	       <tr class="{{ $desktop->getBrandName() }}">
 		        <td><a href="desktops/{{ $desktop->getModelNumber() }}">{{ $desktop->getModelNumber() }}</a></td>
@@ -82,7 +97,7 @@ if (!isset($_SESSION)) {
 		        <td class="processor">{{ $desktop->getProcessor() }}</td>
 		        <td>{{ $desktop->getCpucores() }}</td>
 		        <td class="price">{{ $desktop->getPrice() }}</td>
-		        <td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+		        <td>{{ Form::submit($field, array('class' => 'btn btn-default btn-xs', $button)) }}</td>
 	      </tr>
 
         {{ Form::hidden('modelNumber', $desktop->getModelNumber()) }}

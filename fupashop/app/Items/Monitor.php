@@ -5,7 +5,7 @@ use App\Items\Item;
 class Monitor extends Item
 {
     private $size;
-    private $stock;
+    protected $stock;
     protected $categoryStr = "monitors";
 
     public function __construct($modelNumber, $size, $weight, $brandName, $price)

@@ -71,13 +71,28 @@ if (!isset($_SESSION)) {
 
        <tbody id="fbody">
           	@foreach ($items as $monitor)
+              @if(!session()->has('itemToLock.'.$monitor->getModelNumber()))
+              @php
+                //IN STOCK
+                $field = 'Buy';
+                $href = "tablets/". $monitor->getModelNumber();
+                $button = "enabled";
+              @endphp
+            @else
+              @php
+                //OUT OF STOCK
+                $field = 'Out Of Stock';
+                $href = "#";
+                $button = "disabled";
+              @endphp
+            @endif
             {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
           	<tr class="{{ $monitor->getBrandName() }}">           
           		<td><a href="monitors/{{ $monitor->getModelNumber() }}">{{ $monitor->getModelNumber() }}</a></td>
           		<td class="brand">{{ $monitor->getBrandName() }}</td>
           		<td>{{ $monitor->getSize() }}</td>
           		<td class="price">{{ $monitor->getPrice() }}</td>
-          		<td>{{ Form::submit('BUY', array('class' => 'btn btn-default btn-xs')) }}</td>
+          		<td>{{ Form::submit($field, array('class' => 'btn btn-default btn-xs', $button)) }}</td>
           	 </tr>
                   {{ Form::hidden('modelNumber', $monitor->getModelNumber()) }}
                   {{ Form::hidden('class', "monitors") }}

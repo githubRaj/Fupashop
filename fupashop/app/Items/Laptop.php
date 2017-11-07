@@ -15,7 +15,7 @@ class Laptop extends Item
 	private $operatingSystem;
 	private $touchFeature;
 	private $cameraInformation;
-  private $stock;
+  protected $stock;
   protected $categoryStr = "tablets";
 
     public function __construct($modelNumber, $processor, $displaySize, $ramSize, $weight, $cpuCores, $hddSize, $batteryType, $batteryInformation, $brandName, $operatingSystem, $touchFeature, $cameraInformation, $price)

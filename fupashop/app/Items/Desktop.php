@@ -10,7 +10,7 @@ class Desktop extends Item
 	private $ramSize;
 	private $cpuCores;
 	private $hddSize;
-  private $stock;
+    protected $stock;
 	protected $categoryStr = "desktops";
 
 	public function __construct($modelNumber, $processor, $dimensions, $ramSize, $weight, $cpuCores, $hddSize, $brandName, $price)

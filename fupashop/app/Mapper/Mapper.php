@@ -116,6 +116,7 @@ class Mapper
 
 		return null;
 	}
+
 	public function initializeItemStock($item, $className){
 		$serialNumbers = session()->get('repo')->getAllSerialNumbersByModelNumber($item->getModelNumber());
 		if ($serialNumbers == null)
