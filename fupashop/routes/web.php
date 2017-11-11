@@ -89,6 +89,8 @@ Route::prefix('admin')->group(function(){
 	Route::get('/Tablets', 'AdminController@tabletIndex');
 	//VIEW MONITORS
 	Route::get('/Monitors', 'AdminController@monitorIndex');
+	//VIEW USERS
+	Route::get('/users', 'AdminController@userIndex');
 	/*-------------------ADD NEW INSTANCE-------------------------------------------*/
 	//ADDING FORM VIEW
 	Route::get('/add/{item}', 'AdminController@creationFormView');

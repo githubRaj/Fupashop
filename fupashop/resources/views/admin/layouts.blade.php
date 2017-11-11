@@ -125,6 +125,11 @@
                             </li>
                         </ul>
                     </li>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ url('/admin/users')}}">View All Users</a>
+                        </li>
+                   </ul>
                 </ul>
                 <!-- end side-menu -->
             </div>

@@ -10,6 +10,7 @@ use App\Items\Tablet;
 use App\Mapper\Mapper;
 use App\Items\SerialNumber;
 use Session;
+use App\User;
 
 
 class AdminController extends Controller
@@ -76,6 +77,11 @@ class AdminController extends Controller
   public function monitorIndex()
   {
     return $this->getIndex(Monitor::class);
+  }
+  public function userIndex()
+  {
+    $users = User::all();
+    return view( 'admin.users.info' )->with( compact( 'users' ) );
   }
 
    // Generic index page fetcher.
