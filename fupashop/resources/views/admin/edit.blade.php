@@ -20,7 +20,7 @@
             </ul>
         </div>
     @endif
-    
+
   </div>
     <div class="panel-body">
       <div class="row">
@@ -31,7 +31,7 @@
            {!! Form::open(['action' => ['AdminController@update', 'desktops'], 'method' => 'POST']) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
-                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control'])}}
+                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control', 'readonly'])}}
 
                 {{Form::label('processor', 'Processor')}}
                 {{Form::text('processor', $item->getProcessor(), ['class' => 'form-control'])}}
@@ -69,7 +69,7 @@
             {!! Form::open(['action' => ['AdminController@update', 'laptops'], 'method' => 'POST']) !!}
 
             {{Form::label('modelNumber', 'Model Number')}}
-            {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control'])}}
+            {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control', 'readonly'])}}
 
             {{Form::label('processor', 'Processor')}}
             {{Form::text('processor', $item->getProcessor(), ['class' => 'form-control'])}}
@@ -123,7 +123,7 @@
             {!! Form::open(['action' => ['AdminController@update', 'monitors'], 'method' => 'POST']) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
-                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control'])}}
+                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control', 'readonly'])}}
 
                 {{Form::label('weight', 'Weight')}}
                 {{Form::text('weight', $item->getWeight(), ['class' => 'form-control'])}}
@@ -150,7 +150,7 @@
             {!! Form::open(['action' => ['AdminController@update', 'tablets'], 'method' => 'POST']) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
-                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control'])}}
+                {{Form::text('modelNumber', $item->getModelNumber(), ['class' => 'form-control', 'readonly'])}}
 
                 {{Form::label('processor', 'Processor')}}
                 {{Form::text('processor', $item->getProcessor(), ['class' => 'form-control'])}}
