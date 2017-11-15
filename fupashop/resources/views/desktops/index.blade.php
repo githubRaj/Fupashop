@@ -78,7 +78,7 @@ if (!isset($_SESSION)) {
           @if(!session()->has('itemToLock.'.$desktop->getModelNumber()))
               @php
                 //IN STOCK
-                $field = 'Buy';
+                $field = 'Add To Cart';
                 $href = "tablets/". $desktop->getModelNumber();
                 $button = "enabled";
               @endphp

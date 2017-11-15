@@ -16,6 +16,7 @@ if (!isset($_SESSION)) {
   <title>Shopping Cart</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://weloveiconfonts.com/api/?family=entypo">
+  <link href="https://blackrockdigital.github.io/startbootstrap-shop-item/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet prefetch' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/utf-latest.min.css'>
   <link rel="stylesheet" href="{{ asset('/assets/css/stylecart.css') }}">
@@ -26,19 +27,37 @@ if (!isset($_SESSION)) {
 
 <body>
   <div class="main">
-  <h1>My Cart</h1>
+  <h1>My Shopping Cart</h1>
 
     @php
       $items = session('sessionCart');
     @endphp
-  <br>
+
+    <br>
+
       @if (session('delAlert') )
         <div class="alert alert-success">
           {{ session('delAlert') }}
         </div>
       @endif
+
+    @if (empty($items))
+        <div class="row">
+          <div class="col-lg-3">
+          </div>
+          <div class="col-lg-9">
+          <br><br><br>
+            YOUR SHOPPING CART IS EMPTY
+            <br><br>
+            YOU CAN ADD ITEMS BY BROWSING THE CATALOG AND ADDING ITEMS YOU WISH TO THE CART
+          </div>
+        </div>
+    @endif
+  <br>
+
     <section class="shopping-cart">
       <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
+
       @if ( !empty( $items ) )
 
         @foreach ($items as $item)
@@ -67,8 +86,7 @@ if (!isset($_SESSION)) {
           @endif
         @endforeach
 
-      @endif
-      </ol>
+        </ol>
     <footer class="_grid cart-totals">
       <div class="_column subtotal" id="subtotalCtr">
         <div class="cart-totals-key">Subtotal</div>
@@ -88,6 +106,8 @@ if (!isset($_SESSION)) {
     </footer>
 
     </section>
+
+    @endif
 
 </div>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js'></script>

@@ -36,6 +36,13 @@ if (!isset($_SESSION)) {
 	<div class="row">
 
 		<div class="col-lg-3">
+			@if (session('addAlert') )
+                <br>
+                <br>
+                <div class="alert alert-success">
+                    {{ session('addAlert') }}
+                </div>
+            @endif
 		</div>
 		<!-- /.col-lg-3 -->
 
@@ -127,7 +134,27 @@ if (!isset($_SESSION)) {
 			<!-- /.card -->
 
 			<hr>
-			<a href="#" class="btn btn-primary">Add To Cart</a>
+			@if(!session()->has('itemToLock.'.$item->getModelNumber()))
+              @php
+                //IN STOCK
+                $field = 'Add To Cart';
+                $href = "tablets/". $item->getModelNumber();
+                $button = "enabled";
+              @endphp
+            @else
+            @php
+                //OUT OF STOCK
+                $field = 'Out Of Stock';
+                $href = "#";
+                $button = "disabled";
+              @endphp
+            @endif
+            {{ Form::open(['action' => ['CartController@addToCart'], 'method' => 'POST']) }}
+            {{ Form::submit($field , array('class' => 'btn btn-primary', $button)) }}
+
+            {{ Form::hidden('modelNumber', $item->getModelNumber()) }}
+            {{ Form::hidden('class', "tablets") }}
+            {{ Form::close() }}
 
 		</div>
 		<!-- /.col-lg-9 -->
