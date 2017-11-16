@@ -63,6 +63,7 @@ Route::get('cart/checkout', function(){
     return view('checkout');
 });
 
+Route::post('pastOrders', 'UsersController@return');
 
 
 /*----------------------------ADMIN ROUTING------------------------------*/

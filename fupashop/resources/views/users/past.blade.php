@@ -103,7 +103,10 @@ if (!isset($_SESSION)) {
                                           <td>{{$purchase->serialNumber }}</td>
                                           <td><div class="item-price">{{$purchase->price }}</div></td>
                                           <td>{{$purchase->created_at }}</td>
-                                          <td><a href="return.html" class="btn-black">Return Order</a></td>
+                                          {{ Form::open(['action' => ['UsersController@return'], 'method' => 'Post']) }}
+                                          <td>{{ Form::submit('Return Order', array('class' => 'btn-black')) }}</td>
+                                          {{ Form::hidden('SN', $purchase->serialNumber) }}
+                                          {{ Form::close() }}
                                         </tr>
                                       @endforeach
 
