@@ -99,13 +99,13 @@ class ProductsController extends Controller
 
       // Fetch all items of a given class
       $items =  $this->mapper->findAllItemsByClass($className);
-      
+
       // Populate the 2D array of filter values
       foreach ($items as $item)
       {
         $itemAttributes = $item->getAttributes();
-        
-        
+
+
         $this->mapper->initializeItemStock($item, $className);
         echo $this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock();
         if($this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock() == 0){
@@ -114,7 +114,7 @@ class ProductsController extends Controller
         }
         else
         {
-          session()->forget('itemToLock.'.$item->getModelNumber());  
+          session()->forget('itemToLock.'.$item->getModelNumber());
         }
 
         foreach ($filters as $filter)

@@ -151,7 +151,7 @@ class Mapper
 	public function setSerialNumbersInRepo($modelNumber, $className, $models){
 		$serialName = 'App\Items\SerialNumber';
 		$newItem = $this->findItemByModelNumber($modelNumber, $className);
-		
+
 		/*Single Model to many Serial*/
 		$stock = 0;
 		for ($i=0; $i < sizeof($models) ; $i++)
@@ -315,6 +315,45 @@ class Mapper
 	 																		$price );
 	}
 
+	public function handleReturn( $sn )
+	{
+		//Set the item purchasable in the SN table
+		$serialObject = session()->get('repo')->getItemBySerialNumber($sn, SerialNumber::class);
+		$serialObject->setPurchasable(true);
+		session()->get('repo')->updateItemBySerialNumber($serialObject, $serialObject->getModelNumber(), $sn );
+		$this->uow->registerDirty($serialObject);
+		$this->uow->commit();
+
+		//Get the class name via the serialObject
+		$modelNum = $serialObject->getModelNumber();
+		$type = $serialObject->getType();
+		$className;
+		switch($type)
+		{
+			case 'tablet':
+				$className = Tablet::class;
+				break;
+			case 'monitor':
+				$className = Monitor::class;
+				break;
+			case 'desktop':
+				$className = Desktop::class;
+				break;
+			case 'laptop':
+				$className = Laptop::class;
+				break;
+			default:
+				$className = null;
+		}
+		// Increment stock in the repo
+		$item = session()->get('repo')->getItemByModelNumber($modelNum, $className);
+		if ( $item != null )
+		{
+			$item->incrementStock();
+			$this->setItem($item, $item->getModelNumber());
+		}
+	}
+
 	public function checkCartTimingsBySN( $snStrings )
 	{
 		$currentTime = date('Y-m-d H:i:s');
@@ -349,7 +388,7 @@ class Mapper
 						session()->put( 'sessionCart', $updatedLocalCart );
 						// Now sync sessionCart with the one inside repo
 						session()->get('repo')->getCart()->syncCart( session()->get('sessionCart'));
-						// Now handle removal from shoppingCart table	
+						// Now handle removal from shoppingCart table
 						$this->tdg->deleteFromShoppingCartsTable( $sn );
 						// Now change the entry to purchasable in serialNumbers Table
 
@@ -360,15 +399,22 @@ class Mapper
 						$this->uow->registerDirty($serialObject);
 						$this->uow->commit();
 						$item = session()->get('repo')->getItemByModelNumber($serialObject->getModelNumber(), $className);
-						$item->incrementStock();
-						$this->setItem($item,$item->getModelNumber());
-						
+						if ( $item != null )
+						{
+							$item->incrementStock();
+							$this->setItem($item,$item->getModelNumber());
+						}
+
 
 					}
 					$i++;
 				}
 			}
 		}
+	}
+
+	public function delFromShoppingCartTable( $sn ){
+		$this->tdg->deleteFromShoppingCartsTable( $sn );
 	}
 
 	public function setPurchasable( $serial, $val ){

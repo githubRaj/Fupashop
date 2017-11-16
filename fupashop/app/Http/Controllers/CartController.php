@@ -156,6 +156,16 @@ class CartController extends Controller
 
       // sync the sessionCart with the repo cart AKA EMPTY IT
       session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart') );
+
+      //Remove items from shoppingCart table
+      foreach ( session()->get('sessionSerials') as $snObject )
+      {
+        $this->mapper->delFromShoppingCartTable( $snObject->getSerialNumber() );
+      }
+      session()->forget( 'sessionSerials' );
+      $newSCart = array();
+      session()->put( 'sessionSerials', $newSCart );
+
       return back()->with( 'delAlert', 'Checkout complete');
     }
 
@@ -261,10 +271,10 @@ class CartController extends Controller
       $itemToPushBackIntoRepo = null;
       foreach ( $queryArray as $item )
       {
-        
+
         if ( $item->getPurchasable() == true )
         {
-          
+
           $itemToPushBackIntoRepo = $item;
           $itemToPushBackIntoRepo->setPurchasable( false );
           break;
@@ -274,7 +284,7 @@ class CartController extends Controller
       {
         session()->put('sessionSerials', array() );
       }
-      
+
         session()->push('sessionSerials', $itemToPushBackIntoRepo);
         session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
 
@@ -283,7 +293,7 @@ class CartController extends Controller
 
         //FUNCTION TO PUSH THE ITEM BACK INTO REPO
         $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
-      
+
     }
 
     public function setFirstAvailableSNPurchasable( $modelNum, $className )
