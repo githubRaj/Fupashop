@@ -24,4 +24,15 @@ class UsersController extends Controller
         $purchases = \App\Purchase::where('userID', Auth::id() )->get();
         return view('users.past', compact('purchases'));
     }
+
+    public function deleteAccount()
+    {
+        $user = User::find(Auth::user()->id);
+        Auth::logout();
+        if ($user->delete()) 
+        {
+            return back();
+        }
+    }
+        
 }

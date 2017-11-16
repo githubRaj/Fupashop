@@ -22,6 +22,7 @@ Route::post('/tablets', 'CartController@addToCart');
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> home
 Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
+Route::get('/deleteAccount', 'UsersController@deleteAccount'); // delete the user account
 
 Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
 

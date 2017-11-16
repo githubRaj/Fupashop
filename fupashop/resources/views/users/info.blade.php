@@ -45,6 +45,8 @@ if (!isset($_SESSION)) {
     </head>
     <body>
 
+
+
 <div class="container-fluid" style="margin-top:10px">
 	<div class="row-fluid" style=>
 		<div class="span3">
@@ -58,7 +60,6 @@ if (!isset($_SESSION)) {
 
 		<a href="#"> Change Information </a> <br>
 		<a class="active" href="{{ route('pastOrders') }}"> Past Orders </a> <br>
-		<a href="#"> Current Inventory </a>
 
 		<br><br>
 		<b><a href="{{ route('logout') }}" 
