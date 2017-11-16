@@ -90,6 +90,15 @@ class CartController extends Controller
         CartController::setFirstAvailableSNUnpurchasable( $itemModelNum, get_class( $item ) );
         $item->decrementStock();
         $this->mapper->setItem($item, $item->getModelNumber());
+         if($item->getStock() == 0)
+        {
+
+          session()->put('itemToLock.'.$item->getModelNumber(),true);
+        }
+        else
+        {
+          session()->forget('itemToLock.'.$item->getModelNumber());
+        }
         return back()->with( 'addAlert', 'Item added successfully to cart!');
     }
 
