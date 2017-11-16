@@ -73,9 +73,7 @@ if (!isset($_SESSION)) {
                 </div>
                 <div class="_column product-modifiers" data-product-price="priceHere">
                   <div class="_grid">
-                    <button class="_btn _column product-subtract">&minus;</button>
                     <div class="_column product-qty">1</div>
-                    <button class="_btn _column product-plus">&plus;</button>
                   </div>
                   <button class="_btn entypo-trash product-remove">Remove</button>
                   <div class="price product-total-price">${{ $item->getPrice() }}</div>

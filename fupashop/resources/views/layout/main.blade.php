@@ -49,42 +49,20 @@
                             TABLETS
                         </a>
                     </li>
-                    <li>
-                      <a href="/admin">
-                          Admin Panel
-                      </a>
-                  </li>
                 </ol>
             </div>
             </div>
             <div class="top-bar-right">
                 <ol class="menu">
-                     <li class="dropdown">
+                     <li >
                                 <a href="{{ route('myAccount') }}" role="button" aria-expanded="false">
-                                    {{ Auth::user()->firstName }} <span class="caret"></span>
+                                    {{ Auth::user()->firstName }}
                                 </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
                     <li>
                         <a href="{{ URL('/cart') }}">
                             <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">
                             </i>
                             CART
-                            <span class="alert badge">
-                                8
-                            </span>
                         </a>
                     </li>
                 </ol>

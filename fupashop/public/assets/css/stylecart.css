@@ -118,10 +118,11 @@ h1, .sub-heading {
 .product-subtract,
 .product-plus,
 .product-qty {
-  width: 33.330557%;
+  width: 90.330557%;
   background-color: transparent;
   color: #686868;
   text-align: center;
+
 }
 .product-qty {
   padding: .35em .75em;
@@ -209,3 +210,4 @@ h1, .sub-heading {
   transform: translate3d(0, -100%, 0);
   opacity: 0;
 }
+

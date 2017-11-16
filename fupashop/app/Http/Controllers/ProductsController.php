@@ -106,7 +106,7 @@ class ProductsController extends Controller
         
         
         $this->mapper->initializeItemStock($item, $className);
-        echo $this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock();
+        //echo $this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock();
         if($this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock() == 0){
 
           session()->put('itemToLock.'.$item->getModelNumber(),true);
