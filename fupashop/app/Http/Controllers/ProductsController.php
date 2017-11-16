@@ -19,7 +19,7 @@ class ProductsController extends Controller
 
     public function __construct()
     {
-      $this->middleware('auth');
+      //$this->middleware('auth');
       $this->mapper = new Mapper();
     }
 
@@ -76,6 +76,7 @@ class ProductsController extends Controller
       if ($item != null)
       {
         $dirName = $this->getViewDirName($className);
+        //$picDir = '/resources/images/'.$dirName.'/'.$item->getModelNumber();
         return view ($dirName . '.info', compact('item'));
       }
       else
@@ -106,7 +107,7 @@ class ProductsController extends Controller
         
         
         $this->mapper->initializeItemStock($item, $className);
-        //echo $this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock();
+        echo $this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock();
         if($this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock() == 0){
 
           session()->put('itemToLock.'.$item->getModelNumber(),true);

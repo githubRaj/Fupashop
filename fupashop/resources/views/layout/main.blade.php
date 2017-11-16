@@ -49,20 +49,46 @@
                             TABLETS
                         </a>
                     </li>
+                    <li>
+                      <a href="/admin">
+                          Admin Panel
+                      </a>
+                  </li>
                 </ol>
             </div>
             </div>
             <div class="top-bar-right">
                 <ol class="menu">
-                     <li >
+                     <li class="dropdown">
+                            @if(Auth::check())
                                 <a href="{{ route('myAccount') }}" role="button" aria-expanded="false">
-                                    {{ Auth::user()->firstName }}
+                                    {{ Auth::user()->firstName }} <span class="caret"></span>
                                 </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            @else
+                            <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+                            @endif
                     <li>
                         <a href="{{ URL('/cart') }}">
                             <i class="fa fa-shopping-cart fa-2x" aria-hidden="true">
                             </i>
                             CART
+                            <span class="alert badge">
+                                8
+                            </span>
                         </a>
                     </li>
                 </ol>

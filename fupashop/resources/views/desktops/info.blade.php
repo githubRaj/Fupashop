@@ -36,7 +36,7 @@
     <div class="row">
 
         <div class="col-lg-3">
-            @if (session('addAlert') )
+        @if (session('addAlert') )
                 <br>
                 <br>
                 <div class="alert alert-success">
@@ -49,7 +49,7 @@
         <div class="col-lg-9">
 
             <div class="card mt-4">
-                <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+                <img class="card-img-top img-fluid" src={{ asset('/images/desktops/'.$item->getModelNumber()) }}.jpg alt="">
                 <div class="card-body">
                     <h3 class="card-title">{{ $item->getBrandName() }} {{ $item->getModelNumber() }}</h3>
                     <h4>${{ $item->getPrice() }}</h4>
@@ -118,7 +118,7 @@
             <!-- /.card -->
 
             <hr>
-            @if(!session()->has('itemToLock.'.$item->getModelNumber()))
+             @if(!session()->has('itemToLock.'.$item->getModelNumber()))
               @php
                 //IN STOCK
                 $field = 'Add To Cart';
@@ -139,7 +139,6 @@
             {{ Form::hidden('modelNumber', $item->getModelNumber()) }}
             {{ Form::hidden('class', "desktops") }}
             {{ Form::close() }}
-
 
         </div>
         <!-- /.col-lg-9 -->
