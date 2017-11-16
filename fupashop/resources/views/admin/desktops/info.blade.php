@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(Session::has('success'))
+  <div class="alert alert-success">
+    <strong>Success:</strong> {{ Session::get('success')}}
+  </div>
+@endif
+
 
 <div class="row">
     <div class="col-lg-8">

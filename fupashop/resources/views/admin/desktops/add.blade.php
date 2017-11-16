@@ -2,7 +2,8 @@
 
 @section('content')
 <head>
-  <script type="text/javascript" src="{{ asset('/js/create.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}"></script>
+
 </head>
 
 <div class="col-lg-12">
@@ -27,34 +28,34 @@
       <div class="col-lg-6">
           <div role="form">
           <div class="form-group">
-            {!! Form::open(array('route' => array('save', 'desktops'))) !!}
+            {!! Form::open(array('route' => array('save', 'desktops'), 'data-parsley-validate')) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
-                {{Form::text('modelNumber', '', ['class' => 'form-control'])}}
+                {{Form::text('modelNumber', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
                 {{Form::label('processor', 'Processor')}}
-                {{Form::text('processor', '', ['class' => 'form-control'])}}
+                {{Form::text('processor', '', ['class' => 'form-control', 'required' => '', 'Maxlength' => '20'])}}
 
                 {{Form::label('dimensions', 'Dimensions')}}
-                {{Form::text('dimensions', '', ['class' => 'form-control'])}}
+                {{Form::text('dimensions', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '21'])}}
 
                 {{Form::label('ramSize', 'Ram Size')}}
-                {{Form::text('ramSize', '', ['class' => 'form-control'])}}
+                {{Form::text('ramSize', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
-                {{Form::label('weight', 'Weight')}}
-                {{Form::text('weight', '', ['class' => 'form-control'])}}
+                {{Form::label('weight', 'Weight(2 decmial points)')}}
+                {{Form::text('weight', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'pattern' => '^[0-9]*\.[0-9]{2}$'])}}
 
                 {{Form::label('cpuCores', 'Cpu Cores')}}
-                {{Form::text('cpuCores', '', ['class' => 'form-control'])}}
+                {{Form::text('cpuCores', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
                 {{Form::label('hddSize', 'HDD Size')}}
-                {{Form::text('hddSize', '', ['class' => 'form-control'])}}
+                {{Form::text('hddSize', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '5'])}}
 
                 {{Form::label('brandName', 'Brand Name')}}
-                {{Form::text('brandName', '',  ['class' => 'form-control'])}}
+                {{Form::text('brandName', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
-                {{Form::label('price', 'Price')}}
-                {{Form::text('price', '',  ['class' => 'form-control'])}}
+                {{Form::label('price', 'Price(2 decimal points)')}}
+                {{Form::text('price', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'pattern' => '^[0-9]*\.[0-9]{2}$'])}}
 
             {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 

@@ -226,7 +226,13 @@ class AdminController extends Controller
       $this->validateRequest($request, $item, 'add');
 
       $this->mapper->makeNewItem($request, $this->getClassName($item));
-      return redirect('/admin');   //<----- should be direct to a page stating success or fail. temporary redirect
+
+      Session::flash('success', 'The item '.$request->modelNumber.' was succesfully created!');
+
+      $className = $this->getClassName($item);
+      $items =  $this->mapper->findAllItemsByClass($className);
+
+      return view ('admin.'.$item.'.info', compact('items'));
     }
 
 
@@ -252,6 +258,8 @@ class AdminController extends Controller
 
       $this->mapper->setItem($item, $request->modelNumber);
       $items =  $this->mapper->findAllItemsByClass($className);
+
+      Session::flash('success', 'The item '.$request->modelNumber.' was succesfully edited!');
 
       return view ('admin.'.$productType.'.info', compact('items'));
   }
@@ -291,7 +299,11 @@ class AdminController extends Controller
     ]);
 
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
-     return redirect('admin'); //<----TODO redirect properly
+
+     Session::flash('success', 'The serial '.$request->serialNumber.' was succesfully created!');
+
+     $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($request->modelNumber, 'App\Items\SerialNumber');
+     return view('admin/SerialNumbers/info', compact('serialNumbers'));
   }
 
   //View Serial Numbers
