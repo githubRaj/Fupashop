@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
+use App\Purchase;
 
 class UsersController extends Controller
 {
@@ -18,12 +19,9 @@ class UsersController extends Controller
         $this->middleware('auth');
     }
 
-
-     /*--------------------------------
-    Users  */
-
+    // Users Past Orders
     public function pastOrders(){
-        $user = User::all();
-        return view('users.past', compact('user'));
+        $purchases = \App\Purchase::where('userID', Auth::id() )->get();
+        return view('users.past', compact('purchases'));
     }
 }
