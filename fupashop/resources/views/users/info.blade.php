@@ -60,6 +60,7 @@ if (!isset($_SESSION)) {
 
 		<a href="#"> Change Information </a> <br>
 		<a class="active" href="{{ route('pastOrders') }}"> Past Orders </a> <br>
+		<a href="{{ action('UsersController@deleteAccount') }}" onclick="return confirm('Are you sure you want to delete your account?');"> Delete Account </a>
 
 		<br><br>
 		<b><a href="{{ route('logout') }}" 
