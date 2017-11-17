@@ -11,6 +11,7 @@ use App\Mapper\Mapper;
 use App\Items\SerialNumber;
 use Session;
 use App\User;
+use App\Admin;
 
 
 class AdminController extends Controller
@@ -78,10 +79,44 @@ class AdminController extends Controller
   {
     return $this->getIndex(Monitor::class);
   }
+
   public function userIndex()
   {
+    $systemID = session()->get('system.id');
+    $systemTStamp = session()->get('system.timeStamp');
     $users = User::all();
-    return view( 'admin.users.info' )->with( compact( 'users' ) );
+    foreach($users as $user){
+      $flag = false;
+      for($i = 0; $i < sizeof($systemID); $i++){
+        if($systemID[$i] == $user->email){
+          $flag = true;
+          $user->status = 'logged in';
+          $user->timeStamp = $systemTStamp[$i];
+        }
+      }
+      if(!$flag){
+        $user->status = 'logged out';
+        $user->timeStamp = '-';
+      }
+
+    }
+    $admins = Admin::all();
+   foreach($admins as $user){
+      $flag = false;
+      for($i = 0; $i < sizeof($systemID); $i++){
+        if($systemID[$i] == $user->email){
+          $flag = true;
+          $user->status = 'logged in';
+          $user->timeStamp = $systemTStamp[$i];
+        }
+      }
+      if(!$flag){
+        $user->status = 'logged out';
+        $user->timeStamp = '-';
+      }
+
+    }
+    return view( 'admin.users.info' )->with( compact( 'users','admins' ) );
   }
 
    // Generic index page fetcher.
@@ -226,8 +261,7 @@ class AdminController extends Controller
       $this->validateRequest($request, $item, 'add');
 
       $this->mapper->makeNewItem($request, $this->getClassName($item));
-
-      Session::flash('success', 'The item '.$request->modelNumber.' was succesfully created!');
+            Session::flash('success', 'The item '.$request->modelNumber.' was succesfully created!');
 
       $className = $this->getClassName($item);
       $items =  $this->mapper->findAllItemsByClass($className);
@@ -258,9 +292,7 @@ class AdminController extends Controller
 
       $this->mapper->setItem($item, $request->modelNumber);
       $items =  $this->mapper->findAllItemsByClass($className);
-
       Session::flash('success', 'The item '.$request->modelNumber.' was succesfully edited!');
-
       return view ('admin.'.$productType.'.info', compact('items'));
   }
 
@@ -299,7 +331,7 @@ class AdminController extends Controller
     ]);
 
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
-
+     
      Session::flash('success', 'The serial '.$request->serialNumber.' was succesfully created!');
 
      $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($request->modelNumber, 'App\Items\SerialNumber');
