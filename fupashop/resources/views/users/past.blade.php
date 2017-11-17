@@ -97,6 +97,21 @@ if (!isset($_SESSION)) {
                                     <tbody>
 
                                       @foreach ($purchases as $purchase)
+                                        @if(!session()->get('repo')->getSerialBySerialNumber( $purchase->serialNumber )->getPurchasable())
+                                          @php
+                                            //Eligible for Return
+                                            $field = 'Return Item';
+                                            $href = "#";
+                                            $button = "enabled";
+                                          @endphp
+                                        @else
+                                          @php
+                                            //Already Returned
+                                            $field = 'Returned';
+                                            $href = "#";
+                                            $button = "disabled";
+                                          @endphp
+                                        @endif
                                         <tr>
                                           <td><img src="images/products/fashion/5.jpg" class="img-responsive" alt=""/></td>
                                           <td>{{$purchase->modelNumber }}</td>
@@ -104,7 +119,7 @@ if (!isset($_SESSION)) {
                                           <td><div class="item-price">{{$purchase->price }}</div></td>
                                           <td>{{$purchase->created_at }}</td>
                                           {{ Form::open(['action' => ['UsersController@return'], 'method' => 'Post']) }}
-                                          <td>{{ Form::submit('Return Order', array('class' => 'btn-black')) }}</td>
+                                          <td>{{ Form::submit($field, array('class' => 'btn-black', $button)) }}</td>
                                           {{ Form::hidden('SN', $purchase->serialNumber) }}
                                           {{ Form::close() }}
                                         </tr>

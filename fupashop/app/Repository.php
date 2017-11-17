@@ -103,6 +103,16 @@ class Repository
 	      return null;
 	}
 
+  public function getSerialBySerialNumber( $serialNumber )
+  {
+    if ($this->itemExists($this->itemRepo[SerialNumber::class], $serialNumber))
+    {
+      return $this->itemRepo[SerialNumber::class][$serialNumber]; // need [0] to fix array issue. this will return item instead of array of item
+  }
+    else
+      return null;
+  }
+
   public function getAllSerialNumbersByModelNumber( $modelNumber )
   {
     $items = $this->itemRepo[SerialNumber::class];
