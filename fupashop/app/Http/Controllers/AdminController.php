@@ -244,7 +244,7 @@ class AdminController extends Controller
         {
               $request->validate([
                 //  'modelNumber' => 'required|unique:desktops|max:20',
-                  'size' => 'required|max:11',
+                  'size' => 'required|numeric',
                   'weight' => array('required', 'numeric', 'regex:/^.{1,10}$/'),  //must have a maximum of 2 decimal points
                   'brandName' => 'required|max:20',
                   'price' => array('required', 'numeric', 'regex:/^.{1,10}$/'),   //must ahve 2 decimal places

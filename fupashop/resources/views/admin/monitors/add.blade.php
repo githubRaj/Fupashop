@@ -2,7 +2,7 @@
 
 @section('content')
 <head>
-  <script type="text/javascript" src="{{ asset('/js/create.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}"></script>
 </head>
 
 <div class="col-lg-12">
@@ -27,22 +27,22 @@
       <div class="col-lg-6">
           <div role="form">
           <div class="form-group">
-            {!! Form::open(array('route' => array('save', 'monitors'))) !!}
+            {!! Form::open(array('route' => array('save', 'monitors'), 'data-parsley-validate')) !!}
 
                 {{Form::label('modelNumber', 'Model Number')}}
-                {{Form::text('modelNumber', '', ['class' => 'form-control'])}}
+                {{Form::text('modelNumber', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '10'])}}
 
                 {{Form::label('weight', 'Weight')}}
-                {{Form::text('weight', '', ['class' => 'form-control'])}}
+                {{Form::text('weight', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '10','placeholder' => 'Numeric'])}}
 
                 {{Form::label('size', 'Size')}}
-                {{Form::text('size', '', ['class' => 'form-control'])}}
+                {{Form::text('size', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '11','placeholder' => 'Numeric'])}}
 
                 {{Form::label('brandName', 'Brand Name')}}
-                {{Form::text('brandName', '',  ['class' => 'form-control'])}}
+                {{Form::text('brandName', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '7'])}}
 
                 {{Form::label('price', 'Price')}}
-                {{Form::text('price', '',  ['class' => 'form-control'])}}
+                {{Form::text('price', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'number', 'placeholder' => 'Numeric'])}}
 
             {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 
