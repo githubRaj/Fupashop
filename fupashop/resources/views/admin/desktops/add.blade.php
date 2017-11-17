@@ -42,8 +42,8 @@
                 {{Form::label('ramSize', 'Ram Size')}}
                 {{Form::text('ramSize', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
-                {{Form::label('weight', 'Weight(2 decmial points)')}}
-                {{Form::text('weight', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'pattern' => '^[0-9]*\.[0-9]{2}$'])}}
+                {{Form::label('weight', 'Weight')}}
+                {{Form::text('weight', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'placeholder' => 'Numeric'])}}
 
                 {{Form::label('cpuCores', 'Cpu Cores')}}
                 {{Form::text('cpuCores', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
@@ -54,8 +54,8 @@
                 {{Form::label('brandName', 'Brand Name')}}
                 {{Form::text('brandName', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '20'])}}
 
-                {{Form::label('price', 'Price(2 decimal points)')}}
-                {{Form::text('price', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'pattern' => '^[0-9]*\.[0-9]{2}$'])}}
+                {{Form::label('price', 'Price')}}
+                {{Form::text('price', '',  ['class' => 'form-control', 'required' => '', 'maxlength' => '10', 'number', 'placeholder' => 'Numeric'])}}
 
             {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
 

@@ -2,15 +2,9 @@
 
 @section('content')
 
-@if(Session::has('success'))
-  <div class="alert alert-success">
-    <strong>Success:</strong> {{ Session::get('success')}}
-  </div>
-@endif
-
 <div class="row">
     <div class="col-lg-8">
-      <h1>Work In Progress</h1>
+      <h1>Serial Numbers</h1>
         <!--Fupa table example -->
         <div class=" panel-primary">
             <div class="panel-heading">
