@@ -274,6 +274,7 @@ class AdminController extends Controller
   public function editView($productType, $id)
   {
     $item = $this->mapper->findItemByModelNumber($id, $this->getClassName($productType));
+    session()->put('AdminItemToLock.'.$item->getModelNumber(),true); //lock item once admin begins editing
     return view('admin/edit', compact('item','productType'));
   }
 
@@ -293,6 +294,7 @@ class AdminController extends Controller
       $this->mapper->setItem($item, $request->modelNumber);
       $items =  $this->mapper->findAllItemsByClass($className);
       Session::flash('success', 'The item '.$request->modelNumber.' was succesfully edited!');
+      session()->forget('AdminItemToLock.'.$item->getModelNumber());  //unlockitem once admin has finished editing it
       return view ('admin.'.$productType.'.info', compact('items'));
   }
 
