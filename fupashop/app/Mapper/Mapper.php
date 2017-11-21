@@ -264,6 +264,24 @@ class Mapper
 		}
 	}
 
+	public function disableItem($itemToDisable, $type){
+		if($itemToDisable != null){
+			if($type == 'Item'){//is item
+				foreach($itemToDisable as $serial){
+					$serial->setPurchasable(false);
+					$this->uow->registerDirty($serial);
+					$this->uow->commit();
+				}
+			}
+			else{//is serialnumber
+				$itemToDisable->setPurchasable(false);
+				session()->get('repo')->updateItemBySerialNumber( $itemToDisable, $itemToDisable->getModelNumber(), $itemToDisable->getSerialNumber() );
+				$this->uow->registerDirty($itemToDisable);
+				$this->uow->commit();
+			}
+		}
+	}
+
 	public function makeNewItem($itemAttributes, $className)
 	{
     	$item = $this->createItemInstance($itemAttributes, $className);

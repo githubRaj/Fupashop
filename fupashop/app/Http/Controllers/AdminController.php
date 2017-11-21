@@ -303,11 +303,15 @@ class AdminController extends Controller
 
       if($className == SerialNumber::class){
         $item = $this->mapper->findItembySerialNumber($id, $request->serialNumber);
+        $type='Serial';
       }
       else{
-        $item = $this->mapper->findItemByModelNumber($id, $className);
+        $item = $this->mapper->findSerialNumbersByModelNumber($id, $className);
+        $type = 'Item';
       }
-      $this->mapper->eraseItem($item);
+
+      //echo var_dump($item);
+      $this->mapper->disableItem($item,$type);
       return back();
 
   }

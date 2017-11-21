@@ -32,7 +32,11 @@
                                       <tr><td>
                                         {{$serialNumber->getSerialNumber()}}
                                         </td>
-                                        <td>{{$serialNumber->getPurchasable()}}</td>
+                                          @if($serialNumber->getPurchasable())
+                                            <td>True</td>
+                                          @else
+                                            <td>False</td>
+                                          @endif
                                       <td>
                                         {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
                                             {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}

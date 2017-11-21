@@ -7,8 +7,16 @@
     <strong>Success:</strong> {{ Session::get('success')}}
   </div>
 @endif
+<head>
+    <!-- Le styles
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.css" rel="stylesheet">-->
+    <script type="text/javascript" src="{{ asset('/static/js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/static/js/tablesorter.js') }}"></script>
 
+  </head>
 
+<body>
 <div class="row">
     <div class="col-lg-8">
 
@@ -16,45 +24,36 @@
         <div class=" panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>MONITORS
-                <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="#">Action</a>
-                            </li>
-                            <li><a href="#">Another action</a>
-                            </li>
-                            <li><a href="#">Something else here</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separate link</a>
-                            </li>
-                        </ul>
+                    <!-- search section-->
+                    <div class="input-group custom-search-form">
+                        <input id="searchInput" type="text" class="form-control"  placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
                     </div>
-                </div>
+                    <!--end search section-->
             </div>
 
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
+                          <table id="myTable" class="tablesorter table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                       <th>Model #</th>
                           		        <th>Size</th>
-                                      <th>weight</th>
-                                      <th>brand</th>
+                                      <th>Weight</th>
+                                      <th>Brand</th>
                                       <th>Price</th>
-                                      <th>Edit</th>
-                                      <th>Delete</th>
-                                      <th>Serial</th>
+                                      <th class="sorter-false">Edit</th>
+                                      <th class="sorter-false">Delete</th>
+                                      <th class="sorter-false">Serial</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="fbody">
 
                                   @foreach ($items as $monitor)
                                     <tr>
@@ -87,6 +86,11 @@
     </div>
 
 </div>
+
+  <script type="text/javascript" src="{{ asset('/static/js/filter.js') }}"></script>
+
+</body>
+
 
 
 @endsection
