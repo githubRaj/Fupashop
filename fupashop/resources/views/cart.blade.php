@@ -86,7 +86,7 @@ if (!isset($_SESSION)) {
                   <img class="product-image--img" src="{{ asset('/images/'.$itemType.'/'.$item->getModelNumber()) }}.jpg" alt="Item image" />
                 </div>
                 <div class="_column product-info">
-                  <h4 class="product-name"><a href="{{ $item->getCategoryStr() }}/{{ $item->getModelNumber() }}">{{ $item->getModelNumber() }}</a></h4>
+                  <h4 class="product-name"><a href="{{ $itemType }}/{{ $item->getModelNumber() }}">{{ $item->getModelNumber() }}</a></h4>
                   <div class="price product-single-price">{{ $item->getPrice() }}</div>
                 </div>
                 <div class="_column product-modifiers" data-product-price="priceHere">
