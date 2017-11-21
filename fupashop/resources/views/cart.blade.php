@@ -63,9 +63,27 @@ if (!isset($_SESSION)) {
         @foreach ($items as $item)
           @if ( isset( $item ) )
             {{ Form::open(['action' => ['CartController@deleteFromCart'], 'method' => 'POST']) }}
+            @php
+              $className = get_class($item);
+              switch($className)
+              {
+                case 'App\Items\Tablet':
+                    $itemType = 'tablets';
+                    break;
+                case'App\Items\Desktop':
+                    $itemType = 'desktops';
+                    break;
+                case'App\Items\Monitor': 
+                    $itemType = 'monitors';
+                    break;
+                case 'App\Items\Laptop':
+                    $itemType = 'laptops';
+                    break;
+             }
+            @endphp
               <li class="_grid shopping-cart--list-item">
                 <div class="_column product-image">
-                  <img class="product-image--img" src="" alt="Item image" />
+                  <img class="product-image--img" src="{{ asset('/images/'.$itemType.'/'.$item->getModelNumber()) }}.jpg" alt="Item image" />
                 </div>
                 <div class="_column product-info">
                   <h4 class="product-name"><a href="{{ $item->getCategoryStr() }}/{{ $item->getModelNumber() }}">{{ $item->getModelNumber() }}</a></h4>
