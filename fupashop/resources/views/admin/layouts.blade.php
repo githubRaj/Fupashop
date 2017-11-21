@@ -94,16 +94,16 @@
                         <a href="#"><i class="fa fa-table fa-fw"></i>View Products/Serials<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{ url('/admin/Desktops') }}">Desktops</a>
+                                <a href="{{ url('/admin/desktops') }}">Desktops</a>
                             </li>
                             <li>
-                                <a href="{{ url('/admin/Laptops') }}">Laptops</a>
+                                <a href="{{ url('/admin/laptops') }}">Laptops</a>
                             </li>
                             <li>
-                                <a href="{{ url('/admin/Tablets') }}">Tablets</a>
+                                <a href="{{ url('/admin/tablets') }}">Tablets</a>
                             </li>
                             <li>
-                                <a href="{{ url('/admin/Monitors') }}">Monitors</a>
+                                <a href="{{ url('/admin/monitors') }}">Monitors</a>
                             </li>
                         </ul>
                         <!-- second-level-items -->

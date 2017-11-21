@@ -38,8 +38,7 @@
                                             {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
                                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                         {{ Form::close() }}
-                                        <!--<a href="/admin/delete/serials/{{$serialNumber->getModelNumber()}}" class="btn btn-danger">Delete</a></td>
-                                        -->
+                                        <!--<a href="/admin/delete/serials/{{$serialNumber->getModelNumber()}}" class="btn btn-danger">Delete</a></td>  -->
                                       </td>
                                     @endforeach
                                     </tr>

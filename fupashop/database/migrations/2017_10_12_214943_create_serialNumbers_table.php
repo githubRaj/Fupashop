@@ -13,7 +13,7 @@ class CreateSerialNumbersTable extends Migration
      */
     public function up()
     {
-        Schema::create('serialNumbers', function (Blueprint $table) {
+        Schema::create('serialnumbers', function (Blueprint $table) {
             $table->string('modelNumber', 20);
             $table->string('serialNumber', 11);
             $table->string('type', 10);

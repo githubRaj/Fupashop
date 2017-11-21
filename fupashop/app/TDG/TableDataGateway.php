@@ -34,14 +34,14 @@ class TableDataGateway
 	public function getItemBySerialNumber($modelNumber, $serialNumber)
 	{
 
-		return DB::table('serialNumbers')->where('modelNumber', $modelNumber)->where('serialNumber', $serialNumber)->first();
+		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->where('serialNumber', $serialNumber)->first();
 	}
 
 	public function getSerialNumbersByModelNumber($modelNumber)
 	{
 		//$tableName = $this->getTableName($className);
 
-		return DB::table('serialNumbers')->where('modelNumber', $modelNumber)->get();
+		return DB::table('serialnumbers')->where('modelNumber', $modelNumber)->get();
 	}
 
 	public function getTimeStampBySerialNumber( $serialNumber )

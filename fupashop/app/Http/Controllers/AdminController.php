@@ -176,15 +176,15 @@ class AdminController extends Controller
                   'processor' => 'required|max:20',
                   'dimensions' => 'required|max:21',
                   'ramSize' => array('required', 'regex:/^[0-9]+(MB|GB)$/', 'max:20'),  //case insensitive and must have gb at the end
-                  'weight' => array('required', 'numeric', 'regex:/^.{1,10}$/'),  //must have a maximum of 2 decimal points
+                  'weight' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),  //must have a maximum of 2 decimal points
                   'cpuCores' => 'required|max:20',
                   'hddSize' => array('required', 'regex:/^[0-9]+(GB|TB|MB|PB)$/' , 'max:20'),//must contain gb or tb at the end
                   'brandName' => 'required|max:20',
-                  'price' => array('required', 'numeric', 'regex:/^.{1,10}$/'),   //must ahve 2 decimal places
+                  'price' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),   //must ahve 2 decimal places
               ],
-               ['weight.regex' => 'The weight field length must be between 1 and 10.',
+               ['weight.regex' => 'The weight field length must be between 1 and 10  and must be numerical.',
                 'ramSize.regex' => 'The Ram Size field must be a number and must end with the unit MB or GB.',
-                'price.regex' => 'The Price field length must be between 1 and 10 digits',
+                'price.regex' => 'The Price field length must be between 1 and 10 digits and must be numerical.',
                 'hddSize.regex' => 'The HDD Size field must be a number and must end with the unit MB, GB, TB or PB.',
               ]);
         }
@@ -195,7 +195,7 @@ class AdminController extends Controller
                   'processor' => 'required|max:20',
                   'displaySize' => array('required', 'numeric', 'regex:/^.{1,6}$/'),  //must have  1 decimal point
                   'ramSize' => array('required', 'regex:/^[0-9]+(MB|GB)$/', 'max:20'),  //case insensitive and must have gb at the end
-                  'weight' => array('required', 'numeric', 'regex:/^.{1,10}$/'),  //must have a maximum of 2 decimal points
+                  'weight' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),  //must have a maximum of 2 decimal points
                   'cpuCores' => 'required|max:20',
                   'hddSize' => array('required', 'regex:/^[0-9]+(GB|TB|MB|PB)$/' , 'max:20'),//must contain gb or tb at the end
                   'batteryType' => 'required|max:20',
@@ -204,14 +204,14 @@ class AdminController extends Controller
                   'operatingSystem' => 'required|max:20',
                   'touchFeature' => array('required', 'numeric', 'regex:/^(0|1)$/', 'max:1', 'digits:1'), //touch feature must be a 0 or a 1
                   'cameraInformation' => 'required|max:40',
-                  'price' => array('required', 'numeric', 'regex:/^.{1,10}$/'),   //must ahve 2 decimal places
+                  'price' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),   //must ahve 2 decimal places
               ],
-               ['weight.regex' => 'The weight field length must be between 1 and 10 digitis.',
+               ['weight.regex' => 'The weight field length must be between 1 and 10 digitis and must be numerical.',
                 'displaySize.regex' => 'The Display Size field length must be between 1 and 6 digits.',
                 'ramSize.regex' => 'The Ram Size field must be a number and must end with the unit MB or GB.',
                 'hddSize.regex' => 'The HDD Size field must be a number and must end with the unit MB, GB, TB or PB.',
                 'touchFeature.regex' => 'The Touch Feature field must either be a 1 or a 0.',
-                'price.regex' => 'The Price field length must be between 1 and 10 digits',
+                'price.regex' => 'The Price field length must be between 1 and 10 digits and must be numerical.',
               ]);
         }
 
@@ -223,20 +223,20 @@ class AdminController extends Controller
                   'screenSize' => array('required', 'numeric', 'regex:/^.{1,6}$/'),  //must have  1 decimal point
                   'dimensions' => 'required|max:40',
                   'ramSize' => array('required', 'regex:/^[0-9]+(MB|GB)$/', 'max:20'),  //case insensitive and must have gb at the end
-                  'weight' => array('required', 'numeric', 'regex:/^.{1,10}$/'),  //must have a maximum of 2 decimal points
+                  'weight' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),  //must have a maximum of 2 decimal points
                   'cpucores' => 'required|max:20',
                   'hddSize' => array('required', 'regex:/^[0-9]+(GB|TB|MB|PB)$/' , 'max:20'),//must contain gb or tb at the end
                   'batteryInformation' => 'required|max:20',
                   'brandName' => 'required|max:30',
                   'operatingSystem' => 'required|max:20',
                   'cameraInformation' => 'required|max:40',
-                  'price' => array('required', 'numeric', 'regex:/^.{1,10}$/'),   //must ahve 2 decimal places
+                  'price' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),   //must ahve 2 decimal places
               ],
-               ['weight.regex' => 'The weight field length must be between 1 and 10 digits.',
+               ['weight.regex' => 'The weight field length must be between 1 and 10 digits and must be numerical.',
                 'screenSize.regex' => 'The Screen Size field length must be between 1 and 6 digits.',
                 'ramSize.regex' => 'The Ram Size field must be a number and must end with the unit MB or GB.',
                 'hddSize.regex' => 'The HDD Size field must be a number and must end with the unit MB, GB, TB or PB.',
-                'price.regex' => 'The Price field length must be between 1 and 10 digits',
+                'price.regex' => 'The Price field length must be between 1 and 10 digits and must be numerical.',
               ]);
         }
 
@@ -245,11 +245,11 @@ class AdminController extends Controller
               $request->validate([
                 //  'modelNumber' => 'required|unique:desktops|max:20',
                   'size' => 'required|numeric',
-                  'weight' => array('required', 'numeric', 'regex:/^.{1,10}$/'),  //must have a maximum of 2 decimal points
+                  'weight' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),  //must have a maximum of 2 decimal points
                   'brandName' => 'required|max:20',
-                  'price' => array('required', 'numeric', 'regex:/^.{1,10}$/'),   //must ahve 2 decimal places
+                  'price' => array('required', 'numeric', 'regex:/^[0-9]\d*(\.\d+)?$/'),   //must ahve 2 decimal places
               ],
-               ['weight.regex' => 'The weight field length must be between 1 and 10 digits.',
+               ['weight.regex' => 'The weight field length must be between 1 and 10 digits and must be numerical.',
                 'price.regex' => 'The Price field length must be between 1 and 10 digits',
               ]);
         }
@@ -261,12 +261,9 @@ class AdminController extends Controller
       $this->validateRequest($request, $item, 'add');
 
       $this->mapper->makeNewItem($request, $this->getClassName($item));
-            Session::flash('success', 'The item '.$request->modelNumber.' was succesfully created!');
+      Session::flash('success', 'The item '.$request->modelNumber.' was succesfully created!');
 
-      $className = $this->getClassName($item);
-      $items =  $this->mapper->findAllItemsByClass($className);
-
-      return view ('admin.'.$item.'.info', compact('items'));
+      return redirect('/admin/'.$item);
     }
 
 
@@ -295,7 +292,7 @@ class AdminController extends Controller
       $items =  $this->mapper->findAllItemsByClass($className);
       Session::flash('success', 'The item '.$request->modelNumber.' was succesfully edited!');
       session()->forget('AdminItemToLock.'.$item->getModelNumber());  //unlockitem once admin has finished editing it
-      return view ('admin.'.$productType.'.info', compact('items'));
+      return redirect('/admin/'.$productType);
   }
 
   //Delete Product
@@ -326,18 +323,18 @@ class AdminController extends Controller
 
   //Submit Serial Number
   public function SaveSerial(Request $request)
-  {
-    //validation
+  { //validation
     $request->validate([
-      'serialNumber' => 'required|unique:serialNumbers|max:11'
+      'serialNumber' => 'required|unique:serialNumbers|max:11|pattern:'
     ]);
 
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
 
      Session::flash('success', 'The serial '.$request->serialNumber.' was succesfully created!');
 
-     $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($request->modelNumber, 'App\Items\SerialNumber');
-     return view('admin/SerialNumbers/info', compact('serialNumbers'));
+     $className = $this->getClassName($request->type);
+     $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($request->modelNumber, $className);
+     return redirect('admin/viewSerial/desktops/'.$request->modelNumber);
   }
 
   //View Serial Numbers
