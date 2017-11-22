@@ -10,6 +10,7 @@ use App\Items\Monitor;
 use App\Items\Desktop;
 use App\Items\Laptop;
 use App\Items\SerialNumber;
+use App\Purchase;
 use Session;
 use Auth;
 
@@ -47,8 +48,6 @@ class Mapper
 				return new Laptop($itemAttributes->modelNumber, $itemAttributes->processor, $itemAttributes->displaySize, $itemAttributes->ramSize, $itemAttributes->weight, $itemAttributes->cpuCores, $itemAttributes->hddSize, $itemAttributes->batteryType, $itemAttributes->batteryInformation, $itemAttributes->brandName, $itemAttributes->operatingSystem, $itemAttributes->touchFeature, $itemAttributes->cameraInformation, $itemAttributes->price);
 				break;
 			case 'App\Items\SerialNumber':
-			//	echo var_dump($itemAttributes);
-				//return;
 				return new SerialNumber($itemAttributes->modelNumber, $itemAttributes->serialNumber, $itemAttributes->type, $itemAttributes->purchasable);
 				break;
 		}
@@ -56,47 +55,19 @@ class Mapper
 		return null;
 	}
 
-	public function createTransactionInTable( $cartItems )
+	public function createTransactionInTable( $cartItems, $cartSerials )
 	{
-		foreach( $cartItems as $item )
+		$uid = Auth::id();
+		$itemsInCart = $this->tdg->getValidShoppingCartItemsByUser($uid);
+
+		foreach( $itemsInCart as $item )
 		{
 			$targetSerial = null;
 			$className = get_class( $item );
-			$modelNum = $item->getModelNumber();
-			$possibleSerials = $this->findSerialNumbersByModelNumber( $modelNum, $className );
-			$idx = 0;
-			foreach( $possibleSerials as $entry )
-			{
-				if ( $entry->getPurchasable() == false )
-				{
-					$targetSerial = $possibleSerials[$idx];
-					break;
-				}
-				else
-				{
-					$idx++;
-				}
-			}
-			if ( $targetSerial != null )
-			{
-				//Now that we have the target serial object, add this to trxn table
-				$uid = Auth::id();
-				$modelNumber = $targetSerial->getModelNumber();
-				$serialNumber = $targetSerial->getSerialNumber();
-				$price;
-				foreach( session()->get('sessionCart') as $item )
-				{
-					if ( $item->getModelNumber() == $targetSerial->getModelNumber() )
-					{
-						$price = $item->getPrice();
-					}
-				}
-				$this->tdg->addTransaction( $uid, $modelNumber, $serialNumber, $price );
-			}
-			else
-			{
-				echo "No Corresponding Serial Number Found for chosen item.";
-			}
+			$modelNum = $item->modelNumber;
+			$serialNumber = $item->serialNumber;
+			$price = $item->price;
+			$this->tdg->addTransaction( $uid, $modelNum, $serialNumber, $price );
 		}
 	}
 
@@ -337,6 +308,12 @@ class Mapper
 	 																		$price );
 	}
 
+	public function deleteSerialFromShoppingCartTable( $itemToAddToCartTable )
+	{
+		$serialNumber = $itemToAddToCartTable->getSerialNumber();
+		$this->tdg->delSerialFromCartTable( $serialNumber );
+	}
+
 	public function handleReturn( $sn )
 	{
 		//Set the item purchasable in the SN table
@@ -374,6 +351,13 @@ class Mapper
 			$item->incrementStock();
 			$this->setItem($item, $item->getModelNumber());
 		}
+	}
+
+	public function getPurchasesByUser( $uid )
+	{
+		//$items = $this->tdg->getReturnableItemsForUser( $uid );
+		$items = Purchase::where('userID', $uid)->get();
+		return $items;
 	}
 
 	public function checkCartTimingsBySN( $snStrings )

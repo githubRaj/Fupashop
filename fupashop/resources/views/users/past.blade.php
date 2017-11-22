@@ -95,18 +95,16 @@ if (!isset($_SESSION)) {
                                     <tbody>
 
                                       @foreach ($purchases as $purchase)
-                                        @if(!session()->get('repo')->getSerialBySerialNumber( $purchase->serialNumber )->getPurchasable())
+                                        @if( !$purchase->returned )
                                           @php
                                             //Eligible for Return
                                             $field = 'Return Item';
-                                            $href = "#";
                                             $button = "enabled";
                                           @endphp
                                         @else
                                           @php
                                             //Already Returned
                                             $field = 'Returned';
-                                            $href = "#";
                                             $button = "disabled";
                                           @endphp
                                         @endif
