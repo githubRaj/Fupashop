@@ -314,14 +314,13 @@ class Mapper
 		$this->tdg->delSerialFromCartTable( $serialNumber );
 	}
 
-	public function handleReturn( $sn )
+	public function handleReturn( $sn, $mn )
 	{
 		//Set the item purchasable in the SN table
-		$serialObject = session()->get('repo')->getItemBySerialNumber($sn, SerialNumber::class);
+		$serialObject = $this->findItemBySerialNumber($mn, $sn);
 		$serialObject->setPurchasable(true);
-		session()->get('repo')->updateItemBySerialNumber($serialObject, $serialObject->getModelNumber(), $sn );
-		$this->uow->registerDirty($serialObject);
-		$this->uow->commit();
+		//session()->get('repo')->updateItemBySerialNumber($serialObject, $serialObject->getModelNumber(), $sn );
+		$this->updateSerialNumberInRepo( $serialObject );
 
 		//Get the class name via the serialObject
 		$modelNum = $serialObject->getModelNumber();
@@ -351,9 +350,8 @@ class Mapper
 			$item->incrementStock();
 			$this->setItem($item, $item->getModelNumber());
 		}
-		$item = Purchase::where('serialNumber', $serialObject->getSerialNumber() );
-		$item->returned = true;
-		$item->save();
+		Purchase::where('serialNumber', $serialObject->getSerialNumber() )
+																								 ->update(['returned' => true]);
 	}
 
 	public function getPurchasesByUser( $uid )

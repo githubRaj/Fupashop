@@ -42,7 +42,7 @@ class UsersController extends Controller
     // User Return Item via SN
     public function return(Request $request)
     {
-      $this->mapper->handleReturn( $request->SN );
+      $this->mapper->handleReturn( $request->SN, $request->MN );
       $purchases = $this->mapper->getPurchasesByUser( Auth::id() );
       return view('users.past', compact('purchases'));
     }
