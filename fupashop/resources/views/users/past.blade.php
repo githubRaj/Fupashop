@@ -117,6 +117,7 @@ if (!isset($_SESSION)) {
                                           {{ Form::open(['action' => ['UsersController@return'], 'method' => 'Post']) }}
                                           <td>{{ Form::submit($field, array('class' => 'btn-black', $button)) }}</td>
                                           {{ Form::hidden('SN', $purchase->serialNumber) }}
+                                          {{ Form::hidden('MN', $purchase->modelNumber ) }}
                                           {{ Form::close() }}
                                         </tr>
                                       @endforeach
