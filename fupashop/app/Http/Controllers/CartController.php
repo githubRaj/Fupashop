@@ -129,6 +129,9 @@ class CartController extends Controller
               $updatedSerialsCart = array_values( $cartSerials );
               $request->session()->forget( 'sessionSerials' );
               $request->session()->put( 'sessionSerials', $updatedSerialsCart );
+              // Update stock in repo
+              $item->incrementStock();
+              $this->mapper->setItem($item, $item->getModelNumber());
               break;
             }
             $i++;
@@ -144,7 +147,7 @@ class CartController extends Controller
     public function checkout()
     {
       //First, we have to add the items from cart into the transaction history table
-      $this->mapper->createTransactionInTable( session()->get('sessionCart') );
+      $this->mapper->createTransactionInTable( session()->get('sessionCart'), session()->get('sessionSerials') );
 
       //Clear the session cart and sync with repo Cart
       session()->forget( 'sessionCart' );
@@ -271,10 +274,8 @@ class CartController extends Controller
       $itemToPushBackIntoRepo = null;
       foreach ( $queryArray as $item )
       {
-
         if ( $item->getPurchasable() == true )
         {
-
           $itemToPushBackIntoRepo = $item;
           $itemToPushBackIntoRepo->setPurchasable( false );
           break;
@@ -313,7 +314,8 @@ class CartController extends Controller
 
       session()->get('repo')->getCart()->deleteSerialFromSerialCartBySerialNumber(
                                          $itemToPushBackIntoRepo->getSerialNumber() );
-
+                                         //Add $itemToPushBackIntoRepo into a shoppingCarts
+      $this->mapper->deleteSerialFromShoppingCartTable( $itemToPushBackIntoRepo );
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }

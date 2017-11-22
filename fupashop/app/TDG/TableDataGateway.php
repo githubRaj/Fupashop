@@ -96,6 +96,18 @@ class TableDataGateway
 																		'created_at' => $created, 'updated_at' => $created]);
 	}
 
+	public function delSerialFromCartTable( $serialNumber )
+	{
+		$tableName = "shoppingCarts";
+		DB::table($tableName)->where('serialNumber', $serialNumber)->delete();
+	}
+
+	public function getValidShoppingCartItemsByUser( $uid )
+	{
+		$tableName = "shoppingCarts";
+		return DB::table($tableName)->where('userID', $uid)->get();
+	}
+
 	public function insertItem($item)
 	{
 		$tableName = $this->getTableName(get_class($item));

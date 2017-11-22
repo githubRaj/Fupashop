@@ -25,9 +25,8 @@ class UsersController extends Controller
 
     // Users Past Orders
     public function pastOrders(){
-        $purchases = \App\Purchase::where('userID', Auth::id() )->get();
-
-        return view('users.past', compact('purchases'));
+      $purchases = $this->mapper->getPurchasesByUser( Auth::id() );
+      return view('users.past', compact('purchases'));
     }
 
     public function deleteAccount()
@@ -44,8 +43,7 @@ class UsersController extends Controller
     public function return(Request $request)
     {
       $this->mapper->handleReturn( $request->SN );
-      $purchases = \App\Purchase::where('userID', Auth::id() )->get();
-      return view('users.past', compact('purchases'));
+      $this->pastOrders();
     }
 
 }
