@@ -351,6 +351,9 @@ class Mapper
 			$item->incrementStock();
 			$this->setItem($item, $item->getModelNumber());
 		}
+		$item = Purchase::where('serialNumber', $serialObject->getSerialNumber() );
+		$item->returned = true;
+		$item->save();
 	}
 
 	public function getPurchasesByUser( $uid )
