@@ -26,6 +26,7 @@ class AdminController extends Controller
     {
         $this->middleware('auth:admin');
         $this->mapper = new Mapper();
+
     }
 
     public function getViewDirName($className)
@@ -56,6 +57,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+
         return view('admin.layouts');
     }
 
@@ -126,6 +128,23 @@ class AdminController extends Controller
       // Fetch all items of a given class
       $dirName = $this->getViewDirName($className);
       $items =  $this->mapper->findAllItemsByClass($className);
+
+      foreach ($items as $item)
+      {
+        $itemAttributes = $item->getAttributes();
+
+
+        $this->mapper->initializeItemStock($item, $className);
+        if($this->mapper->findItemByModelNumber($item->getModelNumber(), $className)->getStock() == 0 ||  session()->has('AdminItemToLock.'.$item->getModelNumber()) ){
+
+          session()->put('itemToLock.'.$item->getModelNumber(),true);
+        }
+        else
+        {
+          session()->forget('itemToLock.'.$item->getModelNumber());
+        }
+
+      }
 
       return view ('admin.'.$dirName.'.info', compact('items'));
     }
@@ -309,10 +328,9 @@ class AdminController extends Controller
         $item = $this->mapper->findSerialNumbersByModelNumber($id, $className);
         $type = 'Item';
       }
-
-      //echo var_dump($item);
-      $this->mapper->disableItem($item,$type);
-      return back();
+      //echo var_dump($className,$productType,$item);
+      $this->mapper->disableItem($item,$type, $className);
+      //return back();
 
   }
 
@@ -329,7 +347,7 @@ class AdminController extends Controller
   public function SaveSerial(Request $request)
   { //validation
     $request->validate([
-      'serialNumber' => 'required|unique:serialNumbers|max:11|pattern:'
+      'serialNumber' => 'required|unique:serialnumbers|max:11'
     ]);
 
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
@@ -346,7 +364,7 @@ class AdminController extends Controller
   {
     $className = $this->getClassName($productType);
     $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($modelNumber, $className);
-    return view('admin/SerialNumbers/info', compact('serialNumbers'));
+    return view('admin/SerialNumbers/info', compact('serialNumbers', 'modelNumber', 'productType'));
   }
 
 }

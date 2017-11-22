@@ -28,6 +28,8 @@ class Mapper
 		session()->put('repo', $this->repo);
 	}
 
+
+
 	public function createItemInstance($itemAttributes, $className)
 	{
 		switch($className)
@@ -238,6 +240,7 @@ class Mapper
 	{
 		if ($this->findItemByModelNumber($modelNumber, get_class($newItem)) != null)
 		{
+
 			session()->get('repo')->updateItem($newItem, $modelNumber);
 			$this->uow->registerDirty($newItem);
 			$this->uow->commit();
@@ -264,20 +267,27 @@ class Mapper
 		}
 	}
 
-	public function disableItem($itemToDisable, $type){
+	public function disableItem($itemToDisable, $type,$className){
 		if($itemToDisable != null){
 			if($type == 'Item'){//is item
 				foreach($itemToDisable as $serial){
+
 					$serial->setPurchasable(false);
-					$this->uow->registerDirty($serial);
-					$this->uow->commit();
+					$this->setItemBySerialNumber( $serial, $serial->getModelNumber(), $serial->getSerialNumber() );
 				}
+				echo var_dump($itemToDisable[0],'<br>');
+				return;
+				$newItem = session()->get('repo')->getItemByModelNumber($itemToDisable[0]->getModelNumber(),$className);
+
+				$newItem->setStock(0);
+				$this->setItem($newItem, $newItem->getModelNumber());
 			}
 			else{//is serialnumber
 				$itemToDisable->setPurchasable(false);
-				session()->get('repo')->updateItemBySerialNumber( $itemToDisable, $itemToDisable->getModelNumber(), $itemToDisable->getSerialNumber() );
-				$this->uow->registerDirty($itemToDisable);
-				$this->uow->commit();
+				$this->setItemBySerialNumber( $itemToDisable, $itemToDisable->getModelNumber(), $itemToDisable->getSerialNumber() );
+				$newItem = session()->get('repo')->getItemByModelNumber($itemToDisable->getModelNumber(),$className);
+				$newItem->decrementStock();
+				$this->setItem($newItem, $newItem->getModelNumber());
 			}
 		}
 	}

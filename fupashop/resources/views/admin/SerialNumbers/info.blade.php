@@ -5,6 +5,7 @@
 <div class="row">
     <div class="col-lg-8">
       <h1>Serial Numbers</h1>
+      <h3><a href="/admin/{{$productType}}"> Model Numbers</a> -> Serial Numbers</h3>
         <!--Fupa table example -->
         <div class=" panel-primary">
             <div class="panel-heading">
@@ -34,16 +35,21 @@
                                         </td>
                                           @if($serialNumber->getPurchasable())
                                             <td>True</td>
+                                            <td>
+                                              {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
+                                                  {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
+                                                  {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+                                              {{ Form::close() }}
+                                            </td>
                                           @else
                                             <td>False</td>
+                                            <td>
+                                              {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
+                                                  {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
+                                                  {{ Form::submit('Delete', array('class' => 'btn btn-danger', 'disabled')) }}
+                                              {{ Form::close() }}
+                                          </td>
                                           @endif
-                                      <td>
-                                        {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
-                                            {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
-                                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                                        {{ Form::close() }}
-                                        <!--<a href="/admin/delete/serials/{{$serialNumber->getModelNumber()}}" class="btn btn-danger">Delete</a></td>  -->
-                                      </td>
                                     @endforeach
                                     </tr>
                                   </tbody>

@@ -58,6 +58,19 @@
                                 <tbody id="fbody">
 
                                   @foreach ($items as $desktop)
+                                  {{$desktop->getStock()}}
+                                    @if(!session()->has('itemToLock.'.$desktop->getModelNumber()))
+                                        @php
+                                          //IN STOCK
+                                          $button = "enabled";
+                                        @endphp
+                                      @else
+                                        @php
+                                          //OUT OF STOCK
+                                          $button = "disabled";
+                                        @endphp
+                                      @endif
+
                                     <tr>
                                       <td>{{$desktop->getModelNumber()}}</td>
                                       <td>{{$desktop->getProcessor()}}</td>
@@ -70,9 +83,11 @@
                                       <td>{{$desktop->getPrice()}}</td>
                                       <td><a href="/admin/edit/desktops/{{$desktop->getModelNumber()}}" class="btn btn-info">Edit</a></td>
                                       <td>
-                                        <a href="/admin/delete/desktops/{{$desktop->getModelNumber()}}" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/desktops/{{$desktop->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
                                       </td>
-                                      <td><a href="/admin/viewSerial/desktops/{{$desktop->getModelNumber()}}" class="btn btn-info">Serials</a></td>
+                                      @if($desktop->getStock() == 0)
+                                      <td><a href="/admin/viewSerial/desktops/{{$desktop->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
+                                      @endif
                                   </tr>
                                   @endforeach
 

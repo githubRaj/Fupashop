@@ -67,6 +67,7 @@
                                 <tbody id="fbody">
 
                                   @foreach ($items as $tablet)
+                                  {{$tablet->getStock()}}
                                     <tr>
                                       <td>{{$tablet->getModelNumber()}}</td>
                                       <td>{{$tablet->getProcessor()}}</td>
