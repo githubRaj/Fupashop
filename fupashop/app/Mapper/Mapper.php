@@ -270,22 +270,21 @@ class Mapper
 	public function disableItem($itemToDisable, $type,$className){
 		if($itemToDisable != null){
 			if($type == 'Item'){//is item
+				$modelNum = "";
 				foreach($itemToDisable as $serial){
-
+					$modelNum = $serial->getModelNumber();
 					$serial->setPurchasable(false);
 					$this->setItemBySerialNumber( $serial, $serial->getModelNumber(), $serial->getSerialNumber() );
 				}
-				echo var_dump($itemToDisable[0],'<br>');
-				return;
-				$newItem = session()->get('repo')->getItemByModelNumber($itemToDisable[0]->getModelNumber(),$className);
 
+				$newItem = $this->findItemByModelNumber($modelNum,$className);
 				$newItem->setStock(0);
 				$this->setItem($newItem, $newItem->getModelNumber());
 			}
 			else{//is serialnumber
 				$itemToDisable->setPurchasable(false);
 				$this->setItemBySerialNumber( $itemToDisable, $itemToDisable->getModelNumber(), $itemToDisable->getSerialNumber() );
-				$newItem = session()->get('repo')->getItemByModelNumber($itemToDisable->getModelNumber(),$className);
+				$newItem = $this->findItemByModelNumber($itemToDisable->getModelNumber(),$className);
 				$newItem->decrementStock();
 				$this->setItem($newItem, $newItem->getModelNumber());
 			}
@@ -304,9 +303,9 @@ class Mapper
   public function findAllItemsByClass($className)
   {
     $objArray = array();
+		$objArray = session()->get('repo')->getAllItemsByClass($className);
     // No Tablets found in repo. load all from db to repo
-    //if ($this->repo->classArrayEmpty($className))
-    if (true)
+    if ($objArray == null)
     {
       $itemArray = $this->tdg->getAllItemsByClass($className);
 
@@ -317,13 +316,8 @@ class Mapper
         array_push($objArray, $item);
         session()->get('repo')->addItem($item);
       }
-
-      return $objArray;
     }
-    else
-    {
-      // Case where some are in the repo but not all
-    }
+		return $objArray;
   }
 
 	public function addSerialToShoppingCartTable( $itemToAddToCartTable )

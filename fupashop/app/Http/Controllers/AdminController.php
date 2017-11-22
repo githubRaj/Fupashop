@@ -128,7 +128,6 @@ class AdminController extends Controller
       // Fetch all items of a given class
       $dirName = $this->getViewDirName($className);
       $items =  $this->mapper->findAllItemsByClass($className);
-
       foreach ($items as $item)
       {
         $itemAttributes = $item->getAttributes();
@@ -301,7 +300,7 @@ class AdminController extends Controller
       $this->validateRequest($request, $productType, 'edit');
 
       $className = $this->getClassName($productType);
-      $this->mapper->findAllItemsByClass($className);
+      //$this->mapper->findAllItemsByClass($className);
 
       $item = $this->mapper->findItemByModelNumber($request->oldModel, $className);
 
@@ -322,6 +321,8 @@ class AdminController extends Controller
 
       if($className == SerialNumber::class){
         $item = $this->mapper->findItembySerialNumber($id, $request->serialNumber);
+        $className = $this->getClassName($request->superClass);
+
         $type='Serial';
       }
       else{
@@ -330,7 +331,7 @@ class AdminController extends Controller
       }
       //echo var_dump($className,$productType,$item);
       $this->mapper->disableItem($item,$type, $className);
-      //return back();
+      return back();
 
   }
 

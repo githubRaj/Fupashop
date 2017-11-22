@@ -35,7 +35,7 @@ if (!isset($_SESSION)) {
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/tablets/{{ $tablets[0]->getModelNumber() }}">
+                        <a href="/tablets/{{ $tablets->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/acerb3.png') }}"/>
                         </a>
                     </div>
@@ -49,9 +49,9 @@ if (!isset($_SESSION)) {
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $tablets[0]->getProcessor()}} processor</li>
-                          <li> {{ $tablets[0]->getHddSize() }} storage space</li>
-                          <li> {{ $tablets[0]->getCpuCores() }} </li>
+                          <li> {{ $tablets->getProcessor()}} processor</li>
+                          <li> {{ $tablets->getHddSize() }} storage space</li>
+                          <li> {{ $tablets->getCpuCores() }} </li>
                     </p>
                 </div>
             </div>
@@ -70,17 +70,17 @@ if (!isset($_SESSION)) {
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $desktops[0]->getModelNumber() }}
+                          {{ $desktops->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $desktops[0]->getPrice() }}
+                        {{ $desktops->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $desktops[0]->getProcessor() }} processor</li>
-                          <li> {{ $desktops[0]->getHddSize() }} storage space</li>
-                          <li> {{ $desktops[0]->getCpuCores() }} </li>
+                          <li> {{ $desktops->getProcessor() }} processor</li>
+                          <li> {{ $desktops->getHddSize() }} storage space</li>
+                          <li> {{ $desktops->getCpuCores() }} </li>
                     </p>
                 </div>
             </div>
@@ -91,22 +91,22 @@ if (!isset($_SESSION)) {
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/monitors/{{ $monitors[0]->getModelNumber() }}">
+                        <a href="/monitors/{{ $monitors->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/tv1.jpg') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $monitors[0]->getModelNumber() }}
+                          {{ $monitors->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $monitors[0]->getPrice() }}
+                        {{ $monitors->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $monitors[0]->getSize() }} inch screen</li>
-                          <li> {{ $monitors[0]->getWeight() }} lbs</li>
+                          <li> {{ $monitors->getSize() }} inch screen</li>
+                          <li> {{ $monitors->getWeight() }} lbs</li>
                     </p>
                 </div>
             </div>
@@ -117,23 +117,23 @@ if (!isset($_SESSION)) {
                         <a class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/laptops/{{ $laptops[0]->getModelNumber() }}">
+                        <a href="/laptops/{{ $laptops->getModelNumber() }}">
                             <img src="{{ asset('dist/img/products/l1.jpg') }}"/>
                         </a>
                     </div>
                     <a href="#">
                         <h3>
-                          {{ $laptops[0]->getModelNumber() }}
+                          {{ $laptops->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $laptops[0]->getPrice() }}
+                        {{ $laptops->getPrice() }}
                     </h5>
                     <p>
                         <ul>
-                          <li> {{ $laptops[0]->getProcessor() }} processor</li>
-                          <li> {{ $laptops[0]->getHddSize() }} </li>
-                          <li> {{ $laptops[0]->getCpuCores() }} cores </li>
+                          <li> {{ $laptops->getProcessor() }} processor</li>
+                          <li> {{ $laptops->getHddSize() }} </li>
+                          <li> {{ $laptops->getCpuCores() }} cores </li>
                     </p>
                 </div>
             </div>

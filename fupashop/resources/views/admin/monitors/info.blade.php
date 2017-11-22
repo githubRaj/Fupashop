@@ -56,17 +56,31 @@
                                 <tbody id="fbody">
 
                                   @foreach ($items as $monitor)
+                                  @if(!session()->has('itemToLock.'.$monitor->getModelNumber()))
+                                      @php
+                                        //IN STOCK
+                                        $button = "enabled";
+                                      @endphp
+                                    @else
+                                      @php
+                                        //OUT OF STOCK
+                                        $button = "disabled";
+                                      @endphp
+                                    @endif
+
+                                    {{$monitor->getStock()}}
+
                                     <tr>
                                       <td>{{$monitor->getModelNumber()}}</td>
                                       <td>{{$monitor->getSize()}}</td>
                                       <td>{{$monitor->getWeight()}}</td>
                                       <td>{{$monitor->getBrandName()}}</td>
                                       <td>{{$monitor->getPrice()}}</td>
-                                      <td><a href="/admin/edit/monitors/{{$monitor->getModelNumber()}}" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/monitors/{{$monitor->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
                                       <td>
-                                        <a href="/admin/delete/monitors/{{$monitor->getModelNumber()}}" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/monitors/{{$monitor->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
                                       </td>
-                                        <td><a href="/admin/viewSerial/monitors/{{$monitor->getModelNumber()}}" class="btn btn-info">Serials</a></td>
+                                        <td><a href="/admin/viewSerial/monitors/{{$monitor->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 

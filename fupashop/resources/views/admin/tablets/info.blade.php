@@ -21,10 +21,6 @@
         <div class="panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i>TABLETS
-                <!--Fupa table example -->
-                <div class=" panel-primary">
-                    <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i>LAPTOPS
                         <!-- search section-->
                         <div class="input-group custom-search-form">
                             <input id="searchInput" type="text" class="form-control"  placeholder="Search...">
@@ -67,7 +63,20 @@
                                 <tbody id="fbody">
 
                                   @foreach ($items as $tablet)
-                                  {{$tablet->getStock()}}
+                                  @if(!session()->has('itemToLock.'.$tablet->getModelNumber()))
+                                      @php
+                                        //IN STOCK
+                                        $button = "enabled";
+                                      @endphp
+                                    @else
+                                      @php
+                                        //OUT OF STOCK
+                                        $button = "disabled";
+                                      @endphp
+                                    @endif
+
+                                    {{$tablet->getStock()}}
+
                                     <tr>
                                       <td>{{$tablet->getModelNumber()}}</td>
                                       <td>{{$tablet->getProcessor()}}</td>
@@ -82,11 +91,11 @@
                                       <td>{{$tablet->getOperatingSystem()}}</td>
                                       <td>{{$tablet->getCameraInformation()}}</td>
                                       <td>{{$tablet->getPrice()}}</td>
-                                      <td><a href="/admin/edit/tablets/{{$tablet->getModelNumber()}}" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/tablets/{{$tablet->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
                                       <td>
-                                        <a href="/admin/delete/tablets/{{$tablet->getModelNumber()}}" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/tablets/{{$tablet->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
                                       </td>
-                                        <td><a href="/admin/viewSerial/tablets/{{$tablet->getModelNumber()}}" class="btn btn-info">Serials</a></td>
+                                        <td><a href="/admin/viewSerial/tablets/{{$tablet->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 

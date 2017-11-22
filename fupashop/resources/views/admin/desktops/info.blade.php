@@ -58,7 +58,6 @@
                                 <tbody id="fbody">
 
                                   @foreach ($items as $desktop)
-                                  {{$desktop->getStock()}}
                                     @if(!session()->has('itemToLock.'.$desktop->getModelNumber()))
                                         @php
                                           //IN STOCK
@@ -71,6 +70,8 @@
                                         @endphp
                                       @endif
 
+                                      {{$desktop->getStock()}}
+
                                     <tr>
                                       <td>{{$desktop->getModelNumber()}}</td>
                                       <td>{{$desktop->getProcessor()}}</td>
@@ -81,13 +82,13 @@
                                       <td>{{$desktop->getHddSize()}}</td>
                                       <td>{{$desktop->getBrandName()}}</td>
                                       <td>{{$desktop->getPrice()}}</td>
-                                      <td><a href="/admin/edit/desktops/{{$desktop->getModelNumber()}}" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/desktops/{{$desktop->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
                                       <td>
                                         <a href="/admin/delete/desktops/{{$desktop->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
                                       </td>
-                                      @if($desktop->getStock() == 0)
+
                                       <td><a href="/admin/viewSerial/desktops/{{$desktop->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
-                                      @endif
+
                                   </tr>
                                   @endforeach
 

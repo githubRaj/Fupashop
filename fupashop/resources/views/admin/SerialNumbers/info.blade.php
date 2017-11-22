@@ -38,6 +38,7 @@
                                             <td>
                                               {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
                                                   {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
+                                                    {{ Form::hidden('superClass', $serialNumber->getType()) }}
                                                   {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
                                               {{ Form::close() }}
                                             </td>
@@ -46,6 +47,7 @@
                                             <td>
                                               {{ Form::open(array('url' => '/admin/delete/serialNumbers/'.$serialNumber->getModelNumber())) }}
                                                   {{ Form::hidden('serialNumber', $serialNumber->getSerialNumber()) }}
+                                                  {{ Form::hidden('superClass', $serialNumber->getType()) }}
                                                   {{ Form::submit('Delete', array('class' => 'btn btn-danger', 'disabled')) }}
                                               {{ Form::close() }}
                                           </td>

@@ -59,9 +59,23 @@
                                       <th class="sorter-false" >Serial</th>
                                     </tr>
                                 </thead>
-                                <tbody id="fbody">1
+                                <tbody id="fbody">
 
                                   @foreach ($items as $laptop)
+                                  @if(!session()->has('itemToLock.'.$laptop->getModelNumber()))
+                                      @php
+                                        //IN STOCK
+                                        $button = "enabled";
+                                      @endphp
+                                    @else
+                                      @php
+                                        //OUT OF STOCK
+                                        $button = "disabled";
+                                      @endphp
+                                    @endif
+
+                                    {{$laptop->getStock()}}
+
                                     <tr>
                                       <td>{{$laptop->getModelNumber()}}</td>
                                       <td>{{$laptop->getProcessor()}}</td>
@@ -77,11 +91,11 @@
                                       <td>{{$laptop->getTouchFeature()}}</td>
                                       <td>{{$laptop->getCameraInformation()}}</td>
                                       <td>{{$laptop->getPrice()}}</td>
-                                      <td><a href="/admin/edit/laptops/{{$laptop->getModelNumber()}}" class="btn btn-info">Edit</a></td>
+                                      <td><a href="/admin/edit/laptops/{{$laptop->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
                                       <td>
-                                        <a href="/admin/delete/laptops/{{$laptop->getModelNumber()}}" class="btn btn-danger">Delete</a>
+                                        <a href="/admin/delete/laptops/{{$laptop->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
                                       </td>
-                                        <td><a href="/admin/viewSerial/laptops/{{$laptop->getModelNumber()}}" class="btn btn-info">Serials</a></td>
+                                        <td><a href="/admin/viewSerial/laptops/{{$laptop->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 
