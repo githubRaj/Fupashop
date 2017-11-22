@@ -352,11 +352,13 @@ class AdminController extends Controller
     ]);
 
      $this->mapper->makeNewItem($request, 'App\Items\SerialNumber');
-
+     $className = $this->getClassName($request->type);
+     $newItem = $this->mapper->findItemByModelNumber($request->modelNumber, $className);
+     $newItem->incrementStock();
+     $this->mapper->setItem($newItem, $request->modelNumber);
      Session::flash('success', 'The serial '.$request->serialNumber.' was succesfully created!');
 
-     $className = $this->getClassName($request->type);
-     $serialNumbers = $this->mapper->findSerialNumbersByModelNumber($request->modelNumber, $className);
+
      return redirect('admin/viewSerial/desktops/'.$request->modelNumber);
   }
 

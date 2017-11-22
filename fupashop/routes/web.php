@@ -77,10 +77,10 @@ Route::prefix('admin')->group(function(){
 	Route::get('/', 'AdminController@index')->name('admin.dashboard');
 	/*-------------------MODIFY ITEMS--------------------------------------------------*/
 	//EDIT PRODUCT
-	Route::get('/edit/{productType}/{id}', 'AdminController@editView');
+	Route::get('/edit/{productType}/{id}', 'AdminController@editView')->name('edit');
 	Route::post('/{productType}', 'AdminController@update');
 	//DELETE PRODUCT
-	Route::get('/delete/{productType}/{id}', 'AdminController@delete');
+	Route::get('/delete/{productType}/{id}', 'AdminController@delete')->name('delete');
 	Route::post('/delete/{productType}/{id}', 'AdminController@delete');
 	/*-------------------VIEWS--------------------------------------------------------*/
 	//VIEW DESKTOPS
@@ -100,7 +100,7 @@ Route::prefix('admin')->group(function(){
 	Route::post('/save/{item}', 'AdminController@saveNewItem')->name('save');
 
 	//View Serials
-  Route::get('/viewSerial/{productType}/{modelNumber}', 'AdminController@viewSerial');
+  Route::get('/viewSerial/{productType}/{modelNumber}', 'AdminController@viewSerial')->name('serials');
 
   //Serial Number Add Form
   Route::get('/addSerial/{productType}', 'AdminController@CreateSerialForm');
