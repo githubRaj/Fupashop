@@ -91,11 +91,9 @@
                                       <td>{{$laptop->getTouchFeature()}}</td>
                                       <td>{{$laptop->getCameraInformation()}}</td>
                                       <td>{{$laptop->getPrice()}}</td>
-                                      <td><a href="/admin/edit/laptops/{{$laptop->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
-                                      <td>
-                                        <a href="/admin/delete/laptops/{{$laptop->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
-                                      </td>
-                                        <td><a href="/admin/viewSerial/laptops/{{$laptop->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
+                                      <td><a href="{{route('edit', ['laptops',$laptop->getModelNumber()])}}" class="btn btn-warning">Edit</a></td>
+                                      <td><a href="{{route('delete', ['laptops',$laptop->getModelNumber()])}}" {{$button}} class="btn btn-danger">Delete</a></td>
+                                      <td><a href="{{route('serials', ['laptops',$laptop->getModelNumber()])}}" {{$button}} class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 

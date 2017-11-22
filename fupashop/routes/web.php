@@ -84,13 +84,13 @@ Route::prefix('admin')->group(function(){
 	Route::post('/delete/{productType}/{id}', 'AdminController@delete');
 	/*-------------------VIEWS--------------------------------------------------------*/
 	//VIEW DESKTOPS
-	Route::get('/desktops', 'AdminController@desktopIndex');
+	Route::get('/desktops', 'AdminController@desktopIndex')->name('desktops');
 	//VIEW LAPTOPS
-	Route::get('/laptops', 'AdminController@laptopIndex');
+	Route::get('/laptops', 'AdminController@laptopIndex')->name('laptops');
 	//VIEW TABLETS
-	Route::get('/tablets', 'AdminController@tabletIndex');
+	Route::get('/tablets', 'AdminController@tabletIndex')->name('tablets');
 	//VIEW MONITORS
-	Route::get('/monitors', 'AdminController@monitorIndex');
+	Route::get('/monitors', 'AdminController@monitorIndex')->name('monitors');
 	//VIEW USERS
 	Route::get('/users', 'AdminController@userIndex');
 	/*-------------------ADD NEW INSTANCE-------------------------------------------*/

@@ -83,10 +83,7 @@
                                       <td>{{$desktop->getBrandName()}}</td>
                                       <td>{{$desktop->getPrice()}}</td>
                                       <td><a href="{{route('edit', ['desktops',$desktop->getModelNumber()])}}" class="btn btn-warning">Edit</a></td>
-                                      <td>
-                                        <a href="{{route('delete', ['desktops',$desktop->getModelNumber()])}}" {{$button}} class="btn btn-danger">Delete</a>
-                                      </td>
-
+                                      <td><a href="{{route('delete', ['desktops',$desktop->getModelNumber()])}}" {{$button}} class="btn btn-danger">Delete</a></td>
                                       <td><a href="{{route('serials', ['desktops',$desktop->getModelNumber()])}}" {{$button}} class="btn btn-info">Serials</a></td>
                                   </tr>
                                   @endforeach

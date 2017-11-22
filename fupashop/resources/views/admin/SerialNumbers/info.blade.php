@@ -5,7 +5,20 @@
 <div class="row">
     <div class="col-lg-8">
       <h1>Serial Numbers</h1>
-      <h3><a href="{{ URL::previous() }}">{{$modelNumber}}</a> -> Serial Numbers</h3>
+      @switch($productType)
+          @case('desktops')
+               <h3><a href="{{route('desktops')}}"> {{$modelNumber}}</a> -> Serial Numbers</h3>
+              @break
+          @case('laptops')
+               <h3><a href="{{route('laptops')}}"> {{$modelNumber}}</a> -> Serial Numbers</h3>
+              @break
+           @case('monitors')
+              <h3><a href="{{route('monitors')}}"> {{$modelNumber}}</a> -> Serial Numbers</h3>
+              @break
+           @case('tablets')
+              <h3><a href="{{route('tablets')}}"> {{$modelNumber}}</a> -> Serial Numbers</h3>
+              @break
+      @endswitch
         <!--Fupa table example -->
         <div class=" panel-primary">
             <div class="panel-heading">

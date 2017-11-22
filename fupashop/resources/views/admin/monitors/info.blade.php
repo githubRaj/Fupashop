@@ -76,11 +76,9 @@
                                       <td>{{$monitor->getWeight()}}</td>
                                       <td>{{$monitor->getBrandName()}}</td>
                                       <td>{{$monitor->getPrice()}}</td>
-                                      <td><a href="/admin/edit/monitors/{{$monitor->getModelNumber()}}" class="btn btn-warning">Edit</a></td>
-                                      <td>
-                                        <a href="/admin/delete/monitors/{{$monitor->getModelNumber()}}" {{$button}} class="btn btn-danger">Delete</a>
-                                      </td>
-                                        <td><a href="/admin/viewSerial/monitors/{{$monitor->getModelNumber()}}" {{$button}} class="btn btn-info">Serials</a></td>
+                                      <td><a href="{{route('edit', ['monitors',$monitor->getModelNumber()])}}" class="btn btn-warning">Edit</a></td>
+                                      <td><a href="{{route('delete', ['monitors',$monitor->getModelNumber()])}}" {{$button}} class="btn btn-danger">Delete</a></td>
+                                      <td><a href="{{route('serials', ['monitors',$monitor->getModelNumber()])}}" {{$button}} class="btn btn-info">Serials</a></td>
                                     </tr>
                                   @endforeach
 
