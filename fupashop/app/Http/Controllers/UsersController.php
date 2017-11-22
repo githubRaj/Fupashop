@@ -43,7 +43,8 @@ class UsersController extends Controller
     public function return(Request $request)
     {
       $this->mapper->handleReturn( $request->SN );
-      $this->pastOrders();
+      $purchases = $this->mapper->getPurchasesByUser( Auth::id() );
+      return view('users.past', compact('purchases'));
     }
 
 }
