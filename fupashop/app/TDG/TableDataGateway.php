@@ -79,7 +79,7 @@ class TableDataGateway
 
 	public function addTransaction( $uid, $modelNumber, $serialNumber, $price )
 	{
-		$tableName = "purchases";
+		$tableName = "purchasecollection";
 		$created = date('Y-m-d H:i:s');
 		DB::table($tableName)->insert([ 'userID' => $uid , 'modelNumber' => $modelNumber,
 																		'serialNumber' => $serialNumber, 'price' => $price,

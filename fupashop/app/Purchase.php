@@ -11,6 +11,7 @@ class Purchase extends Model
      *
      * @var array
      */
+     protected $table = 'purchasecollection';
     protected $fillable = [
          'userID', 'modelNumber', 'serialNumber', 'price', 'created_at',
     ];
