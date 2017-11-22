@@ -26,6 +26,7 @@ class UsersController extends Controller
     // Users Past Orders
     public function pastOrders(){
         $purchases = \App\Purchase::where('userID', Auth::id() )->get();
+
         return view('users.past', compact('purchases'));
     }
 

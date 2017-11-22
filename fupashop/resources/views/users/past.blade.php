@@ -57,9 +57,7 @@ if (!isset($_SESSION)) {
 		<b>Last Name: {{ Auth::user()->lastName }} </b>
 		<br><br>
 
-		<a href="#"> Change Information </a> <br>
 		<a href="{{ route('pastOrders') }}"> Past Orders </a> <br>
-		<a href="#"> Current Inventory </a>
 
 		<br><br>
 		<b><a href="{{ route('logout') }}"
@@ -113,7 +111,7 @@ if (!isset($_SESSION)) {
                                           @endphp
                                         @endif
                                         <tr>
-                                          <td><img src="images/products/fashion/5.jpg" class="img-responsive" alt=""/></td>
+                                          <td><img src={{ asset('/images/monitors/H236HLBID')}}.jpg class="img-responsive" alt=""/></td>
                                           <td>{{$purchase->modelNumber }}</td>
                                           <td>{{$purchase->serialNumber }}</td>
                                           <td><div class="item-price">{{$purchase->price }}</div></td>

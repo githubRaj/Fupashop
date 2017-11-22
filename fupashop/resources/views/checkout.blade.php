@@ -58,7 +58,7 @@
         <div class="col-md-3"><a href="/monitors" class="btn btn-primary">Continue Shopping</a></div>
         <div class="col-md-3"></div>
         <div class="col-md-3"></div>
-        {{ Form::open(['action' => ['CartController@checkout'], 'method' => 'Post']) }}
+        {{ Form::open(array('route'=> 'checkout' ))}}
         <div class="col-md-3">{{ Form::submit('Confirm Purchase', array('class' => 'pull-right btn btn-success')) }}</a></div>
         {{ Form::close() }}
     </div>

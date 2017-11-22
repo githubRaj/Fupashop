@@ -86,7 +86,7 @@ if (!isset($_SESSION)) {
 			@php
 				//OUT OF STOCK
 				$field = 'Out Of Stock';
-				$href = "#";
+				$href = "tablets/". $tablet->getModelNumber();
 				$button = "disabled";
 			@endphp
 		@endif
