@@ -11,7 +11,11 @@ class Purchase extends Model
      *
      * @var array
      */
+<<<<<<< Updated upstream
      protected $table = 'purchasecollection';
+=======
+	  protected $table = 'purchasecollection';
+>>>>>>> Stashed changes
     protected $fillable = [
          'userID', 'modelNumber', 'serialNumber', 'price', 'created_at',
     ];
