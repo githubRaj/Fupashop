@@ -53,6 +53,14 @@
                                 <div class="user-text-online">
                                     <span class="user-circle-online btn btn-success btn-circle "></span>&nbsp;Online
                                 </div>
+                                <b><a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                   	document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a></b>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </div>
                         </div>
                         <!--end user image section-->

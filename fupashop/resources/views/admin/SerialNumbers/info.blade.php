@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-lg-8">
       <h1>Serial Numbers</h1>
-      <h3><a href="/admin/{{$productType}}"> Model Numbers</a> -> Serial Numbers</h3>
+      <h3><a href="/admin/{{$productType}}"> {{$modelNumber}}</a> -> Serial Numbers</h3>
         <!--Fupa table example -->
         <div class=" panel-primary">
             <div class="panel-heading">

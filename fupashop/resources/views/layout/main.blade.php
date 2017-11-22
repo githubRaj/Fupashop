@@ -49,11 +49,6 @@
                             TABLETS
                         </a>
                     </li>
-                    <li>
-                      <a href="/admin">
-                          Admin Panel
-                      </a>
-                  </li>
                 </ol>
             </div>
             </div>
@@ -79,7 +74,7 @@
                                     </li>
                                 </ul>
                             @else
-                            <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+                            <li><a href="{{ URL('/login') }}">Login</a></li>
                             @endif
                     <li>
                         <a href="{{ URL('/cart') }}">

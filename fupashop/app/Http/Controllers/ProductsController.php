@@ -201,6 +201,11 @@ class ProductsController extends Controller
       $monitors = $this->mapper->findAllItemsByClass(Monitor::class);
       $tablets = $this->mapper->findAllItemsByClass(Tablet::class);
 
+      $desktops =   array_shift($desktops);
+      $laptops = array_shift($laptops);
+      $monitors = array_shift($monitors);
+      $tablets = array_shift($tablets);
+
       return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
     }
 

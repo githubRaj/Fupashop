@@ -32,20 +32,20 @@ if (!isset($_SESSION)) {
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
+                        <a href="/tablets/{{ $tablets->getModelNumber() }}" class="button expanded add-to-cart">
                             Add to Cart
                         </a>
                         <a href="/tablets/{{ $tablets->getModelNumber() }}">
-                            <img src="{{ asset('dist/img/products/acerb3.png') }}"/>
+                            <img src={{ asset('/images/tablets/'.$tablets->getModelNumber()) }}.jpg/>
                         </a>
                     </div>
-                    <a href="#">
+                    <a href="/tablets/{{ $tablets->getModelNumber() }}">
                         <h3>
-                          {{ $tablets[0]->getModelNumber() }}
+                          {{ $tablets->getModelNumber() }}
                         </h3>
                     </a>
                     <h5>
-                        {{ $tablets[0]->getPrice() }}
+                        {{ $tablets->getPrice() }}
                     </h5>
                     <p>
                         <ul>
@@ -61,14 +61,14 @@ if (!isset($_SESSION)) {
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
+                        <a href="/desktops/{{ $desktops->getModelNumber() }}" class="button expanded add-to-cart">
                             Add to Cart
                         </a>
-                        <a href="/desktops/{{ $desktops[0]->getModelNumber() }}">
-                            <img src="{{ asset('dist/img/products/c1.jpg') }}"/>
+                        <a href="/desktops/{{ $desktops->getModelNumber() }}">
+                            <img src={{ asset('/images/desktops/'.$desktops->getModelNumber()) }}.jpg/>
                         </a>
                     </div>
-                    <a href="#">
+                    <a href="/desktops/{{ $desktops->getModelNumber() }}">
                         <h3>
                           {{ $desktops->getModelNumber() }}
                         </h3>
@@ -88,14 +88,14 @@ if (!isset($_SESSION)) {
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
+                        <a href="/monitors/{{ $monitors->getModelNumber() }}" class="button expanded add-to-cart">
                             Add to Cart
                         </a>
                         <a href="/monitors/{{ $monitors->getModelNumber() }}">
-                            <img src="{{ asset('dist/img/products/tv1.jpg') }}"/>
+                            <img src={{ asset('/images/monitors/'.$monitors->getModelNumber()) }}.jpg/>
                         </a>
                     </div>
-                    <a href="#">
+                    <a href="/monitors/{{ $monitors->getModelNumber() }}">
                         <h3>
                           {{ $monitors->getModelNumber() }}
                         </h3>
@@ -114,14 +114,14 @@ if (!isset($_SESSION)) {
             <div class="small-3 columns">
                 <div class="item-wrapper">
                     <div class="img-wrapper">
-                        <a class="button expanded add-to-cart">
+                        <a href="/laptops/{{ $laptops->getModelNumber() }}" class="button expanded add-to-cart">
                             Add to Cart
                         </a>
                         <a href="/laptops/{{ $laptops->getModelNumber() }}">
-                            <img src="{{ asset('dist/img/products/l1.jpg') }}"/>
+                            <img src={{ asset('/images/laptops/'.$laptops->getModelNumber()) }}.jpg />
                         </a>
                     </div>
-                    <a href="#">
+                    <a href="/laptops/{{ $laptops->getModelNumber() }}">
                         <h3>
                           {{ $laptops->getModelNumber() }}
                         </h3>
