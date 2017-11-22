@@ -17,11 +17,7 @@ Auth::routes();
 //Cart Implementation
 Route::get('/cart', ['as' => 'cart', 'uses' => 'CartController@index']);
 Route::post('/cart', 'CartController@deleteFromCart');
-<<<<<<< Updated upstream
 Route::post('/cart/checkout', 'CartController@checkout')->name('checkout');
-=======
-Route::post('/cart/checkout', 'CartController@checkout')->name('checkout');;
->>>>>>> Stashed changes
 Route::post('/tablets', 'CartController@addToCart');
 
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> home
