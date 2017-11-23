@@ -26,12 +26,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/admin">
+                <a class="navbar-brand" href="{{ url('/admin')}}">
                     Fupa Technology
                 </a>
             </div>
             <!-- end navbar-header -->
-
 
         </nav>
         <!-- end navbar top -->
@@ -66,7 +65,7 @@
                         <!--end user image section-->
                     </li>
                     <li class="selected">
-                        <a href="/admin"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                        <a href="{{ url('/admin')}}"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Add Product<span class="fa arrow"></span></a>
