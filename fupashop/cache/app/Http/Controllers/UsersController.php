@@ -9,7 +9,7 @@ use App\Purchase;
 use App\Serial;
 use App\Mapper\Mapper;
 
-class UsersController extends Controller
+class UsersController__AopProxied extends Controller
 {
     private $mapper;
     public $aopDate;
@@ -45,10 +45,13 @@ class UsersController extends Controller
     // User Return Item via SN
     public function return(Request $request)
     {
-      $dateToday = $this->aopDate;
       $this->mapper->handleReturn( $request->SN, $request->MN );
       $purchases = $this->mapper->getPurchasesByUser( Auth::id() );
-      return view('users.past', compact('purchases', 'dateToday'));
+      return view('users.past', compact('purchases', 'aopDate'));
     }
 
 }
+
+include_once AOP_CACHE_DIR . '/_proxies/app/Http/Controllers/UsersController.php';
+
+

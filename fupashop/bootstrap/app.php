@@ -41,6 +41,18 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+// Create AOP Instance
+require __DIR__.'/../vendor/autoload.php';
+
+// Initialize an application aspect container
+$applicationAspectKernel = \App\AOP\Kernel::getInstance();
+$applicationAspectKernel->init([
+    'debug' => true, // use 'false' for production mode
+    // Cache directory
+    'cacheDir' => __DIR__ . '/../cache',
+    'excludePaths' => array(__DIR__ . '/../vendor')
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

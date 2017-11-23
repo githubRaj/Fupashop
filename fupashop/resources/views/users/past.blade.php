@@ -93,14 +93,26 @@ if (!isset($_SESSION)) {
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                       @foreach ($purchases as $purchase)
+                                      @php
+                                        $date = $purchase->created_at; 
+                                        $newDate = date_parse($date); 
+                                        $dateToday = date("z", mktime(0,0,0,$newDate['month'],$newDate['day'],$newDate['year']));
+                                      @endphp
                                         @if( !$purchase->returned )
-                                          @php
-                                            //Eligible for Return
-                                            $field = 'Return Item';
-                                            $button = "enabled";
-                                          @endphp
+                                          @if (((date("z") - $dateToday) % 365) < 30)
+                                            @php
+                                              //Eligible for Return
+                                              $field = 'Return Item';
+                                              $button = "enabled";
+                                            @endphp
+                                          @else
+                                            @php
+                                              //No longer for Return
+                                              $field = 'Past Date';
+                                              $button = "disabled";
+                                            @endphp
+                                          @endif
                                         @else
                                           @php
                                             //Already Returned
@@ -115,7 +127,10 @@ if (!isset($_SESSION)) {
                                           <td><div class="item-price">{{$purchase->price }}</div></td>
                                           <td>{{$purchase->created_at }}</td>
                                           {{ Form::open(['action' => ['UsersController@return'], 'method' => 'Post']) }}
-                                          <td>{{ Form::submit($field, array('class' => 'btn-black', $button)) }}</td>
+                                          <td>
+                                            Days Left: {{ $purchase->modelNumber }} days
+                                            {{ Form::submit($field, array('class' => 'btn-black', $button)) }}
+                                          </td>
                                           {{ Form::hidden('SN', $purchase->serialNumber) }}
                                           {{ Form::hidden('MN', $purchase->modelNumber ) }}
                                           {{ Form::close() }}

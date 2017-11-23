@@ -18,7 +18,7 @@ use App\Items\SerialNumber;
 
 use App\Mapper\Mapper;
 
-class CartController extends Controller
+class CartController__AopProxied extends Controller
 {
     private $mapper;
 
@@ -321,3 +321,7 @@ class CartController extends Controller
       $this->mapper->updateSerialNumberInRepo( $itemToPushBackIntoRepo );
     }
 }
+
+include_once AOP_CACHE_DIR . '/_proxies/app/Http/Controllers/CartController.php';
+
+
