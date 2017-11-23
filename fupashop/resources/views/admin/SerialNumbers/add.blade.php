@@ -2,7 +2,7 @@
 
 @section('content')
 <head>
-  <script type="text/javascript" src="{{ asset('/js/addSerial.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}"></script>
 </head>
 
 <div class="col-lg-12">
@@ -27,7 +27,7 @@
   <div class="col-lg-6">
       <div role="form">
       <div class="form-group">
-      {!! Form::open(['action' => 'AdminController@SaveSerial', 'method' => 'POST']) !!}
+      {!! Form::open(['action' => 'AdminController@SaveSerial', 'method' => 'POST' , 'data-parsley-validate']) !!}
 
             {{Form::label('typeLabel', 'Product Type')}}
             {{Form::text('type', $productType, ['class' => 'form-control', 'readonly'])}}
@@ -40,7 +40,7 @@
             </select>
 
             {{Form::label('serialNumber', 'Serial Number')}}
-            {{Form::text('serialNumber', '', ['class' => 'form-control'])}}
+            {{Form::text('serialNumber', '', ['class' => 'form-control', 'required' => '', 'maxlength' => '11'])}}
 
             {{ Form::hidden('purchasable', '1') }}
 
