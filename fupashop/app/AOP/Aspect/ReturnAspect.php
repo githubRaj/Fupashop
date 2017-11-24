@@ -25,7 +25,7 @@ class ReturnAspect implements Aspect
      */
     public function beforeMethodExecution(MethodInvocation $invocation)
     {
-        $obj = $invocation->getThis();
-        $obj->aopDate = date("z");
+            $obj = $invocation->getThis();      // Calling object --> assumed to be of type UsersController
+            $obj->aopDate = date("z");
     }
 }
