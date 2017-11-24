@@ -9,7 +9,9 @@ use App\Items\Tablet;
 use App\Items\Monitor;
 use App\Items\Desktop;
 use App\Items\Laptop;
+use App\Items\Catalog;
 use App\Items\SerialNumber;
+use App\Cart;
 use App\Purchase;
 use Session;
 use Auth;
@@ -20,6 +22,7 @@ class Mapper
 	protected $tdg;
 	protected $uow;
 	protected $repo;
+	protected $catalog;
 
 	public function __construct()
 	{
@@ -27,6 +30,8 @@ class Mapper
 		$this->repo = new Repository();
 		$this->uow = new UOW($this);
 		session()->put('repo', $this->repo);
+		$this->catalog = new Catalog;
+		$this->catalog = session()->get('repo');
 	}
 
 
@@ -55,20 +60,43 @@ class Mapper
 		return null;
 	}
 
-	public function createTransactionInTable( $cartItems, $cartSerials )
+	public function createTransaction( $cartItems, $cartSerials )
 	{
 		$uid = Auth::id();
-		$itemsInCart = $this->tdg->getValidShoppingCartItemsByUser($uid);
+		$itemsInCart = session()->get('repo')->getCartITemsFromRepo($uid);
+		if($itemsInCart == null){
+			$itemsInCart = $this->tdg->getValidShoppingCartItemsByUser($uid);
 
-		foreach( $itemsInCart as $item )
-		{
-			$targetSerial = null;
-			$className = get_class( $item );
-			$modelNum = $item->modelNumber;
-			$serialNumber = $item->serialNumber;
-			$price = $item->price;
-			$this->tdg->addTransaction( $uid, $modelNum, $serialNumber, $price );
+			foreach( $itemsInCart as $item )
+			{
+				$targetSerial = null;
+				$className = get_class( $item );
+				$modelNum = $item->modelNumber;
+				$serialNumber = $item->serialNumber;
+				$price = $item->price;
+				$this->tdg->addTransaction( $uid, $modelNum, $serialNumber, $price );
+			}
 		}
+		else{
+			foreach( $itemsInCart as $item )
+			{
+				$targetSerial = null;
+				$className = get_class( $item );
+				$modelNum = $item->modelNumber;
+				$serialNumber = $item->serialNumber;
+				$price = $item->price;
+				$purchase = new Purchase($uid, $modelNum, $serialNumber, $price);
+				session()->get('repo')->addTransaction( $purchase );
+			}
+		}
+	}
+
+	public function getCartById($id){
+		return Product::find($id);
+	}
+
+	public function getCurrentUserInformation(){
+		return User::all();
 	}
 
 	public function getStockByModelNumber($modelNumber, $className)
@@ -79,8 +107,6 @@ class Mapper
 		{
 			// look in db
 			$models = $this->tdg->getSerialNumbersByModelNumber($modelNumber);
-		  //	echo var_dump();
-		   //return;
 			if ($models != null)
 			{
 				$this->setSerialNumbersInRepo($modelNumber, $className, $models);
@@ -88,6 +114,9 @@ class Mapper
 		}
 
 		return null;
+	}
+	public function syncCartToRepo(){
+		session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
 	}
 
 	public function initializeItemStock($item, $className){
@@ -359,6 +388,15 @@ class Mapper
 		//$items = $this->tdg->getReturnableItemsForUser( $uid );
 		$items = Purchase::where('userID', $uid)->get();
 		return $items;
+	}
+
+
+	public function addSerialToCart($itemToPushBackIntoRepo){
+		session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
+	}
+
+	public function deleteSerialFromCartRepo($itemToPushBackIntoRepo){
+		 session()->get('repo')->getCart()->deleteSerialFromSerialCartBySerialNumber( $itemToPushBackIntoRepo->getSerialNumber() );
 	}
 
 	public function checkCartTimingsBySN( $snStrings )

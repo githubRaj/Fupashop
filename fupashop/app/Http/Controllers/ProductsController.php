@@ -209,17 +209,9 @@ class ProductsController extends Controller
       return view('home', compact('tablets', 'monitors', 'desktops', 'laptops'));
     }
 
-    public function test()
-    {
-        $results = Tablet::all();
-
-        return view ('test', compact('results'));
-    }
-
-
        // Add product to cart
      public function getAddToCart(Request $request, $id){
-         $product = Product::find($id);
+          $product = $this->mapper->getCartById($id);
          $oldCart = Session::has('cart') ? Session::get('cart') : null;
          $cart = new Cart($oldCart);
         $cart->add($product, $product->id);

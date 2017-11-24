@@ -26,6 +26,7 @@ class Repository
     $this->itemRepo[Laptop::class] = array();
     $this->itemRepo[SerialNumber::class] = array();
 
+
    // $tests = Session::get('repo');
 
     //Initialize
@@ -103,6 +104,13 @@ class Repository
 	      return null;
 	}
 
+  public function getCartITemsFromRepo($uid){
+    if($this->cartRepo != null)
+        return $this->getCart();
+    else
+      return null
+  }
+
   public function getSerialBySerialNumber( $serialNumber )
   {
     if ($this->itemExists($this->itemRepo[SerialNumber::class], $serialNumber))
@@ -137,6 +145,10 @@ class Repository
       return null;
 	}
 
+  public function addTransaction($purchase){
+
+    $this->cart->addItemToCart($purchase);
+  }
 	public function getAllItemsByClass($className)
 	{
 		return $this->itemRepo[$className];

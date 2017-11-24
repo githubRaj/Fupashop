@@ -13,9 +13,12 @@ class HomeController extends Controller
      *
      * @return void
      */
+    private $mapper;
+    
     public function __construct()
     {
         $this->middleware('auth');
+        $this->mapper = new Mapper();
     }
 
     /**
@@ -30,10 +33,5 @@ class HomeController extends Controller
 
 
      /*--------------------------------
-    Users  */
-
-    public function myAccount(){
-        $user = User::all();
-        return view('users.info', compact('user'));
-    }
+    
 }

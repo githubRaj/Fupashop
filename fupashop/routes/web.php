@@ -24,7 +24,7 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);  // / -> ho
 Route::get('/', 'ProductsController@getShowcaseArrays'); // -> for showcase
 Route::get('/deleteAccount', 'UsersController@deleteAccount'); // delete the user account
 
-Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'HomeController@myAccount']);
+Route::get('/myAccount', ['as' => 'myAccount', 'uses' => 'UsersController@myAccount']);
 
 Route::get('/pastOrders', ['as' => 'pastOrders', 'uses' => 'UsersController@pastOrders']);
 

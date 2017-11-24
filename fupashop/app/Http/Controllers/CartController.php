@@ -87,7 +87,7 @@ class CartController extends Controller
         CartController::updateTotalsAndTax();
 
         // Sync the repo Cart
-        session()->get('repo')->getCart()->syncCart( session()->get('sessionCart') );
+        $this->mapper->syncCartToRepo();
         CartController::setFirstAvailableSNUnpurchasable( $itemModelNum, get_class( $item ) );
         $item->decrementStock();
         $this->mapper->setItem($item, $item->getModelNumber());
@@ -139,7 +139,7 @@ class CartController extends Controller
           }
         }
         CartController::updateTotalsAndTax();
-        session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart' ) );
+        $this->mapper->syncCartToRepo();
         CartController::setFirstAvailableSNPurchasable( $itemModelNum , $className );
         return back()->with( 'delAlert', 'Item deleted successfully from cart!' );
     }
@@ -148,7 +148,7 @@ class CartController extends Controller
     public function checkout()
     {
       //First, we have to add the items from cart into the transaction history table
-      $this->mapper->createTransactionInTable( session()->get('sessionCart'), session()->get('sessionSerials') );
+      $this->mapper->createTransaction( session()->get('sessionCart'), session()->get('sessionSerials') );
 
       //Clear the session cart and sync with repo Cart
       session()->forget( 'sessionCart' );
@@ -159,7 +159,7 @@ class CartController extends Controller
       CartController::updateTotalsAndTax();
 
       // sync the sessionCart with the repo cart AKA EMPTY IT
-      session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart') );
+      $this->mapper->syncCartToRepo();
 
       //Remove items from shoppingCart table
       foreach ( session()->get('sessionSerials') as $snObject )
@@ -243,7 +243,7 @@ class CartController extends Controller
     // inside the Repository
     public function updateCartInRepo()
     {
-      session()->get( 'repo' )->getCart()->syncCart( session()->get( 'sessionCart' ) );
+      $this->mapper->syncCartToRepo();
     }
 
     // Function to release items from cart back to inventory after 3 minutes
@@ -288,7 +288,7 @@ class CartController extends Controller
       }
 
         session()->push('sessionSerials', $itemToPushBackIntoRepo);
-        session()->get('repo')->getCart()->addSerialToSerialCart( $itemToPushBackIntoRepo );
+        $this->mapper->addSerialToCart($itemToPushBackIntoRepo);
 
         //Add $itemToPushBackIntoRepo into a shoppingCarts
         $this->mapper->addSerialToShoppingCartTable( $itemToPushBackIntoRepo );
@@ -312,9 +312,8 @@ class CartController extends Controller
           break;
         }
       }
-
-      session()->get('repo')->getCart()->deleteSerialFromSerialCartBySerialNumber(
-                                         $itemToPushBackIntoRepo->getSerialNumber() );
+      $this->mapper->deleteSerialFromCartRepo($itemToPushBackIntoRepo);
+     
                                          //Add $itemToPushBackIntoRepo into a shoppingCarts
       $this->mapper->deleteSerialFromShoppingCartTable( $itemToPushBackIntoRepo );
       //FUNCTION TO PUSH THE ITEM BACK INTO REPO

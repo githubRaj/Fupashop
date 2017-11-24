@@ -50,4 +50,11 @@ class UsersController extends Controller
       return view('users.past', compact('purchases'));
     }
 
+    /*Users  */
+
+    public function myAccount(){
+        $user = $this->mapper->getCurrentUserInformation();
+        return view('users.info', compact('user'));
+    }
+
 }
