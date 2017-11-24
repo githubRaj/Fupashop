@@ -1,130 +1,140 @@
 <?php return array (
+  AOP_ROOT_DIR . '/app/Http/Kernel.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Middleware/TrimStrings.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Middleware/TrustProxies.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Controllers/ProductsController.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Controllers/Controller.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Mapper/Mapper.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/TDG/TableDataGateway.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Repository.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Cart.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/UOW/UOW.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Middleware/EncryptCookies.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/Tablet.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/Item.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/Desktop.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/Monitor.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/Laptop.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Items/SerialNumber.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Http/Middleware/VerifyCsrfToken.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/User.php' => 
+  array (
+    'filemtime' => 1511479233,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/AOP/Aspect/ReturnAspect.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Console/Kernel.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Providers/AppServiceProvider.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Providers/AuthServiceProvider.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Providers/EventServiceProvider.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Providers/RouteServiceProvider.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
+  AOP_ROOT_DIR . '/app/Exceptions/Handler.php' => 
+  array (
+    'filemtime' => 1511479221,
+    'cacheUri' => NULL,
+  ),
   AOP_ROOT_DIR . '/app/Http/Controllers/UsersController.php' => 
   array (
     'filemtime' => 1511475067,
     'cacheUri' => AOP_CACHE_DIR . '/app/Http/Controllers/UsersController.php',
   ),
-  AOP_ROOT_DIR . '/app/AOP/Aspect/ReturnAspect.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Kernel.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Providers/AppServiceProvider.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Providers/AuthServiceProvider.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Providers/EventServiceProvider.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Providers/RouteServiceProvider.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Middleware/TrimStrings.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Middleware/TrustProxies.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Controllers/Controller.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Mapper/Mapper.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/TDG/TableDataGateway.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Repository.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Cart.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/UOW/UOW.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Middleware/EncryptCookies.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/Tablet.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/Item.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/Desktop.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/Monitor.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/Laptop.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Items/SerialNumber.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Middleware/VerifyCsrfToken.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/User.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
   AOP_ROOT_DIR . '/app/Purchase.php' => 
-  array (
-    'filemtime' => 1511474889,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Exceptions/Handler.php' => 
   array (
     'filemtime' => 1511474889,
     'cacheUri' => NULL,
@@ -132,11 +142,6 @@
   AOP_ROOT_DIR . '/app/Http/Controllers/HomeController.php' => 
   array (
     'filemtime' => 1511474679,
-    'cacheUri' => NULL,
-  ),
-  AOP_ROOT_DIR . '/app/Http/Controllers/ProductsController.php' => 
-  array (
-    'filemtime' => 1511474201,
     'cacheUri' => NULL,
   ),
   AOP_ROOT_DIR . '/app/Http/Controllers/CartController.php' => 

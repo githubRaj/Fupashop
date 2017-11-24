@@ -25,6 +25,7 @@ class ReturnAspect implements Aspect
      */
     public function beforeMethodExecution(MethodInvocation $invocation)
     {
+        $obj = $invocation->getThis();
         $obj->aopDate = date("z");
     }
 }
